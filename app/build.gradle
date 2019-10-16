@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -41,6 +45,16 @@ dependencies {
     def rx = rootProject.ext.rxDependencies
     implementation rx.reactivexRxKotlin
     implementation rx.reactivexRxAndroid
+
+    def network = rootProject.ext.networkDependencies
+    implementation network.retrofit
+    implementation network.okhttpLoger
+    implementation(network.retrofitRxJava) {
+        exclude group: "com.squareup.okhttp3"
+    }
+    implementation(network.retrofitGsonConverter) {
+        exclude group: "com.squareup.okhttp3"
+    }
 
     def logger = rootProject.ext.loggerDependencies
     implementation logger.timber

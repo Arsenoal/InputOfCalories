@@ -1,0 +1,158 @@
+
+ext {
+    //Android
+    androidBuildToolsVersion = '28.0.3'
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
+
+    //Libraries
+    kotlinVersion = '1.3.41'
+    supportLibraryVersion = '1.0.0'
+    constraintVersion = '1.1.3'
+    lifecycleExtensionsVersion = '2.0.0'
+    koinVersion = '2.0.1'
+    reactivexRxKotlinVersion = '2.2.9'
+    reactivexRxAndroidVersion = '2.1.1'
+    retrofitVersion = '2.6.0'
+    retrofitRxJavaVersion = '2.6.0'
+    retrofitGsonConverterVersion = '2.6.0'
+    retrofitScalarConverterVersion = '2.6.0'
+    okhttpVersion = '3.14.2'
+    okioVersion = '2.2.2'
+    archComponentsVersion = "2.0.0"
+    timberVersion = "4.7.1"
+
+
+
+    //ads libraries
+    firebaseAdsLiteVersion = "17.1.3"
+    mopubVersion = "5.7.1"
+    mopubVolleyVersion = "2.0.0"
+    gmsConsentLibraryVersion = "1.0.7"
+    mintegralVersion = "9.11.0"
+    facebookAudienceNetworkVersion = "5.3.1"
+    picassoVersion = "2.5.2"
+    inMobiVersion = "7.2.7"
+    aerservVersion = "3.1.7"
+    dtbAmazonVersion = "7.4.3"
+    smaatoSomaVersion = "9.1.5"
+    applovinVersion = "9.7.0"
+    tencentVersion = "4.22.584"
+    fyberVersion = "7.3.0"
+    facebookMopubAdapterVersion = "5.2.0.0"
+    admobMopubAdapterVersion = "17.1.2.3"
+    applovinAdapterVersion = "9.6.2.0"
+
+
+    //Testing
+    jUnitVersion = '4.12'
+    jUnit5Version = '5.5.2'
+    mockitoVersion = '2.1.0'
+    mockitoInlineVersion = '2.8.47'
+    robolectricVersion = '4.3'
+    testRunnerVersion = '1.2.0'
+    assertKVersion = '0.17'
+    androidArchVersion = '2.0.1'
+
+    kotlinDependencies = [
+            kotlinStdlib : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    ]
+
+    supportLibraryDependencies = [
+            appCompatV7        : "androidx.appcompat:appcompat:$supportLibraryVersion",
+            recyclerView       : "androidx.recyclerview:recyclerview:$supportLibraryVersion",
+            supportAnnotations : "androidx.annotation:annotation:$supportLibraryVersion",
+            constraintLayout   : "androidx.constraintlayout:constraintlayout:$constraintVersion",
+            pagingAdapter      : "androidx.paging:paging-runtime:$archComponentsVersion",
+            lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion",
+
+    ]
+
+    crashliticsDependencies = [
+            crashlitics        : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
+            crashliticsNdk     : 'com.crashlytics.sdk.android:crashlytics-ndk:2.1.0',
+    ]
+
+    networkDependencies = [
+            retrofit                : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitRxJava          : "com.squareup.retrofit2:adapter-rxjava2:$retrofitRxJavaVersion",
+            retrofitGsonConverter   : "com.squareup.retrofit2:converter-gson:$retrofitGsonConverterVersion",
+            retrofitScalarConverter : "com.squareup.retrofit2:converter-scalars:$retrofitScalarConverterVersion",
+            clodFlare               : "com.cloudflare:cloudflare-mobile-sdk:2.0.4@jar",
+            okhttpLoger             : "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    ]
+
+    ioDependencies = [
+            okio     : "com.squareup.okio:okio:$okioVersion"
+
+    ]
+
+    koinDependencies = [
+            koinCore        : "org.koin:koin-core:$koinVersion",
+            koinAndroid     : "org.koin:koin-android:$koinVersion",
+            koinAndroidScope: "org.koin:koin-android-scope:$koinVersion",
+            koinViewmodel   : "org.koin:koin-android-viewmodel:$koinVersion",
+            koinJava        : "org.koin:koin-java:$koinVersion",
+            koinTest        : "org.koin:koin-test:$koinVersion"
+    ]
+
+    loggerDependencies = [
+            timber     : "com.jakewharton.timber:timber:$timberVersion"
+    ]
+
+    rxDependencies = [
+            reactivexRxKotlin  : "io.reactivex.rxjava2:rxjava:$reactivexRxKotlinVersion",
+            reactivexRxAndroid : "io.reactivex.rxjava2:rxandroid:$reactivexRxAndroidVersion"
+    ]
+
+    testingDependencies = [
+            junit          : "junit:junit:$jUnitVersion",
+            junit5         : "org.junit.jupiter:junit-jupiter-api:$jUnit5Version",
+            junit5Param    : "org.junit.jupiter:junit-jupiter-params:$jUnit5Version",
+            junitRunner    : "androidx.test:runner:$testRunnerVersion",
+            testRunner     : "androidx.test:runner:$testRunnerVersion",
+            robolectric    : "org.robolectric:robolectric:$robolectricVersion",
+            mockito        : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoVersion",
+            mockitoInline  : "org.mockito:mockito-inline:$mockitoInlineVersion",
+            assertk        : "com.willowtreeapps.assertk:assertk-jvm:$assertKVersion",
+            androidArch    : "androidx.arch.core:core-testing:$androidArchVersion"
+    ]
+
+    adsLibDependencies = [
+            kotlinStdlib            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
+            reactivexRxKotlin       : "io.reactivex.rxjava2:rxjava:$reactivexRxKotlinVersion",
+            reactivexRxAndroid      : "io.reactivex.rxjava2:rxandroid:$reactivexRxAndroidVersion",
+            koinAndroid             : "org.koin:koin-android:$koinVersion",
+            kotlinStdLib            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            constraintLayout        : "androidx.constraintlayout:constraintlayout:$constraintVersion",
+            picasso                 : "com.squareup.picasso:picasso:$picassoVersion",
+
+            firebaseAdsLite         : "com.google.firebase:firebase-ads-lite:$firebaseAdsLiteVersion",
+            mopubVolley             : "com.mopub.volley:mopub-volley:$mopubVolleyVersion",
+            gmsConsentLibrary       : "com.google.android.ads.consent:consent-library:$gmsConsentLibraryVersion",
+            mintegralCommon         : "com.mintegral.common:mintegral-common:$mintegralVersion",
+            mintegralAlphab         : "com.mintegral.alphab:mintegral-alphab:$mintegralVersion",
+            mintegralMtgnative      : "com.mintegral.mtgnative:mintegral-mtgnative:$mintegralVersion",
+            mintegralNativeex       : "com.mintegral.nativeex:mintegral-nativeex:$mintegralVersion",
+            mintegralMtgjscommon    : "com.mintegral.mtgjscommon:mintegral-mtgjscommon:$mintegralVersion",
+            mintegralPlayercommon   : "com.mintegral.playercommon:mintegral-playercommon:$mintegralVersion",
+            mintegralVideocommon    : "com.mintegral.videocommon:mintegral-videocommon:$mintegralVersion",
+            facebookAudienceNetwork : "com.facebook.android:audience-network-sdk:$facebookAudienceNetworkVersion",
+            inMobiAds               : "com.inmobi.monetization:inmobi-ads:$inMobiVersion",
+            aerserv                 : "com.aerserv:aerserv-sdk:$aerservVersion",
+            dtbAmazon               : "com.amazon.device.ads:DTBAndroidSDK:$dtbAmazonVersion",
+            smaatoSOMA              : "com.smaato.soma:SOMAAndroid:$smaatoSomaVersion",
+            applovin                : "com.applovin:applovin-sdk:$applovinVersion",
+            mopub                   : "com.mopub:mopub-sdk:mopubVersion",
+            fyberCore               : "com.fyber:inneractive-sdk-core:fyberVersion",
+            fyberMRAid              : "com.fyber:inneractive-mraid-kit:fyberVersion",
+            fyberVideo              : "com.fyber:inneractive-video-kit:fyberVersion",
+            tencent                 : "com.qq:GDTUnionSdk:tencentVersion",
+
+            facebookMopubAdapter    : "com.mopub.mediation:facebookaudiencenetwork:$facebookMopubAdapterVersion",
+            admobMopubAdapter       : "com.mopub.mediation:admob:admobMopubAdapterVersion",
+            applovinMopubAdapter    : "com.mopub.mediation:applovin:applovinAdapterVersion"
+    ]
+}

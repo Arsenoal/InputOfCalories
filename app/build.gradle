@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.1"
+    defaultConfig {
+        applicationId "com.example.inputofcalories"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def supportLibrary = rootProject.ext.supportLibraryDependencies
+    implementation supportLibrary.appCompatV7
+    implementation supportLibrary.supportAnnotations
+
+    def kotlin = rootProject.ext.kotlinDependencies
+    implementation kotlin.kotlinStdlib
+
+    def test = rootProject.ext.testingDependencies
+    testImplementation test.junit
+    testImplementation test.junitRunner
+    androidTestImplementation test.testRunner
+
+    def rx = rootProject.ext.rxDependencies
+    implementation rx.reactivexRxKotlin
+    implementation rx.reactivexRxAndroid
+
+    def logger = rootProject.ext.loggerDependencies
+    implementation logger.timber
+
+    def koin = rootProject.ext.koinDependencies
+    implementation koin.koinCore
+    implementation koin.koinAndroid
+    implementation koin.koinAndroidScope
+    implementation koin.koinViewmodel
+}

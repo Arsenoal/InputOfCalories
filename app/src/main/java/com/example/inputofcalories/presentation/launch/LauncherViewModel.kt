@@ -7,7 +7,7 @@ import com.example.inputofcalories.entity.Admin
 import com.example.inputofcalories.entity.NotRegistered
 import com.example.inputofcalories.entity.RegularUser
 import com.example.inputofcalories.entity.UserManager
-import com.example.inputofcalories.presentation.BaseViewModel
+import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
 private const val GET_REGISTRATION_STATUS_CODE = 1
 

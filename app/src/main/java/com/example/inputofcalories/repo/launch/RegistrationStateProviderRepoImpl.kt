@@ -2,7 +2,7 @@ package com.example.inputofcalories.repo.launch
 
 import com.example.inputofcalories.entity.UserStatus
 import com.example.inputofcalories.repo.launch.mapper.registrationStateMapper
-import com.example.inputofcalories.repo.service.preferences.PreferencesService
+import com.example.inputofcalories.repo.common.service.preferences.PreferencesService
 import io.reactivex.Single
 
 private const val USER_REG_STATE_KEY = "user_registration_state"

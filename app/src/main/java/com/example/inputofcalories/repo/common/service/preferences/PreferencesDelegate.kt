@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.service.preferences
+package com.example.inputofcalories.repo.common.service.preferences
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

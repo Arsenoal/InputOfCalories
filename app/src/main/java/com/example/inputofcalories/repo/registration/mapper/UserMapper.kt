@@ -7,8 +7,9 @@ import com.example.inputofcalories.repo.registration.model.UserGson
 val userToGsonMapper = object: Mapper<User, UserGson> {
     override fun map(s: User): UserGson {
         return UserGson(
-            name = s.name,
-            email = s.email,
-            gender = s.gender)
+            id = s.id.toString(),
+            name = s.userParams.name,
+            email = s.userParams.email,
+            gender = s.userParams.gender)
     }
 }

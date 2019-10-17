@@ -1,8 +1,8 @@
-package com.example.inputofcalories.repo.service.restapicore.okhttp
+package com.example.inputofcalories.repo.common.service.restapicore.okhttp
 
-import com.example.inputofcalories.repo.service.restapicore.ApiProviderConfig
-import com.example.inputofcalories.repo.service.restapicore.interceptor.HeaderInterceptor
-import com.example.inputofcalories.repo.service.restapicore.retrofit.OkHttpConfig
+import com.example.inputofcalories.repo.common.service.restapicore.ApiProviderConfig
+import com.example.inputofcalories.repo.common.service.restapicore.interceptor.HeaderInterceptor
+import com.example.inputofcalories.repo.common.service.restapicore.retrofit.OkHttpConfig
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

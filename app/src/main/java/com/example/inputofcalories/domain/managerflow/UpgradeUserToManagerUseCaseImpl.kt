@@ -1,6 +1,5 @@
 package com.example.inputofcalories.domain.managerflow
 
-import com.example.inputofcalories.entity.manager.UserManagerStatusControlParams
 import com.example.inputofcalories.repo.managerflow.UpgradeUserToManagerRepo
 import io.reactivex.Completable
 import java.util.*

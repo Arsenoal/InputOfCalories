@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.User
+import com.example.inputofcalories.entity.UserParams
 import kotlinx.android.synthetic.main.activity_register_user.*
 import org.koin.android.ext.android.inject
 
@@ -28,13 +29,13 @@ class RegisterUserActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         registerButton.setOnClickListener{
-            val user = User(
+            val userParams = UserParams(
                 name = nameEditText.text.toString(),
                 email = emailEditText.text.toString(),
                 gender = genderEditText.text.toString()
             )
 
-            registerUserViewModel.register(user)
+            registerUserViewModel.register(userParams)
         }
 
         signIn.setOnClickListener {

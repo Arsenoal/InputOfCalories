@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import com.example.inputofcalories.presentation.registration.RegisterUserActivity
+import com.example.inputofcalories.presentation.auth.registration.RegisterUserActivity
 import org.koin.android.ext.android.inject
 
 class LauncherActivity : AppCompatActivity() {

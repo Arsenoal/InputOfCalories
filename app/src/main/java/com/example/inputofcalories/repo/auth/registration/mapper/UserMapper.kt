@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.registration.mapper
+package com.example.inputofcalories.repo.auth.registration.mapper
 
 import com.example.inputofcalories.common.mapper.Mapper
 import com.example.inputofcalories.entity.register.User

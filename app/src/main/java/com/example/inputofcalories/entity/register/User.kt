@@ -17,6 +17,11 @@ data class UserRegistrationParams(
     val repeatPassword: String
 )
 
+data class UserSignInParams(
+    val email: String,
+    val password: String
+)
+
 data class UserUpdateParams(
     val name: String
 )

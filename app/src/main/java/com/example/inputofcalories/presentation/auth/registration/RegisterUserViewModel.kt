@@ -1,8 +1,8 @@
-package com.example.inputofcalories.presentation.registration
+package com.example.inputofcalories.presentation.auth.registration
 
 import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.domain.registration.RegisterUserUseCase
+import com.example.inputofcalories.domain.auth.registration.RegisterUserUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel

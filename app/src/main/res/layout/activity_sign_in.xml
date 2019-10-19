@@ -12,11 +12,6 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/nameEditText"
-            android:hint="name"
-            style="@style/style_reg_edit_text"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/emailEditText"
             android:hint="email"
             style="@style/style_reg_edit_text"/>
@@ -26,26 +21,12 @@
             android:hint="password"
             style="@style/style_reg_edit_text"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/repeatPasswordEditText"
-            android:hint="repeat password"
-            style="@style/style_reg_edit_text"/>
-
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/registerButton"
+            android:id="@+id/signInButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:text="Register"
-            android:layout_gravity="center_horizontal"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/signIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textAllCaps="false"
-            android:text="sign in"
+            android:text="Sign in"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>

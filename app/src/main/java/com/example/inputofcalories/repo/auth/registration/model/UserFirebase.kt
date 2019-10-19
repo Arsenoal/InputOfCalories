@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.registration.model
+package com.example.inputofcalories.repo.auth.registration.model
 
 class UserFirebase(
     val name: String,

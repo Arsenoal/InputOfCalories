@@ -1,8 +1,7 @@
-package com.example.inputofcalories.domain.registration
+package com.example.inputofcalories.domain.auth.registration
 
 import com.example.inputofcalories.entity.register.UserRegistrationParams
-import com.example.inputofcalories.repo.registration.RegisterUserRepo
-import com.example.inputofcalories.repo.registration.UpdateUserRepo
+import com.example.inputofcalories.repo.auth.registration.RegisterUserRepo
 
 class RegisterUserUseCaseImpl(
     private val registerUserRepo: RegisterUserRepo

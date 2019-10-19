@@ -1,12 +1,11 @@
-package com.example.inputofcalories.repo.registration
+package com.example.inputofcalories.repo.auth.registration
 
 import com.example.inputofcalories.common.exception.RegistrationException
 import com.example.inputofcalories.common.logger.IOFLogger
-import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
-import com.example.inputofcalories.repo.db.FirebaseDataBaseProps.USERS
-import com.example.inputofcalories.repo.registration.model.UserFirebase
+import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
+import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.*
 
@@ -17,18 +16,16 @@ class RegisterUserRepoImpl(
 
     override fun register(userRegistrationParams: UserRegistrationParams): Completable {
         return Single.create<Boolean> { emitter ->
-            checkUserPersistInDb(userRegistrationParams.email, emitter)
+            checkUserPresentInDb(userRegistrationParams.email, emitter)
         }.flatMapCompletable {
             if(it) addUser(userRegistrationParams)
             else throw RegistrationException()
         }
     }
 
-    private fun checkUserPersistInDb(email: String, emitter: SingleEmitter<Boolean>) {
+    private fun checkUserPresentInDb(email: String, emitter: SingleEmitter<Boolean>) {
             val usersRef = firestore.collection(USERS)
-            usersRef.document(email)
-            usersRef
-                .get()
+            usersRef.get()
                 .addOnSuccessListener { querySnapshot ->
                     querySnapshot.documents.forEach { documentSnapshot ->
                         val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)

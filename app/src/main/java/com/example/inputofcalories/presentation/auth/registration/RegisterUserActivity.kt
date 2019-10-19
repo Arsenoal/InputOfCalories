@@ -1,13 +1,13 @@
-package com.example.inputofcalories.presentation.registration
+package com.example.inputofcalories.presentation.auth.registration
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.register.UserParams
 import com.example.inputofcalories.entity.register.UserRegistrationParams
-import com.example.inputofcalories.entity.register.UserUpdateParams
 import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.auth.signin.SignInActivity
+import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_register_user.*
 import org.koin.android.ext.android.inject
 
@@ -44,7 +44,7 @@ class RegisterUserActivity : AppCompatActivity() {
         }
 
         signIn.setOnClickListener {
-            //TODO navigate to sign in page
+            ActivityNavigator.navigateAndFinishCurrent(this, SignInActivity::class.java)
         }
     }
 }

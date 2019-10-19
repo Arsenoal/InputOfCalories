@@ -9,6 +9,8 @@ class InputOfCaloriesResponseException(val reason: String?, message: String?) : 
 
 class RegistrationException(error: Throwable? = null, message: String? = null): RuntimeException(message)
 
+class SignInException(error: Throwable? = null, message: String? = null): RuntimeException(message)
+
 fun handleCrashedExceptionOrRunBlock(error: Throwable, block: () -> Unit = {}) {
     //TODO handle all exception cases
     if (error is InputOfCaloriesException) {

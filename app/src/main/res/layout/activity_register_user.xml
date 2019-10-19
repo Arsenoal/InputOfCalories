@@ -13,14 +13,22 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/nameEditText"
+            android:hint="name"
             style="@style/style_reg_edit_text"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/emailEditText"
+            android:hint="email"
             style="@style/style_reg_edit_text"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/genderEditText"
+            android:id="@+id/passwordEditText"
+            android:hint="password"
+            style="@style/style_reg_edit_text"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/repeatPasswordEditText"
+            android:hint="repeat password"
             style="@style/style_reg_edit_text"/>
 
         <androidx.appcompat.widget.AppCompatButton

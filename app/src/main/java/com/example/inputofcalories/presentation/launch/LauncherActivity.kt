@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.navigation.ActivityNavigator
+import com.example.inputofcalories.presentation.registration.RegisterUserActivity
 import org.koin.android.ext.android.inject
 
 class LauncherActivity : AppCompatActivity() {
@@ -14,7 +16,12 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupViewModel()
+        openRegistration()
+    }
+
+    private fun openRegistration() {
+
+        ActivityNavigator.navigateAndFinishCurrent(this, RegisterUserActivity::class.java)
     }
 
     private fun setupViewModel() {

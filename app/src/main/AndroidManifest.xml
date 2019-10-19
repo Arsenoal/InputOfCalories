@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.registration.RegisterUserActivity"></activity>
-        <activity android:name=".presentation.launch.LauncherActivity">
+        <activity
+            android:name=".presentation.launch.LauncherActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

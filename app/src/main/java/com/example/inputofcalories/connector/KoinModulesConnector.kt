@@ -12,7 +12,8 @@ class KoinModulesConnector {
 
                 modules(listOf(
                     preferencesModule,
-                    restApiCoreModule,
+                    firebasemodule,
+                    rxModule,
                     launchModule,
                     registrationModule
                 ))

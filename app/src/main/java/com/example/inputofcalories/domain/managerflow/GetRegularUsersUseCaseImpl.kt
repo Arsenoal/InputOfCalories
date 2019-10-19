@@ -1,6 +1,6 @@
 package com.example.inputofcalories.domain.managerflow
 
-import com.example.inputofcalories.entity.User
+import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.repo.managerflow.GetRegularUsersRepo
 import io.reactivex.Single
 

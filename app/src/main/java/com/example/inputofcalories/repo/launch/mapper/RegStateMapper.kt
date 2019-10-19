@@ -1,7 +1,7 @@
 package com.example.inputofcalories.repo.launch.mapper
 
 import com.example.inputofcalories.common.mapper.Mapper
-import com.example.inputofcalories.entity.*
+import com.example.inputofcalories.entity.register.*
 
 val registrationStateMapper = object: Mapper<Int, UserStatus> {
     override fun map(s: Int): UserStatus {

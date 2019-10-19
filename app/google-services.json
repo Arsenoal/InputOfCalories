@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "397358603913",
+    "firebase_url": "https://inputofcalories.firebaseio.com",
+    "project_id": "inputofcalories",
+    "storage_bucket": "inputofcalories.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397358603913:android:dfc3fc00a5a5d4e616f058",
+        "android_client_info": {
+          "package_name": "com.example.inputofcalories"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397358603913-6b4hicjaiso6e1irf91i9f6rajhtpbpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAdNuqz_KSDPxS6uxObVMSbIpkfpcT_30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397358603913-6b4hicjaiso6e1irf91i9f6rajhtpbpa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

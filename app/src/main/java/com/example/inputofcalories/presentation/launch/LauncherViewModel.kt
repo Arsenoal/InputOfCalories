@@ -3,10 +3,10 @@ package com.example.inputofcalories.presentation.launch
 import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.domain.launch.GetUserRegistrationStatusUseCase
-import com.example.inputofcalories.entity.Admin
-import com.example.inputofcalories.entity.NotRegistered
-import com.example.inputofcalories.entity.RegularUser
-import com.example.inputofcalories.entity.UserManager
+import com.example.inputofcalories.entity.register.Admin
+import com.example.inputofcalories.entity.register.NotRegistered
+import com.example.inputofcalories.entity.register.RegularUser
+import com.example.inputofcalories.entity.register.UserManager
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
 private const val GET_REGISTRATION_STATUS_CODE = 1

@@ -1,20 +1,13 @@
 package com.example.inputofcalories.domain.registration
 
-import com.example.inputofcalories.entity.User
-import com.example.inputofcalories.entity.UserParams
+import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.repo.registration.RegisterUserRepo
-import com.example.inputofcalories.repo.registration.idcreator.IdCreatorRepo
-import io.reactivex.Single
+import com.example.inputofcalories.repo.registration.UpdateUserRepo
 
 class RegisterUserUseCaseImpl(
-    private val registerUserRepo: RegisterUserRepo,
-    private val idCreatorRepo: IdCreatorRepo
+    private val registerUserRepo: RegisterUserRepo
 ): RegisterUserUseCase {
-    override fun register(userParams: UserParams): Single<Any> {
-        return idCreatorRepo.get().flatMap {
-            val user = User(it, userParams)
 
-            registerUserRepo.register(user)
-        }
-    }
+    override fun register(userRegistrationParams: UserRegistrationParams) = registerUserRepo.register(userRegistrationParams)
+
 }

@@ -1,6 +1,7 @@
 package com.example.inputofcalories.presentation
 
 import android.app.Application
+import com.example.inputofcalories.common.logger.IOFLogger
 import com.example.inputofcalories.connector.KoinModulesConnector
 
 class InputOfCaloriesApplication: Application() {
@@ -8,5 +9,7 @@ class InputOfCaloriesApplication: Application() {
         super.onCreate()
 
         KoinModulesConnector.connect(this.applicationContext)
+
+        IOFLogger.init()
     }
 }

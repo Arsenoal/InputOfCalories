@@ -1,8 +1,8 @@
 package com.example.inputofcalories.domain.registration
 
-import com.example.inputofcalories.entity.UserParams
-import io.reactivex.Single
+import com.example.inputofcalories.entity.register.UserRegistrationParams
+import io.reactivex.Completable
 
 interface RegisterUserUseCase {
-    fun register(userParams: UserParams): Single<Any>
+    fun register(userRegistrationParams: UserRegistrationParams): Completable
 }

@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.User
-import com.example.inputofcalories.entity.UserParams
+import com.example.inputofcalories.entity.register.UserParams
+import com.example.inputofcalories.entity.register.UserRegistrationParams
+import com.example.inputofcalories.entity.register.UserUpdateParams
+import com.example.inputofcalories.presentation.ToastManager
 import kotlinx.android.synthetic.main.activity_register_user.*
 import org.koin.android.ext.android.inject
 
@@ -24,18 +26,21 @@ class RegisterUserActivity : AppCompatActivity() {
 
     private fun setupViewModels() {
         registerUserViewModel.userRegistrationSuccessLiveData.observe(this, Observer {  })
-        registerUserViewModel.userRegistrationFailLiveData.observe(this, Observer {  })
+        registerUserViewModel.userRegistrationFailLiveData.observe(this, Observer {
+            ToastManager.showToastShort(this, it.message)
+        })
     }
 
     private fun setupClickListeners() {
         registerButton.setOnClickListener{
-            val userParams = UserParams(
-                name = nameEditText.text.toString(),
+            val userRegistrationParams = UserRegistrationParams(
                 email = emailEditText.text.toString(),
-                gender = genderEditText.text.toString()
+                name = nameEditText.text.toString(),
+                password = passwordEditText.text.toString(),
+                repeatPassword = repeatPasswordEditText.text.toString()
             )
 
-            registerUserViewModel.register(userParams)
+            registerUserViewModel.register(userRegistrationParams)
         }
 
         signIn.setOnClickListener {

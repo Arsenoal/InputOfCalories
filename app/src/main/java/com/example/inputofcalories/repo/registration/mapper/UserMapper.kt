@@ -1,15 +1,16 @@
 package com.example.inputofcalories.repo.registration.mapper
 
 import com.example.inputofcalories.common.mapper.Mapper
-import com.example.inputofcalories.entity.User
-import com.example.inputofcalories.repo.registration.model.UserGson
+import com.example.inputofcalories.entity.register.User
+import com.example.inputofcalories.entity.register.UserParams
+import com.google.firebase.auth.FirebaseUser
 
-val userToGsonMapper = object: Mapper<User, UserGson> {
-    override fun map(s: User): UserGson {
-        return UserGson(
-            id = s.id.toString(),
-            name = s.userParams.name,
-            email = s.userParams.email,
-            gender = s.userParams.gender)
+val firebaseUserToUserMapper = object: Mapper<FirebaseUser, User> {
+    override fun map(s: FirebaseUser): User {
+        val userParams = UserParams(
+            name = s.displayName ?: "",
+            email = s.email ?: ""
+        )
+        return User(s.uid, userParams)
     }
 }

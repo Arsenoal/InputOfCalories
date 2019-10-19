@@ -23,27 +23,10 @@ ext {
     archComponentsVersion = "2.0.0"
     timberVersion = "4.7.1"
 
-
-
-    //ads libraries
-    firebaseAdsLiteVersion = "17.1.3"
-    mopubVersion = "5.7.1"
-    mopubVolleyVersion = "2.0.0"
-    gmsConsentLibraryVersion = "1.0.7"
-    mintegralVersion = "9.11.0"
-    facebookAudienceNetworkVersion = "5.3.1"
-    picassoVersion = "2.5.2"
-    inMobiVersion = "7.2.7"
-    aerservVersion = "3.1.7"
-    dtbAmazonVersion = "7.4.3"
-    smaatoSomaVersion = "9.1.5"
-    applovinVersion = "9.7.0"
-    tencentVersion = "4.22.584"
-    fyberVersion = "7.3.0"
-    facebookMopubAdapterVersion = "5.2.0.0"
-    admobMopubAdapterVersion = "17.1.2.3"
-    applovinAdapterVersion = "9.6.2.0"
-
+    //firebase
+    firebaseAuthVersion = "19.1.0"
+    firebaseDbVersion = "19.2.0"
+    fireStroeVersion = "21.2.0"
 
     //Testing
     jUnitVersion = '4.12'
@@ -120,39 +103,9 @@ ext {
             androidArch    : "androidx.arch.core:core-testing:$androidArchVersion"
     ]
 
-    adsLibDependencies = [
-            kotlinStdlib            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
-            reactivexRxKotlin       : "io.reactivex.rxjava2:rxjava:$reactivexRxKotlinVersion",
-            reactivexRxAndroid      : "io.reactivex.rxjava2:rxandroid:$reactivexRxAndroidVersion",
-            koinAndroid             : "org.koin:koin-android:$koinVersion",
-            kotlinStdLib            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            constraintLayout        : "androidx.constraintlayout:constraintlayout:$constraintVersion",
-            picasso                 : "com.squareup.picasso:picasso:$picassoVersion",
-
-            firebaseAdsLite         : "com.google.firebase:firebase-ads-lite:$firebaseAdsLiteVersion",
-            mopubVolley             : "com.mopub.volley:mopub-volley:$mopubVolleyVersion",
-            gmsConsentLibrary       : "com.google.android.ads.consent:consent-library:$gmsConsentLibraryVersion",
-            mintegralCommon         : "com.mintegral.common:mintegral-common:$mintegralVersion",
-            mintegralAlphab         : "com.mintegral.alphab:mintegral-alphab:$mintegralVersion",
-            mintegralMtgnative      : "com.mintegral.mtgnative:mintegral-mtgnative:$mintegralVersion",
-            mintegralNativeex       : "com.mintegral.nativeex:mintegral-nativeex:$mintegralVersion",
-            mintegralMtgjscommon    : "com.mintegral.mtgjscommon:mintegral-mtgjscommon:$mintegralVersion",
-            mintegralPlayercommon   : "com.mintegral.playercommon:mintegral-playercommon:$mintegralVersion",
-            mintegralVideocommon    : "com.mintegral.videocommon:mintegral-videocommon:$mintegralVersion",
-            facebookAudienceNetwork : "com.facebook.android:audience-network-sdk:$facebookAudienceNetworkVersion",
-            inMobiAds               : "com.inmobi.monetization:inmobi-ads:$inMobiVersion",
-            aerserv                 : "com.aerserv:aerserv-sdk:$aerservVersion",
-            dtbAmazon               : "com.amazon.device.ads:DTBAndroidSDK:$dtbAmazonVersion",
-            smaatoSOMA              : "com.smaato.soma:SOMAAndroid:$smaatoSomaVersion",
-            applovin                : "com.applovin:applovin-sdk:$applovinVersion",
-            mopub                   : "com.mopub:mopub-sdk:mopubVersion",
-            fyberCore               : "com.fyber:inneractive-sdk-core:fyberVersion",
-            fyberMRAid              : "com.fyber:inneractive-mraid-kit:fyberVersion",
-            fyberVideo              : "com.fyber:inneractive-video-kit:fyberVersion",
-            tencent                 : "com.qq:GDTUnionSdk:tencentVersion",
-
-            facebookMopubAdapter    : "com.mopub.mediation:facebookaudiencenetwork:$facebookMopubAdapterVersion",
-            admobMopubAdapter       : "com.mopub.mediation:admob:admobMopubAdapterVersion",
-            applovinMopubAdapter    : "com.mopub.mediation:applovin:applovinAdapterVersion"
+    firebaseDependencies = [
+            auth          : "com.google.firebase:firebase-auth:$firebaseAuthVersion",
+            firestore     : "com.google.firebase:firebase-firestore:$fireStroeVersion",
+            db            : "com.google.firebase:firebase-database:$firebaseDbVersion"
     ]
 }

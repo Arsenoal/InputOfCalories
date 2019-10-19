@@ -1,4 +1,4 @@
-package com.example.inputofcalories.entity
+package com.example.inputofcalories.entity.register
 
 sealed class UserStatus
 

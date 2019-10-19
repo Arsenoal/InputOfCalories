@@ -1,6 +1,6 @@
 package com.example.inputofcalories.repo.launch
 
-import com.example.inputofcalories.entity.UserStatus
+import com.example.inputofcalories.entity.register.UserStatus
 import com.example.inputofcalories.repo.launch.mapper.registrationStateMapper
 import com.example.inputofcalories.repo.common.service.preferences.PreferencesService
 import io.reactivex.Single

@@ -11,7 +11,8 @@ import io.reactivex.Single
 import io.reactivex.SingleEmitter
 
 class SignInUserRepoImpl(
-    private val firestore: FirebaseFirestore): SignInUserRepo {
+    private val firestore: FirebaseFirestore
+): SignInUserRepo {
 
     override fun signIn(userSignInParams: UserSignInParams): Single<User> {
         return Single.create<Boolean> { emitter ->

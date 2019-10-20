@@ -3,6 +3,7 @@ package com.example.inputofcalories.repo.auth.registration
 import com.example.inputofcalories.common.exception.RegistrationException
 import com.example.inputofcalories.common.logger.IOFLogger
 import com.example.inputofcalories.entity.register.UserRegistrationParams
+import com.example.inputofcalories.repo.auth.registration.model.MealIds
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
@@ -44,11 +45,18 @@ class RegisterUserRepoImpl(
     private fun addUser(userRegistrationParams: UserRegistrationParams): Completable {
         return Completable.create { emitter ->
             val usersRef = firestore.collection(USERS)
+
             val uId = uuidGeneratorService.get().toString()
+            val mId = uuidGeneratorService.get().toString()
+
+            val mealIds = MealIds(id = mId)
+
             val userFirebase = UserFirebase(
                 name = userRegistrationParams.name,
                 email = userRegistrationParams.email,
-                password = userRegistrationParams.password)
+                password = userRegistrationParams.password,
+                mealIds = mealIds)
+
             usersRef.document(uId).set(userFirebase)
                 .addOnSuccessListener {
                     IOFLogger.d(RegisterUserRepoImpl::class.java.name, "DocumentSnapshot successfully written!")

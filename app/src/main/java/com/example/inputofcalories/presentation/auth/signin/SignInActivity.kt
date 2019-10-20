@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.register.UserSignInParams
+import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.navigation.ActivityNavigator
+import com.example.inputofcalories.presentation.regularflow.RegularUserHomeActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
 import org.koin.android.ext.android.inject
@@ -23,8 +26,13 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        signInViewModel.singInSuccessLiveData.observe(this, Observer {  })
-        signInViewModel.singInFailLiveData.observe(this, Observer {  })
+        signInViewModel.singInSuccessLiveData.observe(this, Observer {
+            ActivityNavigator.navigate(this, RegularUserHomeActivity::class.java)
+        })
+
+        signInViewModel.singInFailLiveData.observe(this, Observer {
+            ToastManager.showToastShort(this, it.message)
+        })
     }
 
     private fun setupClickListeners() {
@@ -34,7 +42,7 @@ class SignInActivity : AppCompatActivity() {
                 password = passwordEditText.text.toString()
             )
 
-            signInViewModel.signIn(signInParams)
+            signInViewModel.signInClicked(signInParams)
         }
     }
 }

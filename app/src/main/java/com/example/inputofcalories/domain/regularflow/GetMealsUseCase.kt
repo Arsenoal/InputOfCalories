@@ -4,5 +4,5 @@ import com.example.inputofcalories.entity.Meal
 import io.reactivex.Single
 
 interface GetMealsUseCase {
-    fun get(): Single<List<Meal>>
+    fun get(uId: String): Single<List<Meal>>
 }

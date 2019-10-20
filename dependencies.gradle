@@ -28,6 +28,9 @@ ext {
     firebaseDbVersion = "19.2.0"
     fireStroeVersion = "21.2.0"
 
+    //room
+    roomVersion = "2.2.0"
+
     //Testing
     jUnitVersion = '4.12'
     jUnit5Version = '5.5.2'
@@ -107,5 +110,11 @@ ext {
             auth          : "com.google.firebase:firebase-auth:$firebaseAuthVersion",
             firestore     : "com.google.firebase:firebase-firestore:$fireStroeVersion",
             db            : "com.google.firebase:firebase-database:$firebaseDbVersion"
+    ]
+
+    roomDependencies = [
+            runtime          : "androidx.room:room-runtime:$roomVersion",
+            compiler         : "androidx.room:room-compiler:$roomVersion",
+            rxJava2          : "androidx.room:room-rxjava2:$roomVersion"
     ]
 }

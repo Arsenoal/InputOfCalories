@@ -1,13 +1,20 @@
 package com.example.inputofcalories.entity
 
-import java.util.*
-
 data class Meal(
-    val id: UUID,
+    val id: String,
     val params: MealParams
-)
+) {
+    override fun toString(): String {
+        return "Meal: {$id params: $params}"
+    }
+}
 
 data class MealParams(
-    val name: String,
-    val calories: String
-)
+    val text: String,
+    val calories: String,
+    val weight: String
+) {
+    override fun toString(): String {
+        return "$text $calories $weight"
+    }
+}

@@ -14,9 +14,11 @@ class KoinModulesConnector {
                     preferencesModule,
                     firebasemodule,
                     rxModule,
+                    userdbmodule(context),
                     launchModule,
                     registrationModule,
-                    singinmodule
+                    singinmodule,
+                    mealsmodule
                 ))
             }
         }

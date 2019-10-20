@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -39,8 +38,6 @@ dependencies {
     implementation kotlin.kotlinStdlib
 
     def test = rootProject.ext.testingDependencies
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation test.junit
     testImplementation test.junitRunner
     androidTestImplementation test.testRunner
@@ -71,6 +68,11 @@ dependencies {
     def firebaseDependencies = rootProject.ext.firebaseDependencies
     implementation firebaseDependencies.auth
     implementation firebaseDependencies.firestore
+
+    def roomDependencies = rootProject.ext.roomDependencies
+    implementation roomDependencies.runtime
+    kapt roomDependencies.compiler
+    implementation roomDependencies.rxJava2
 }
 
 apply plugin: 'com.google.gms.google-services'

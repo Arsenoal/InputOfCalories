@@ -13,6 +13,10 @@ object ActivityNavigator {
         }
     }
 
+    fun navigateBack(activity: AppCompatActivity) {
+        activity.onBackPressed()
+    }
+
     fun navigateAndFinishCurrent(
         activity: AppCompatActivity,
         activityClassName: Class<out AppCompatActivity>) {

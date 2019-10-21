@@ -7,18 +7,16 @@ import io.reactivex.Single
 
 class GetUserFromLocalRepoImpl(
     private val userDao: UserDao
-): GetUserFromLocalRepo {
+): GetUserRepo {
     override fun get(): Single<User> {
         return userDao.getUser().map { userRoom ->
             val userParams = UserParams(
                 name = userRoom.name,
-                email = userRoom.email
-            )
+                email = userRoom.email)
 
             val user = User(
                 id = userRoom.id,
-                userParams = userParams
-            )
+                userParams = userParams)
 
             user
         }

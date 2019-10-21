@@ -1,7 +1,7 @@
 package com.example.inputofcalories.entity.register
 
 data class User(
-    val id: String? = null,
+    val id: String = "",
     val userParams: UserParams
 )
 

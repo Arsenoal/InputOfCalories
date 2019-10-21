@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.common.logger.IOFLogger
+import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import org.koin.android.ext.android.inject
 
@@ -23,16 +24,25 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         mealsProviderViewModel.mealsLoadFailLiveData.observe(this, Observer {  })
+
         mealsProviderViewModel.mealsLoadSuccessLiveData.observe(this, Observer { list ->
             list.forEach { meal ->
                 IOFLogger.d(TAG, meal.toString())
             }
+        })
+
+        mealsProviderViewModel.noMealsFoundLiveData.observe(this, Observer {
+            //TODO show empty view
         })
     }
 
     private fun setupClickListeners() {
         getUserMealsButton.setOnClickListener {
             mealsProviderViewModel.onGetMealsClicked()
+        }
+
+        addMealButton.setOnClickListener {
+            ActivityNavigator.navigate(this, AddMealActivity::class.java)
         }
     }
 

@@ -27,7 +27,7 @@ class SignInActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         signInViewModel.singInSuccessLiveData.observe(this, Observer {
-            ActivityNavigator.navigate(this, RegularUserHomeActivity::class.java)
+            ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java)
         })
 
         signInViewModel.singInFailLiveData.observe(this, Observer {

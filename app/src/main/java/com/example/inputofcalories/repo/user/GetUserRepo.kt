@@ -1,8 +1,8 @@
-package com.example.inputofcalories.domain.user
+package com.example.inputofcalories.repo.user
 
 import com.example.inputofcalories.entity.register.User
 import io.reactivex.Single
 
-interface GetUserFromLocalUseCase {
+interface GetUserRepo {
     fun get(): Single<User>
 }

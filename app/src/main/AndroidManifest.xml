@@ -13,6 +13,7 @@
         <activity android:name=".presentation.regularflow.RegularUserHomeActivity"></activity>
         <activity android:name=".presentation.auth.signin.SignInActivity" />
         <activity android:name=".presentation.auth.registration.RegisterUserActivity" />
+        <activity android:name=".presentation.regularflow.AddMealActivity"/>
         <activity
             android:name=".presentation.launch.LauncherActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">

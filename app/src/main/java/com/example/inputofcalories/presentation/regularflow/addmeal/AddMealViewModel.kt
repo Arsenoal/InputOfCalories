@@ -1,11 +1,10 @@
-package com.example.inputofcalories.presentation.regularflow
+package com.example.inputofcalories.presentation.regularflow.addmeal
 
 import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.SuccessCompletable
 import com.example.inputofcalories.domain.regularflow.AddMealUseCase
-import com.example.inputofcalories.entity.Meal
 import com.example.inputofcalories.entity.MealParams
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel

@@ -2,6 +2,7 @@ package com.example.inputofcalories.presentation.navigation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import java.io.Serializable
 
 object ActivityNavigator {
     fun navigate(
@@ -13,8 +14,17 @@ object ActivityNavigator {
         }
     }
 
-    fun navigateBack(activity: AppCompatActivity) {
-        activity.onBackPressed()
+
+    fun navigate(
+        activity: AppCompatActivity,
+        activityClassName: Class<out AppCompatActivity>,
+        key: String,
+        value: Serializable) {
+        activity.run {
+            val intent = Intent(this, activityClassName)
+            intent.putExtra(key, value)
+            startActivity(intent)
+        }
     }
 
     fun navigateAndFinishCurrent(
@@ -25,5 +35,9 @@ object ActivityNavigator {
             startActivity(intent)
             finish()
         }
+    }
+
+    fun navigateBack(activity: AppCompatActivity) {
+        activity.onBackPressed()
     }
 }

@@ -2,16 +2,23 @@ package com.example.inputofcalories.presentation.regularflow
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
-import com.example.inputofcalories.common.logger.IOFLogger
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
+import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
+import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
+import com.example.inputofcalories.presentation.regularflow.viewmeal.MEAL_EXTRA
+import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import org.koin.android.ext.android.inject
 
 class RegularUserHomeActivity : AppCompatActivity() {
 
-    val mealsProviderViewModel: MealsProviderViewModel by inject()
+    private val mealsProviderViewModel: MealsProviderViewModel by inject()
+
+    private val mealsAdapter = MealsRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,33 +27,52 @@ class RegularUserHomeActivity : AppCompatActivity() {
         setupViewModel()
 
         setupClickListeners()
+
+        setupMealsRecyclerView()
+
+        loadMealsList()
     }
 
     private fun setupViewModel() {
         mealsProviderViewModel.mealsLoadFailLiveData.observe(this, Observer {  })
 
         mealsProviderViewModel.mealsLoadSuccessLiveData.observe(this, Observer { list ->
-            list.forEach { meal ->
-                IOFLogger.d(TAG, meal.toString())
-            }
+            mealsAdapter.addItems(list)
         })
 
         mealsProviderViewModel.noMealsFoundLiveData.observe(this, Observer {
-            //TODO show empty view
+            setupEmptyMealsUi()
+        })
+    }
+
+    private fun setupEmptyMealsUi() {
+        noMealsToShowTextView.visibility = VISIBLE
+    }
+
+    private fun loadMealsList() {
+        mealsProviderViewModel.getMeals()
+    }
+
+    private fun setupMealsRecyclerView() {
+        mealsRecyclerView.layoutManager = LinearLayoutManager(this)
+        mealsRecyclerView.adapter = mealsAdapter
+
+        mealsAdapter.mealSelectedLiveData.observe(this, Observer {
+            //TODO navigate to view meal page(ehm, create that page first I guess)
+            val mealSerializable = MealSerializable(
+                it.id,
+                it.params.text,
+                it.params.calories,
+                it.params.weight
+            )
+
+            ActivityNavigator.navigate(this, ViewMealActivity::class.java, MEAL_EXTRA, mealSerializable)
         })
     }
 
     private fun setupClickListeners() {
-        getUserMealsButton.setOnClickListener {
-            mealsProviderViewModel.onGetMealsClicked()
-        }
-
         addMealButton.setOnClickListener {
             ActivityNavigator.navigate(this, AddMealActivity::class.java)
         }
-    }
-
-    companion object {
-        val TAG = RegularUserHomeActivity::class.java.name
     }
 }

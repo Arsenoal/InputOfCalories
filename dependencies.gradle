@@ -48,6 +48,7 @@ ext {
     supportLibraryDependencies = [
             appCompatV7        : "androidx.appcompat:appcompat:$supportLibraryVersion",
             recyclerView       : "androidx.recyclerview:recyclerview:$supportLibraryVersion",
+            cardView           : "androidx.cardview:cardview:$supportLibraryVersion",
             supportAnnotations : "androidx.annotation:annotation:$supportLibraryVersion",
             constraintLayout   : "androidx.constraintlayout:constraintlayout:$constraintVersion",
             pagingAdapter      : "androidx.paging:paging-runtime:$archComponentsVersion",

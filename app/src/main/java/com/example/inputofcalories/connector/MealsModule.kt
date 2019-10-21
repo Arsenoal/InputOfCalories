@@ -6,7 +6,7 @@ import com.example.inputofcalories.domain.regularflow.GetMealsUseCase
 import com.example.inputofcalories.domain.regularflow.GetMealsUseCaseImpl
 import com.example.inputofcalories.domain.user.GetUserUseCase
 import com.example.inputofcalories.domain.user.GetUserUseCaseImpl
-import com.example.inputofcalories.presentation.regularflow.AddMealViewModel
+import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
 import com.example.inputofcalories.presentation.regularflow.MealsProviderViewModel
 import com.example.inputofcalories.repo.regularflow.AddMealRepo
 import com.example.inputofcalories.repo.regularflow.AddMealRepoImpl

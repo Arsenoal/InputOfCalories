@@ -24,7 +24,7 @@ class MealsProviderViewModel(
 
     val noMealsFoundLiveData = MutableLiveData<Any>()
 
-    fun onGetMealsClicked() {
+    fun getMeals() {
         getUser { user ->
             loadMeals(user.id) { meals ->
                 if (meals.isNotEmpty()) mealsLoadSuccessLiveData.value = meals

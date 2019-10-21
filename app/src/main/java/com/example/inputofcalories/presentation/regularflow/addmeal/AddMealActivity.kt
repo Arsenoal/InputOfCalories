@@ -1,4 +1,4 @@
-package com.example.inputofcalories.presentation.regularflow
+package com.example.inputofcalories.presentation.regularflow.addmeal
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,16 +7,16 @@ import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.MealParams
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import kotlinx.android.synthetic.main.fragment_add_meal.*
+import kotlinx.android.synthetic.main.activity_add_meal.*
 import org.koin.android.ext.android.inject
 
 class AddMealActivity: AppCompatActivity() {
 
-    val addMealViewModel: AddMealViewModel by inject()
+    private val addMealViewModel: AddMealViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_add_meal)
+        setContentView(R.layout.activity_add_meal)
 
         setupViewModel()
 

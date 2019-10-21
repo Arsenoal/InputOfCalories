@@ -27,6 +27,7 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    //'src/main/res/layouts/recycleritems',
                     'src/main/res/layouts/fragment',
                     'src/main/res/layouts/activity',
                     'src/main/res/layouts',
@@ -41,6 +42,8 @@ dependencies {
 
     def supportLibrary = rootProject.ext.supportLibraryDependencies
     implementation supportLibrary.appCompatV7
+    implementation supportLibrary.recyclerView
+    implementation supportLibrary.cardView
     implementation supportLibrary.constraintLayout
     implementation supportLibrary.supportAnnotations
 

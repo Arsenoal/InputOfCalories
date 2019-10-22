@@ -1,17 +1,12 @@
 package com.example.inputofcalories.connector
 
-import com.example.inputofcalories.domain.regularflow.AddMealUseCase
-import com.example.inputofcalories.domain.regularflow.AddMealUseCaseImpl
-import com.example.inputofcalories.domain.regularflow.GetMealsUseCase
-import com.example.inputofcalories.domain.regularflow.GetMealsUseCaseImpl
+import com.example.inputofcalories.domain.regularflow.*
 import com.example.inputofcalories.domain.user.GetUserUseCase
 import com.example.inputofcalories.domain.user.GetUserUseCaseImpl
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
 import com.example.inputofcalories.presentation.regularflow.MealsProviderViewModel
-import com.example.inputofcalories.repo.regularflow.AddMealRepo
-import com.example.inputofcalories.repo.regularflow.AddMealRepoImpl
-import com.example.inputofcalories.repo.regularflow.MealsProviderRepo
-import com.example.inputofcalories.repo.regularflow.MealsProviderRepoImpl
+import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealViewModel
+import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.user.GetUserFromLocalRepoImpl
 import com.example.inputofcalories.repo.user.GetUserRepo
 import org.koin.android.viewmodel.dsl.viewModel
@@ -51,6 +46,19 @@ val mealsmodule = module {
 
     viewModel {
         AddMealViewModel(get())
+    }
+
+    //edit meal
+    single<EditMealRepo> {
+        EditMealRepoImpl(get())
+    }
+
+    single<EditMealUseCase> {
+        EditMealUseCaseImpl(get())
+    }
+
+    viewModel {
+        EditMealViewModel(get())
     }
 
 }

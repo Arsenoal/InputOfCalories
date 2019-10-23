@@ -18,7 +18,7 @@ class KoinModulesConnector {
                     registrationModule,
                     singinmodule,
                     mealsmodule,
-                    regularmodule
+                    managermodule
                 ))
             }
         }

@@ -3,7 +3,9 @@ package com.example.inputofcalories.presentation.managerflow.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.register.Admin
@@ -16,6 +18,10 @@ class UsersRecyclerAdapter(
 ): RecyclerView.Adapter<UsersRecyclerAdapter.UserViewHolder>() {
 
     lateinit var layoutInflater: LayoutInflater
+
+    val userUpgradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
+
+    val userDowngradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -30,7 +36,17 @@ class UsersRecyclerAdapter(
     override fun getItemCount() = users.size
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.bind(users[position])
+        val user = users[position]
+
+        holder.bind(user)
+
+        holder.upgradeButton?.setOnClickListener {
+            userUpgradeSelectedLiveData.value = user
+        }
+
+        holder.downgradeButton?.setOnClickListener {
+            userDowngradeSelectedLiveData.value = user
+        }
     }
 
     fun setItems(items: List<User>) {
@@ -39,10 +55,17 @@ class UsersRecyclerAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateItem(item: User) {
+
+    }
+
     class UserViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private val userNameTextView = view.findViewById<AppCompatTextView>(R.id.userNameTextView)
         private val emailTextView = view.findViewById<AppCompatTextView>(R.id.emailTextView)
         private val typeTextView = view.findViewById<AppCompatTextView>(R.id.typeTextView)
+
+        val upgradeButton = view.findViewById<AppCompatButton>(R.id.upgradeButton)
+        val downgradeButton = view.findViewById<AppCompatButton>(R.id.downgradeButton)
 
         fun bind(user: User) {
             userNameTextView.text = user.userParams.name

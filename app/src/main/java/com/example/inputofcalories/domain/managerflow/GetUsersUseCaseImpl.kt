@@ -2,9 +2,9 @@ package com.example.inputofcalories.domain.managerflow
 
 import com.example.inputofcalories.repo.managerflow.GetUsersRepo
 
-class GetRegularUsersUseCaseImpl(
+class GetUsersUseCaseImpl(
     private val getUsersRepo: GetUsersRepo
-): GetRegularUsersUseCase {
+): GetUsersUseCase {
 
-    override fun get() = getUsersRepo.get()
+    override fun get(userId: String) = getUsersRepo.get(userId)
 }

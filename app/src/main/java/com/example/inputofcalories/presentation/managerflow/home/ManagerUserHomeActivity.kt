@@ -12,7 +12,9 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class ManagerUserHomeActivity: AppCompatActivity() {
 
-    private val regularUsersProviderViewModel: RegularUsersProviderViewModel by viewModel()
+    private val usersProviderViewModel: UsersProviderViewModel by viewModel()
+
+    private val userStatusManipulatorViewModel: UserStatusManipulatorViewModel by viewModel()
 
     private val usersRecyclerAdapter = UsersRecyclerAdapter()
 
@@ -20,29 +22,64 @@ class ManagerUserHomeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager_user_home)
 
+        setupStatusManipulatorViewModel()
+
         setupUsersRecyclerView()
 
-        setupViewModel()
+        setupUsersProviderViewModel()
     }
 
-    private fun setupViewModel() {
-        regularUsersProviderViewModel.usersLoadFailLiveData.observe(this, Observer { message ->
-            ToastManager.showToastShort(this, message.message)
-        })
+    private fun setupStatusManipulatorViewModel() {
+        userStatusManipulatorViewModel.let {
+            it.userUpgradeSucceedLiveData.observe(this, Observer {
+                usersProviderViewModel.getUsers()
+                ToastManager.showToastShort(this, "upgraded")
+            })
+            it.userUpgradeFailLiveData.observe(this, Observer { message ->
+                ToastManager.showToastShort(this, message.message)
+            })
 
-        regularUsersProviderViewModel.usersLoadSuccessLiveData.observe(this, Observer { users ->
-            usersRecyclerAdapter.setItems(users)
-        })
+            it.userDowngradeSucceedLiveData.observe(this, Observer {
+                usersProviderViewModel.getUsers()
+                ToastManager.showToastShort(this, "downgraded")
+            })
+            it.userDowngradeFailLiveData.observe(this, Observer { message ->
+                ToastManager.showToastShort(this, message.message)
+            })
+        }
+    }
 
-        regularUsersProviderViewModel.noUsersFoundLiveData.observe(this, Observer {
-            noUsersToShowTextView.visibility = VISIBLE
-        })
+    private fun setupUsersProviderViewModel() {
+        usersProviderViewModel.let {
+            it.usersLoadFailLiveData.observe(this, Observer { message ->
+                ToastManager.showToastShort(this, message.message)
+            })
 
-        regularUsersProviderViewModel.getUsers()
+            it.usersLoadSuccessLiveData.observe(this, Observer { users ->
+                usersRecyclerAdapter.setItems(users)
+            })
+
+            it.noUsersFoundLiveData.observe(this, Observer {
+                noUsersToShowTextView.visibility = VISIBLE
+            })
+
+            it.getUsers()
+        }
     }
 
     private fun setupUsersRecyclerView() {
         usersRecyclerView.layoutManager = LinearLayoutManager(this)
         usersRecyclerView.adapter = usersRecyclerAdapter
+
+        usersRecyclerAdapter.run {
+            userDowngradeSelectedLiveData.observe(this@ManagerUserHomeActivity, Observer { user ->
+                userStatusManipulatorViewModel.downgradeUserClicked(user)
+            })
+
+            userUpgradeSelectedLiveData.observe(this@ManagerUserHomeActivity, Observer { user ->
+                userStatusManipulatorViewModel.upgradeUserClicked(user)
+            })
+        }
+
     }
 }

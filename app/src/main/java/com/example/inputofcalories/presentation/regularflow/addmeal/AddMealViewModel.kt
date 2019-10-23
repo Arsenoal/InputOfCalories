@@ -5,8 +5,10 @@ import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.SuccessCompletable
 import com.example.inputofcalories.domain.regularflow.AddMealUseCase
-import com.example.inputofcalories.entity.MealParams
 import com.example.inputofcalories.entity.presentation.Message
+import com.example.inputofcalories.entity.presentation.regular.Meal
+import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
+import com.example.inputofcalories.entity.presentation.regular.MealParams
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
 const val ADD_MEAL_REQUEST_CODE = 1
@@ -19,14 +21,14 @@ class AddMealViewModel(
 
     val addMealFailLiveData = MutableLiveData<Message>()
 
-    fun addMealClicked(mealParams: MealParams) {
-        addMeal(mealParams) {
+    fun addMealClicked(params: MealParams, filterParams: MealFilterParams) {
+        addMeal(params, filterParams) {
             addMealSuccessLiveData.value = Any()
         }
     }
 
-    private fun addMeal(mealParams: MealParams, success: SuccessCompletable) {
-        execute(addMealUseCase.add(mealParams),
+    private fun addMeal(params: MealParams, filterParams: MealFilterParams, success: SuccessCompletable) {
+        execute(addMealUseCase.add(params, filterParams),
             requestCode = ADD_MEAL_REQUEST_CODE,
             handleError = this,
             success = success)

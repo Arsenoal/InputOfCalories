@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.regularflow.RegularUserHomeActivity"></activity>
+        <activity android:name=".presentation.regularflow.home.RegularUserHomeActivity"></activity>
         <activity android:name=".presentation.auth.signin.SignInActivity" />
         <activity android:name=".presentation.auth.registration.RegisterUserActivity" />
         <activity android:name=".presentation.regularflow.addmeal.AddMealActivity"/>

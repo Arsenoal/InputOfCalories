@@ -1,7 +1,9 @@
 package com.example.inputofcalories.repo.regularflow
 
 import com.example.inputofcalories.common.exception.MealException
-import com.example.inputofcalories.entity.MealParams
+import com.example.inputofcalories.entity.presentation.regular.Meal
+import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
+import com.example.inputofcalories.entity.presentation.regular.MealParams
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.MEALS
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
@@ -13,16 +15,20 @@ class AddMealRepoImpl(
     private val firestore: FirebaseFirestore,
     private val uuidGeneratorService: UUIDGeneratorService
 ): AddMealRepo {
-    override fun add(uId: String, mealParams: MealParams): Completable {
+    override fun add(params: MealParams, filterParams: MealFilterParams): Completable {
         return Completable.create{ emitter ->
             firestore.collection(USERS).get()
                 .addOnSuccessListener { userDocumentsQuerySnapshot ->
                     userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
                         val mealFirebase = MealFirebase(
-                            calories = mealParams.calories,
-                            text = mealParams.text,
-                            weight = mealParams.weight
-                        )
+                            calories = params.calories,
+                            text = params.text,
+                            weight = params.weight,
+                            day = filterParams.date.dayOfMonth,
+                            month = filterParams.date.month,
+                            year = filterParams.date.year,
+                            from = filterParams.time.from,
+                            to = filterParams.time.to)
 
                         val mId = uuidGeneratorService.get().toString()
 

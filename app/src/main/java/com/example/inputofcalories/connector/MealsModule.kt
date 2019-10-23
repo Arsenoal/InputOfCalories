@@ -4,7 +4,7 @@ import com.example.inputofcalories.domain.regularflow.*
 import com.example.inputofcalories.domain.user.GetUserUseCase
 import com.example.inputofcalories.domain.user.GetUserUseCaseImpl
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
-import com.example.inputofcalories.presentation.regularflow.MealsProviderViewModel
+import com.example.inputofcalories.presentation.regularflow.home.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealViewModel
 import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.user.GetUserFromLocalRepoImpl
@@ -31,8 +31,12 @@ val mealsmodule = module {
         GetMealsUseCaseImpl(get())
     }
 
+    single<GetMealsFilteredUseCase> {
+        GetMealsFilteredUseCaseImpl(get())
+    }
+
     viewModel {
-        MealsProviderViewModel(get(), get())
+        MealsProviderViewModel(get(), get(), get())
     }
 
     //add meal

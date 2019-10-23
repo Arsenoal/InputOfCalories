@@ -7,7 +7,7 @@ import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.register.UserSignInParams
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import com.example.inputofcalories.presentation.regularflow.RegularUserHomeActivity
+import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
 import org.koin.android.ext.android.inject

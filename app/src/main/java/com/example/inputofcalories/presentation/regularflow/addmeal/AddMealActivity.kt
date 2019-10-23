@@ -4,21 +4,28 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.MealParams
+import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_add_meal.*
+import kotlinx.android.synthetic.main.activity_add_meal.mealDateRadioGroup
+import kotlinx.android.synthetic.main.dialog_filter.*
 import org.koin.android.ext.android.inject
+import java.util.*
 
 class AddMealActivity: AppCompatActivity() {
 
     private val addMealViewModel: AddMealViewModel by inject()
+
+    var mealTime = LunchTime()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_meal)
 
         setupViewModel()
+
+        setupMealTimePickerListener()
 
         setupClickListeners()
     }
@@ -36,13 +43,32 @@ class AddMealActivity: AppCompatActivity() {
 
     private fun setupClickListeners() {
         addMealButton.setOnClickListener {
-            val mealParams = MealParams(
+            val params = MealParams(
                 text = mealTextEditText.text.toString(),
                 calories = mealCaloriesEditText.text.toString(),
                 weight = mealWeightEditText.text.toString()
             )
 
-            addMealViewModel.addMealClicked(mealParams)
+            val year = Calendar.getInstance().get(Calendar.YEAR).toString()
+            val month = Calendar.getInstance().get(Calendar.MONTH).toString()
+            val dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString()
+
+            val filterParams = MealFilterParams(
+                MealDateParams(year, month, dayOfMonth),
+                mealTime
+            )
+
+            addMealViewModel.addMealClicked(params, filterParams)
+        }
+    }
+
+    private fun setupMealTimePickerListener() {
+        mealDateRadioGroup.setOnCheckedChangeListener { _, id ->
+            when(id) {
+                R.id.lunchButton -> {
+                    mealTime = LunchTime()
+                }
+            }
         }
     }
 }

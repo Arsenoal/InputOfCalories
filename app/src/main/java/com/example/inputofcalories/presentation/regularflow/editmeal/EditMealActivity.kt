@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
+import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import com.example.inputofcalories.presentation.regularflow.RegularUserHomeActivity
+import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.viewmeal.MEAL_EXTRA
 import kotlinx.android.synthetic.main.activity_edit_meal.*
@@ -46,7 +47,25 @@ class EditMealActivity: AppCompatActivity() {
 
     private fun setupClickListeners() {
         editMealButton.setOnClickListener {
-            editMealViewModel.editClicked(getMealSerializableExtra())
+            //TODO
+            getMealSerializableExtra().run {
+                val meal = Meal(
+                    id = id,
+                    params = MealParams(
+                        text = text,
+                        calories = calories,
+                        weight = weight),
+                    filterParams = MealFilterParams(
+                        date = MealDateParams(
+                            year = year,
+                            month = month,
+                            dayOfMonth = dayOfMonth),
+                        time = LunchTime()
+                    )
+                )
+
+                editMealViewModel.editClicked(meal)
+            }
         }
     }
 

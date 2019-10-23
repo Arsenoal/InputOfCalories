@@ -1,6 +1,6 @@
 package com.example.inputofcalories.domain.regularflow
 
-import com.example.inputofcalories.entity.Meal
+import com.example.inputofcalories.entity.presentation.regular.Meal
 import io.reactivex.Single
 
 interface GetMealsUseCase {

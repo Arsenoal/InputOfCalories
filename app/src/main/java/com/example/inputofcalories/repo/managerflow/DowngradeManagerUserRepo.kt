@@ -4,5 +4,5 @@ import io.reactivex.Completable
 import java.util.*
 
 interface DowngradeManagerUserRepo {
-    fun downgrade(userId: UUID): Completable
+    fun downgrade(userId: String): Completable
 }

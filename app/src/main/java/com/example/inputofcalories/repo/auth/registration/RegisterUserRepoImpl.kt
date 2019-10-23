@@ -3,7 +3,7 @@ package com.example.inputofcalories.repo.auth.registration
 import com.example.inputofcalories.common.exception.RegistrationException
 import com.example.inputofcalories.common.logger.IOFLogger
 import com.example.inputofcalories.entity.register.UserRegistrationParams
-import com.example.inputofcalories.repo.auth.registration.model.MealIds
+import com.example.inputofcalories.repo.auth.registration.model.TYPE_REGULAR
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
@@ -47,15 +47,12 @@ class RegisterUserRepoImpl(
             val usersRef = firestore.collection(USERS)
 
             val uId = uuidGeneratorService.get().toString()
-            val mId = uuidGeneratorService.get().toString()
-
-            val mealIds = MealIds(id = mId)
 
             val userFirebase = UserFirebase(
                 name = userRegistrationParams.name,
                 email = userRegistrationParams.email,
                 password = userRegistrationParams.password,
-                mealIds = mealIds)
+                type = TYPE_REGULAR)
 
             usersRef.document(uId).set(userFirebase)
                 .addOnSuccessListener {

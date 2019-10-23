@@ -4,5 +4,5 @@ import io.reactivex.Completable
 import java.util.*
 
 interface UpgradeUserToAdminUseCase {
-    fun upgrade(userId: UUID): Completable
+    fun upgrade(userId: String): Completable
 }

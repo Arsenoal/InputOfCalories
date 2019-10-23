@@ -1,14 +1,10 @@
 package com.example.inputofcalories.domain.managerflow
 
-import com.example.inputofcalories.entity.register.User
-import com.example.inputofcalories.repo.managerflow.GetRegularUsersRepo
-import io.reactivex.Single
+import com.example.inputofcalories.repo.managerflow.GetUsersRepo
 
 class GetRegularUsersUseCaseImpl(
-    private val getRegularUsersRepo: GetRegularUsersRepo
+    private val getUsersRepo: GetUsersRepo
 ): GetRegularUsersUseCase {
 
-    override fun get(): Single<List<User>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun get() = getUsersRepo.get()
 }

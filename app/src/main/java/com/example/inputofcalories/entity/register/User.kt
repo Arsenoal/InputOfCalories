@@ -1,13 +1,16 @@
 package com.example.inputofcalories.entity.register
 
+import com.example.inputofcalories.common.extensions.empty
+
 data class User(
-    val id: String = "",
+    val id: String = String.empty(),
     val userParams: UserParams
 )
 
 data class UserParams(
     val name: String,
-    val email: String
+    val email: String,
+    val type: UserType
 )
 
 data class UserRegistrationParams(
@@ -20,8 +23,4 @@ data class UserRegistrationParams(
 data class UserSignInParams(
     val email: String,
     val password: String
-)
-
-data class UserUpdateParams(
-    val name: String
 )

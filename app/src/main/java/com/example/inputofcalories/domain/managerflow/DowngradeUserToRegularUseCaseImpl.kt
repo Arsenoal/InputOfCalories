@@ -1,13 +1,10 @@
 package com.example.inputofcalories.domain.managerflow
 
-import io.reactivex.Completable
-import java.util.*
+import com.example.inputofcalories.repo.adminflow.DowngradeUserToRegularRepo
 
 class DowngradeUserToRegularUseCaseImpl(
-    private val downgradeUserToRegularUseCase: DowngradeUserToRegularUseCase
+    private val downgradeUserToMangerRepo: DowngradeUserToRegularRepo
 ): DowngradeUserToRegularUseCase {
 
-    override fun downgrade(userId: UUID): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun downgrade(userId: String) = downgradeUserToMangerRepo.downgrade(userId)
 }

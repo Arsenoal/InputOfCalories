@@ -1,12 +1,9 @@
 package com.example.inputofcalories.domain.adminflow
 
-import io.reactivex.Completable
-import java.util.*
+import com.example.inputofcalories.repo.adminflow.UpgradeUserToAdminRepo
 
 class UpgradeUserToAdminUseCaseImpl(
-    private val upgradeUserToAdminUseCase: UpgradeUserToAdminUseCase
+    private val upgradeUserToAdminRepo: UpgradeUserToAdminRepo
 ): UpgradeUserToAdminUseCase {
-    override fun upgrade(userId: UUID): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun upgrade(userId: String) = upgradeUserToAdminRepo.upgrade(userId)
 }

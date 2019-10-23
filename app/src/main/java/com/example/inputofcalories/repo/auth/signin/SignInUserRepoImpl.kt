@@ -1,9 +1,9 @@
 package com.example.inputofcalories.repo.auth.signin
 
 import com.example.inputofcalories.common.exception.SignInException
-import com.example.inputofcalories.entity.register.User
-import com.example.inputofcalories.entity.register.UserParams
-import com.example.inputofcalories.entity.register.UserSignInParams
+import com.example.inputofcalories.entity.register.*
+import com.example.inputofcalories.repo.auth.registration.model.TYPE_ADMIN
+import com.example.inputofcalories.repo.auth.registration.model.TYPE_MANAGER
 import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.google.firebase.firestore.FirebaseFirestore
@@ -53,18 +53,26 @@ class SignInUserRepoImpl(
                     querySnapshot.documents.forEach { documentSnapshot ->
                         val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                        userFirebase?.let {
-                            if(it.email == userSignInParams.email && it.password == userSignInParams.password) {
-                                val userParams = UserParams(
-                                    name = it.name,
-                                    email = it.email)
+                        userFirebase?.let { it ->
+                            it.run {
+                                if(email == userSignInParams.email && password == userSignInParams.password) {
+                                    val type: UserType = when(type) {
+                                        TYPE_MANAGER -> { UserManager }
+                                        TYPE_ADMIN -> { Admin }
+                                        else -> { RegularUser }
+                                    }
 
-                                val user = User(
-                                    id = documentSnapshot.id,
-                                    userParams = userParams
-                                )
+                                    val userParams = UserParams(
+                                        name = name,
+                                        email = email,
+                                        type = type)
 
-                                emitter.onSuccess(user)
+                                    val user = User(
+                                        id = documentSnapshot.id,
+                                        userParams = userParams)
+
+                                    emitter.onSuccess(user)
+                                }
                             }
                         }
                     }

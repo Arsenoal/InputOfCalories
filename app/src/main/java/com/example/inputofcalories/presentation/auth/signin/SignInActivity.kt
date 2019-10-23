@@ -4,17 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
+import com.example.inputofcalories.entity.register.Admin
+import com.example.inputofcalories.entity.register.RegularUser
+import com.example.inputofcalories.entity.register.UserManager
 import com.example.inputofcalories.entity.register.UserSignInParams
 import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.adminflow.home.AdminUserHomeActivity
+import com.example.inputofcalories.presentation.managerflow.home.ManagerUserHomeActivity
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SignInActivity : AppCompatActivity() {
 
-    val signInViewModel: SignInViewModel by inject()
+    val signInViewModel: SignInViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +31,13 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        signInViewModel.singInSuccessLiveData.observe(this, Observer {
-            ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java)
+        signInViewModel.singInSuccessLiveData.observe(this, Observer { userType ->
+            when(userType) {
+                RegularUser -> { ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java) }
+                UserManager -> { ActivityNavigator.navigateAndFinishCurrent(this, ManagerUserHomeActivity::class.java) }
+                Admin -> { ActivityNavigator.navigateAndFinishCurrent(this, AdminUserHomeActivity::class.java) }
+            }
+
         })
 
         signInViewModel.singInFailLiveData.observe(this, Observer {

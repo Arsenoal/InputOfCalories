@@ -4,6 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.inputofcalories.repo.db.local.user.UserDbInfo.DB_NAME
 import com.example.inputofcalories.repo.db.local.user.UserDbInfo.DB_VERSION
 
@@ -21,9 +23,9 @@ abstract class UserRoomDatabase: RoomDatabase() {
             }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                UserRoomDatabase::class.java,
-                DB_NAME).build()
+            Room
+                .databaseBuilder(context.applicationContext, UserRoomDatabase::class.java, DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }

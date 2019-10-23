@@ -8,7 +8,6 @@ import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
-import com.example.inputofcalories.common.logger.IOFLogger
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
@@ -17,11 +16,11 @@ import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealAct
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
 import kotlinx.android.synthetic.main.activity_regular_user_home.toolbar
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class RegularUserHomeActivity : AppCompatActivity() {
 
-    private val mealsProviderViewModel: MealsProviderViewModel by inject()
+    private val mealsProviderViewModel: MealsProviderViewModel by viewModel()
 
     private val mealsAdapter = MealsRecyclerAdapter()
 

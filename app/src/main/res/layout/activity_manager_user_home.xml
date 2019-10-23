@@ -21,10 +21,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:listitem="@layout/user_recycler_item"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/noUsersToShow"
+        android:id="@+id/noUsersToShowTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

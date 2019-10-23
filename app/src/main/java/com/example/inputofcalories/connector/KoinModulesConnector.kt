@@ -17,7 +17,8 @@ class KoinModulesConnector {
                     userdbmodule(context),
                     registrationModule,
                     singinmodule,
-                    mealsmodule
+                    mealsmodule,
+                    regularmodule
                 ))
             }
         }

@@ -17,6 +17,7 @@
         <activity android:name=".presentation.regularflow.viewmeal.ViewMealActivity"/>
         <activity android:name=".presentation.regularflow.editmeal.EditMealActivity"/>
         <activity android:name=".presentation.managerflow.home.ManagerUserHomeActivity"/>
+        <activity android:name=".presentation.adminflow.home.AdminUserHomeActivity"/>
         <activity
             android:name=".presentation.launch.LauncherActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">

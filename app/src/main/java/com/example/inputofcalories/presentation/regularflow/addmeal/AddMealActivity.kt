@@ -9,13 +9,12 @@ import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_add_meal.*
 import kotlinx.android.synthetic.main.activity_add_meal.mealDateRadioGroup
-import kotlinx.android.synthetic.main.dialog_filter.*
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class AddMealActivity: AppCompatActivity() {
 
-    private val addMealViewModel: AddMealViewModel by inject()
+    private val addMealViewModel: AddMealViewModel by viewModel()
 
     var mealTime = LunchTime()
 

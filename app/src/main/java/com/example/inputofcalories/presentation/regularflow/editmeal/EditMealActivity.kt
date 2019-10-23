@@ -11,11 +11,11 @@ import com.example.inputofcalories.presentation.regularflow.home.RegularUserHome
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.viewmeal.MEAL_EXTRA
 import kotlinx.android.synthetic.main.activity_edit_meal.*
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class EditMealActivity: AppCompatActivity() {
 
-    private val editMealViewModel: EditMealViewModel by inject()
+    private val editMealViewModel: EditMealViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

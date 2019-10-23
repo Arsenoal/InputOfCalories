@@ -49,6 +49,7 @@ class RegisterUserRepoImpl(
             val uId = uuidGeneratorService.get().toString()
 
             val userFirebase = UserFirebase(
+                id = uId,
                 name = userRegistrationParams.name,
                 email = userRegistrationParams.email,
                 password = userRegistrationParams.password,

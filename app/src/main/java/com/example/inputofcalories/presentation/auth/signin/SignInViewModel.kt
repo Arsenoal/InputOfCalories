@@ -9,6 +9,7 @@ import com.example.inputofcalories.domain.auth.signin.SignInUserUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserSignInParams
+import com.example.inputofcalories.entity.register.UserType
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
 const val SIGN_IN_USER_REQUEST_CODE = 1
@@ -19,14 +20,14 @@ class SignInViewModel(
     private val saveUserToLocalUseCase: SaveUserToLocalUseCase
 ): BaseViewModel(), HandleError {
 
-    val singInSuccessLiveData = MutableLiveData<Any>()
+    val singInSuccessLiveData = MutableLiveData<UserType>()
 
     val singInFailLiveData = MutableLiveData<Message>()
 
     fun signInClicked(userSignInParams: UserSignInParams) {
         singIn(userSignInParams) { user ->
             saveUser(user) {
-                singInSuccessLiveData.value = Any()
+                singInSuccessLiveData.value = user.userParams.type
             }
         }
     }

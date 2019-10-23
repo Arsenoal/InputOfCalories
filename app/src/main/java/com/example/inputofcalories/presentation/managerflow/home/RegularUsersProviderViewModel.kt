@@ -23,11 +23,11 @@ class RegularUsersProviderViewModel(
     fun getUsers() {
         loadUsers { users ->
             if (users.isEmpty()) noUsersFoundLiveData.value = Any()
-            //TODO u know what I mean (:)
+            else usersLoadSuccessLiveData.value = users
         }
     }
 
-    fun loadUsers(success: Success<List<User>>) {
+    private fun loadUsers(success: Success<List<User>>) {
         execute(getRegularUsersUseCase.get(),
             requestCode = GET_REGULAR_USERS_REQUEST_CODE,
             handleError = this,

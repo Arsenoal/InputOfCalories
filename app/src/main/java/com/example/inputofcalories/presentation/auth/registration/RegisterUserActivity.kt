@@ -9,11 +9,11 @@ import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.auth.signin.SignInActivity
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_register_user.*
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class RegisterUserActivity : AppCompatActivity() {
 
-    private val registerUserViewModel: RegisterUserViewModel by inject()
+    private val registerUserViewModel: RegisterUserViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

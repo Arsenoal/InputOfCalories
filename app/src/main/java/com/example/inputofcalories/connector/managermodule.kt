@@ -2,7 +2,7 @@ package com.example.inputofcalories.connector
 
 import com.example.inputofcalories.domain.managerflow.*
 import com.example.inputofcalories.presentation.managerflow.home.UsersProviderViewModel
-import com.example.inputofcalories.presentation.managerflow.home.UserStatusManipulatorViewModel
+import com.example.inputofcalories.presentation.managerflow.home.ManagerUserStatusManipulatorViewModel
 import com.example.inputofcalories.repo.adminflow.DowngradeUserToRegularRepo
 import com.example.inputofcalories.repo.adminflow.DowngradeUserToRegularRepoImpl
 import com.example.inputofcalories.repo.managerflow.GetUsersRepo
@@ -42,6 +42,6 @@ val managermodule = module {
     }
 
     viewModel {
-        UserStatusManipulatorViewModel(get(), get())
+        ManagerUserStatusManipulatorViewModel(get(), get())
     }
 }

@@ -14,7 +14,7 @@ class ManagerUserHomeActivity: AppCompatActivity() {
 
     private val usersProviderViewModel: UsersProviderViewModel by viewModel()
 
-    private val userStatusManipulatorViewModel: UserStatusManipulatorViewModel by viewModel()
+    private val userStatusManipulatorViewModel: ManagerUserStatusManipulatorViewModel by viewModel()
 
     private val usersRecyclerAdapter = UsersRecyclerAdapter()
 

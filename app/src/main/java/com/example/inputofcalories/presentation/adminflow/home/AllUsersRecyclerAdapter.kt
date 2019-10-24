@@ -1,4 +1,4 @@
-package com.example.inputofcalories.presentation.managerflow.home
+package com.example.inputofcalories.presentation.adminflow.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +13,11 @@ import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserManager
 
-class UsersRecyclerAdapter(
+class AllUsersRecyclerAdapter(
     private val users: MutableList<User> = mutableListOf()
-): RecyclerView.Adapter<UsersRecyclerAdapter.UserViewHolder>() {
+): RecyclerView.Adapter<AllUsersRecyclerAdapter.UserViewHolder>() {
 
-    lateinit var layoutInflater: LayoutInflater
+    private lateinit var layoutInflater: LayoutInflater
 
     val userUpgradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
 

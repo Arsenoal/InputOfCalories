@@ -1,19 +1,19 @@
-package com.example.inputofcalories.presentation.managerflow.home
+package com.example.inputofcalories.presentation.adminflow.home
 
 import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.Success
-import com.example.inputofcalories.domain.managerflow.GetUsersUseCase
+import com.example.inputofcalories.domain.adminflow.GetAllUsersUseCase
 import com.example.inputofcalories.domain.user.GetUserUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
-const val GET_REGULAR_USERS_REQUEST_CODE = 1
+const val GET_ALL_USERS_REQUEST_CODE = 1
 const val GET_USER_REQUEST_CODE = 2
 
-class UsersProviderViewModel(
-    private val getUsersUseCase: GetUsersUseCase,
+class AllUsersProviderViewModel(
+    private val getAllUsersUseCase: GetAllUsersUseCase,
     private val getUserUseCase: GetUserUseCase
 ): BaseViewModel(), HandleError {
 
@@ -25,16 +25,16 @@ class UsersProviderViewModel(
 
     fun getUsers() {
         getUser { user ->
-            loadUsers(user.id) { users ->
-                if (users.isEmpty()) noUsersFoundLiveData.value = Any()
-                else usersLoadSuccessLiveData.value = users
+            loadUsers(userId = user.id) { users ->
+                if(users.isNotEmpty()) usersLoadSuccessLiveData.value = users
+                else noUsersFoundLiveData.value = Any()
             }
         }
     }
 
     private fun loadUsers(userId: String, success: Success<List<User>>) {
-        execute(getUsersUseCase.get(userId),
-            requestCode = GET_REGULAR_USERS_REQUEST_CODE,
+        execute(getAllUsersUseCase.get(userId),
+            requestCode = GET_ALL_USERS_REQUEST_CODE,
             handleError = this,
             success = success)
     }
@@ -48,7 +48,7 @@ class UsersProviderViewModel(
 
     override fun invoke(t: Throwable, requestCode: Int?) {
         when(requestCode) {
-            GET_REGULAR_USERS_REQUEST_CODE -> {
+            GET_ALL_USERS_REQUEST_CODE -> {
                 usersLoadFailLiveData.value = Message("falied to load users")
             }
             GET_USER_REQUEST_CODE -> {

@@ -12,7 +12,7 @@ import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 const val UPGRADE_USER_REQUEST_CODE = 1
 const val DOWNGRADE_USER_REQUEST_CODE = 2
 
-class UserStatusManipulatorViewModel(
+class ManagerUserStatusManipulatorViewModel(
     private val upgradeUserToManagerUseCase: UpgradeUserToManagerUseCase,
     private val downgradeUserToRegularUseCase: DowngradeUserToRegularUseCase): BaseViewModel(), HandleError {
 

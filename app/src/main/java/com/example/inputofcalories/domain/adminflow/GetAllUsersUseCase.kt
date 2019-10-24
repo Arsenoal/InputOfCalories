@@ -4,5 +4,5 @@ import com.example.inputofcalories.entity.register.User
 import io.reactivex.Single
 
 interface GetAllUsersUseCase {
-    fun get(): Single<List<User>>
+    fun get(userId: String): Single<List<User>>
 }

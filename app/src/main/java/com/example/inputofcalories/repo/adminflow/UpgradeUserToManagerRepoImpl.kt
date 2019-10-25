@@ -3,14 +3,13 @@ package com.example.inputofcalories.repo.adminflow
 import com.example.inputofcalories.common.exception.UserException
 import com.example.inputofcalories.repo.auth.registration.model.TYPE_MANAGER
 import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
-import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Completable
 
-class UpgradeUserToMangerRepoImpl(
+class UpgradeUserToManagerRepoImpl(
     private val firestore: FirebaseFirestore
-): UpgradeUserToMangerRepo {
+): UpgradeUserToManagerRepo {
     override fun upgrade(userId: String): Completable {
         return Completable.create { emitter ->
             firestore.collection(USERS).get()

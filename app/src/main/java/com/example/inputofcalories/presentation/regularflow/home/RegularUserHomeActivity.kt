@@ -8,6 +8,7 @@ import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
@@ -22,6 +23,8 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
     private val mealsProviderViewModel: MealsProviderViewModel by viewModel()
 
+    private val deleteMealViewModel: DeleteMealViewModel by viewModel()
+
     private val mealsAdapter = MealsRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +33,21 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
         setupViewModel()
 
-        setupMealsRecyclerView()
+        setupDeleteMealViewModel()
 
-        loadMealsList()
+        setupMealsRecyclerView()
 
         setupToolBar()
 
         setupClickListeners()
+
+        loadMealsList()
     }
 
     private fun setupViewModel() {
-        mealsProviderViewModel.mealsLoadFailLiveData.observe(this, Observer {  })
+        mealsProviderViewModel.mealsLoadFailLiveData.observe(this, Observer {
+            ToastManager.showToastShort(this, "failed to load meals")
+        })
 
         mealsProviderViewModel.mealsLoadSuccessLiveData.observe(this, Observer { list ->
             mealsAdapter.setItems(list)
@@ -48,6 +55,17 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
         mealsProviderViewModel.noMealsFoundLiveData.observe(this, Observer {
             setupEmptyMealsUi()
+        })
+    }
+
+    private fun setupDeleteMealViewModel() {
+        deleteMealViewModel.deleteMealFailLiveData.observe(this, Observer {
+            ToastManager.showToastShort(this, "delete meal failed")
+        })
+
+        deleteMealViewModel.deleteMealSuccessLiveData.observe(this, Observer {
+            ToastManager.showToastShort(this, "delete meal succeed")
+            mealsProviderViewModel.getMeals()
         })
     }
 
@@ -76,6 +94,10 @@ class RegularUserHomeActivity : AppCompatActivity() {
                 to = it.filterParams.time.to)
 
             ActivityNavigator.navigate(this, ViewMealActivity::class.java, MEAL_EXTRA, mealSerializable)
+        })
+
+        mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { mealId ->
+            deleteMealViewModel.deleteMealClicked(mealId)
         })
     }
 

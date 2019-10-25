@@ -6,7 +6,7 @@ import com.example.inputofcalories.common.rx.ThreadExecutorImpl
 import org.koin.dsl.module
 
 val rxModule = module {
-    single {
+    factory {
         RxExecutor(get())
     }
 

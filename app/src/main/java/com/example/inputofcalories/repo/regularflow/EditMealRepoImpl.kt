@@ -2,7 +2,8 @@ package com.example.inputofcalories.repo.regularflow
 
 import com.example.inputofcalories.common.exception.MealException
 import com.example.inputofcalories.entity.presentation.regular.Meal
-import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
+import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.MEALS
+import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Completable
@@ -12,7 +13,7 @@ class EditMealRepoImpl(
 ): EditMealRepo {
     override fun edit(meal: Meal): Completable {
         return Completable.create{ emitter ->
-            firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
+            firestore.collection(USERS).get()
                 .addOnSuccessListener { userDocumentsQuerySnapshot ->
                     userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
                         val mealFirebase = MealFirebase(
@@ -26,7 +27,7 @@ class EditMealRepoImpl(
                             to = meal.filterParams.time.to)
 
                         queryDocumentSnapshot.reference
-                            .collection(FirebaseDataBaseCollectionNames.MEALS)
+                            .collection(MEALS)
                             .document(meal.id)
                             .set(mealFirebase)
                             .addOnSuccessListener { emitter.onComplete() }

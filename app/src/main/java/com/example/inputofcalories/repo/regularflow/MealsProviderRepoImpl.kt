@@ -14,8 +14,8 @@ class MealsProviderRepoImpl(
     override fun getMealsByUserId(uId: String): Single<List<Meal>> {
         return Single.create<List<Meal>> { emitter ->
             firestore.collection(USERS).get()
-                .addOnSuccessListener { userDocumentsQuerySnapshot ->
-                    userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
+                .addOnSuccessListener { userQuerySnapshot ->
+                    userQuerySnapshot.filter { uId == it.id }.forEach { queryDocumentSnapshot ->
                         queryDocumentSnapshot.reference.collection(MEALS).get()
                             .addOnSuccessListener { mealQuerySnapshot ->
                                 val list: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
@@ -33,8 +33,7 @@ class MealsProviderRepoImpl(
                                             year = mealFirebase.year,
                                             month = mealFirebase.month,
                                             dayOfMonth = mealFirebase.day),
-                                        time = LunchTime()
-                                    )
+                                        time = LunchTime())
 
                                     val meal = Meal(
                                         id = mealDocumentsSnapshot.id,
@@ -44,12 +43,19 @@ class MealsProviderRepoImpl(
                                     meal
                                 }.toList()
 
-                                emitter.onSuccess(list)
+                                if(!emitter.isDisposed)
+                                    emitter.onSuccess(list)
                             }
-                            .addOnFailureListener { emitter.onError(MealException(error = it)) }
+                            .addOnFailureListener { error ->
+                                if(!emitter.isDisposed)
+                                    emitter.onError(MealException(error = error))
+                            }
                     }
                 }
-                .addOnFailureListener { emitter.onError(MealException(error = it)) }
+                .addOnFailureListener { error ->
+                    if(!emitter.isDisposed)
+                        emitter.onError(MealException(error = error))
+                }
         }
     }
 
@@ -57,7 +63,7 @@ class MealsProviderRepoImpl(
         return Single.create<List<Meal>> { emitter ->
             firestore.collection(USERS).get()
                 .addOnSuccessListener { userDocumentsQuerySnapshot ->
-                    userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
+                    userDocumentsQuerySnapshot.filter { uId == it.id }.forEach { queryDocumentSnapshot ->
                         queryDocumentSnapshot.reference.collection(MEALS).get()
                             .addOnSuccessListener { mealQuerySnapshot ->
                                 val list: List<Meal> = mealQuerySnapshot.filter { documentSnapshot ->

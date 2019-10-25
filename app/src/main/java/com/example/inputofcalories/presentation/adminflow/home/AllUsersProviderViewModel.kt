@@ -9,8 +9,8 @@ import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
-const val GET_ALL_USERS_REQUEST_CODE = 1
-const val GET_USER_REQUEST_CODE = 2
+private const val GET_ALL_USERS_REQUEST_CODE = 1
+private const val GET_USER_REQUEST_CODE = 2
 
 class AllUsersProviderViewModel(
     private val getAllUsersUseCase: GetAllUsersUseCase,

@@ -1,8 +1,8 @@
 package com.example.inputofcalories.repo.regularflow
 
+import com.example.inputofcalories.entity.presentation.regular.MealDeleteParams
 import io.reactivex.Completable
-import java.util.*
 
 interface DeleteMealRepo {
-    fun delete(mealId: UUID): Completable
+    fun delete(mealDeleteParams: MealDeleteParams): Completable
 }

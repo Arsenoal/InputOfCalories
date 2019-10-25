@@ -19,7 +19,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class SignInActivity : AppCompatActivity() {
 
-    val signInViewModel: SignInViewModel by viewModel()
+    private val signInViewModel: SignInViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -3,8 +3,8 @@ package com.example.inputofcalories.connector
 import com.example.inputofcalories.domain.managerflow.*
 import com.example.inputofcalories.presentation.managerflow.home.UsersProviderViewModel
 import com.example.inputofcalories.presentation.managerflow.home.ManagerUserStatusManipulatorViewModel
-import com.example.inputofcalories.repo.adminflow.DowngradeUserToRegularRepo
-import com.example.inputofcalories.repo.adminflow.DowngradeUserToRegularRepoImpl
+import com.example.inputofcalories.repo.managerflow.DowngradeManagerToRegularUserRepo
+import com.example.inputofcalories.repo.managerflow.DowngradeManagerToRegularUserRepoImpl
 import com.example.inputofcalories.repo.managerflow.GetUsersRepo
 import com.example.inputofcalories.repo.managerflow.GetUsersRepoImpl
 import com.example.inputofcalories.repo.managerflow.UpgradeUserToManagerRepo
@@ -33,8 +33,8 @@ val managermodule = module {
         UpgradeUserToManagerUseCaseImpl(get())
     }
 
-    single<DowngradeUserToRegularRepo> {
-        DowngradeUserToRegularRepoImpl(get())
+    single<DowngradeManagerToRegularUserRepo> {
+        DowngradeManagerToRegularUserRepoImpl(get())
     }
 
     single<DowngradeUserToRegularUseCase> {

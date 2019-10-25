@@ -12,9 +12,9 @@ import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
-const val GET_USER_REQUEST_CODE = 1
-const val GET_MEALS_REQUEST_CODE = 2
-const val GET_MEALS_FILTERED_REQUEST_CODE = 3
+private const val GET_USER_REQUEST_CODE = 1
+private const val GET_MEALS_REQUEST_CODE = 2
+private const val GET_MEALS_FILTERED_REQUEST_CODE = 3
 
 class MealsProviderViewModel(
     private val getMealsUseCase: GetMealsUseCase,
@@ -35,7 +35,6 @@ class MealsProviderViewModel(
                 else noMealsFoundLiveData.value = Any()
             }
         }
-
     }
 
     fun getMealsFiltered(mealFilterParams: MealFilterParams) {
@@ -74,4 +73,5 @@ class MealsProviderViewModel(
             GET_MEALS_REQUEST_CODE -> { mealsLoadFailLiveData.value = Message("failed to load meals") }
         }
     }
+
 }

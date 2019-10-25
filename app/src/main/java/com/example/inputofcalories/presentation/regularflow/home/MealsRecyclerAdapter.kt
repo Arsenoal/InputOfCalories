@@ -3,6 +3,7 @@ package com.example.inputofcalories.presentation.regularflow.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +14,11 @@ class MealsRecyclerAdapter(
     val meals: MutableList<Meal> = mutableListOf()
 ): RecyclerView.Adapter<MealsRecyclerAdapter.MealViewHolder>() {
 
-    lateinit var layoutInflater: LayoutInflater
+    private lateinit var layoutInflater: LayoutInflater
 
     val mealSelectedLiveData: MutableLiveData<Meal> = MutableLiveData()
+
+    val mealDeleteClickedLiveData: MutableLiveData<String> = MutableLiveData()
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -23,10 +26,11 @@ class MealsRecyclerAdapter(
     }
 
     class MealViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        private val mealTextTextView = view.findViewById<AppCompatTextView>(R.id.mealTextTextView)
-        private val mealCaloriesTextView = view.findViewById<AppCompatTextView>(R.id.mealCaloriesTextView)
-        private val mealWeightTextView = view.findViewById<AppCompatTextView>(R.id.mealWeightTextView)
-        private val dateTextView = view.findViewById<AppCompatTextView>(R.id.dateTextView)
+        private val mealTextTextView: AppCompatTextView = view.findViewById(R.id.mealTextTextView)
+        private val mealCaloriesTextView: AppCompatTextView = view.findViewById(R.id.mealCaloriesTextView)
+        private val mealWeightTextView: AppCompatTextView = view.findViewById(R.id.mealWeightTextView)
+        private val dateTextView: AppCompatTextView = view.findViewById(R.id.dateTextView)
+        val deleteMealButton: AppCompatImageButton = view.findViewById(R.id.deleteMealButton)
 
         fun bind(meal: Meal) {
             mealTextTextView.text = meal.params.text
@@ -63,6 +67,10 @@ class MealsRecyclerAdapter(
 
         holder.itemView.setOnClickListener {
             mealSelectedLiveData.value = meal
+        }
+
+        holder.deleteMealButton.setOnClickListener {
+            mealDeleteClickedLiveData.value = meal.id
         }
     }
 }

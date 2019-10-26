@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_filter"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_filter"
-        android:title="edit hint"/>
+        android:title="filter"/>
+
+    <item
+        android:id="@+id/daily_calories"
+        android:title="daily calories"/>
 
 </menu>

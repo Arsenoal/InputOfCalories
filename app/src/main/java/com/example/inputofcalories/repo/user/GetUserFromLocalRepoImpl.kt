@@ -11,22 +11,21 @@ class GetUserFromLocalRepoImpl(
 ): GetUserRepo {
     override fun get(): Single<User> {
         return userDao.getUser().map { userRoom ->
-            val type: UserType = when(userRoom.type) {
-                TYPE_MANAGER -> { UserManager }
-                TYPE_ADMIN -> { Admin }
-                else -> { RegularUser }
+            userRoom.run {
+                val type: UserType = when(type) {
+                    TYPE_MANAGER -> { UserManager }
+                    TYPE_ADMIN -> { Admin }
+                    else -> { RegularUser }
+                }
+
+                val userParams = UserParams(
+                    name = name,
+                    email = email,
+                    dailyCalories = dailyCalories,
+                    type = type)
+
+                User(id = id, userParams = userParams)
             }
-
-            val userParams = UserParams(
-                name = userRoom.name,
-                email = userRoom.email,
-                type = type)
-
-            val user = User(
-                id = userRoom.id,
-                userParams = userParams)
-
-            user
         }
     }
 }

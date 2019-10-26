@@ -7,6 +7,7 @@ import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewM
 import com.example.inputofcalories.presentation.regularflow.home.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealViewModel
 import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewModel
+import com.example.inputofcalories.presentation.regularflow.home.UpdateDailyCaloriesViewModel
 import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.user.GetUserFromLocalRepoImpl
 import com.example.inputofcalories.repo.user.GetUserRepo
@@ -77,6 +78,20 @@ val mealsmodule = module {
 
     viewModel {
         DeleteMealViewModel(get(), get())
+    }
+
+    //update daily calories
+
+    single<UpdateUsersDailyCaloriesRepo> {
+        UpdateUsersDailyCaloriesRepoImpl(get())
+    }
+
+    single<UpdateUsersDailyCaloriesUseCase> {
+        UpdateUsersDailyCaloriesUseCaseImpl(get())
+    }
+
+    viewModel {
+        UpdateDailyCaloriesViewModel(get(), get())
     }
 
 }

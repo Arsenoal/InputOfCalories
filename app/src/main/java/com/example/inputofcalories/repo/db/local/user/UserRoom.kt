@@ -10,5 +10,6 @@ data class UserRoom(
     @ColumnInfo(name = "userId") val id: String,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "email") val email: String,
+    @ColumnInfo(name = "dailyCalories") val dailyCalories: String,
     @ColumnInfo(name = "type") val type: Int
 )

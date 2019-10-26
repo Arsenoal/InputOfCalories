@@ -26,6 +26,7 @@ class SaveUserToDbRepoImpl(
                 id = user.id,
                 name = user.userParams.name,
                 email = user.userParams.email,
+                dailyCalories = user.userParams.dailyCalories,
                 type = type)
 
             it.onSuccess(roomUser)

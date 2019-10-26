@@ -1,5 +1,7 @@
 package com.example.inputofcalories.repo.regularflow.model
 
+import com.example.inputofcalories.common.extensions.empty
+
 data class MealFirebase(
     val calories: String,
     val text: String,
@@ -8,7 +10,15 @@ data class MealFirebase(
     val month: String,
     val year: String,
     val from: String,
-    val to: String
-) {
-    constructor(): this("", "", "", "", "", "", "", "")
+    val to: String) {
+
+    constructor():
+            this(String.empty(),
+                String.empty(),
+                String.empty(),
+                String.empty(),
+                String.empty(),
+                String.empty(),
+                String.empty(),
+                String.empty())
 }

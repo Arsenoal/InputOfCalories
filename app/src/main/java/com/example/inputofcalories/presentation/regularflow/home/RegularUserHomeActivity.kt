@@ -25,6 +25,8 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
     private val deleteMealViewModel: DeleteMealViewModel by viewModel()
 
+    private val updateDailyCaloriesViewModel: UpdateDailyCaloriesViewModel by viewModel()
+
     private val mealsAdapter = MealsRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,8 @@ class RegularUserHomeActivity : AppCompatActivity() {
         setupViewModel()
 
         setupDeleteMealViewModel()
+
+        setupUpdateDailyCaloriesViewModel()
 
         setupMealsRecyclerView()
 
@@ -67,6 +71,18 @@ class RegularUserHomeActivity : AppCompatActivity() {
             ToastManager.showToastShort(this, "delete meal succeed")
             mealsProviderViewModel.getMeals()
         })
+    }
+
+    private fun setupUpdateDailyCaloriesViewModel() {
+        updateDailyCaloriesViewModel.run {
+            updateCaloriesSucceedLiveData.observe(this@RegularUserHomeActivity, Observer { message ->
+                ToastManager.showToastShort(this@RegularUserHomeActivity, message.message)
+            })
+
+            updateCaloriesFailedLiveData.observe(this@RegularUserHomeActivity, Observer { message ->
+                ToastManager.showToastShort(this@RegularUserHomeActivity, message.message)
+            })
+        }
     }
 
     private fun setupEmptyMealsUi() {
@@ -110,7 +126,6 @@ class RegularUserHomeActivity : AppCompatActivity() {
         return true
     }
 
-
     private fun setupClickListeners() {
         addMealButton.setOnClickListener {
             ActivityNavigator.navigate(this, AddMealActivity::class.java)
@@ -118,7 +133,6 @@ class RegularUserHomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when(item.itemId) {
             R.id.action_filter -> {
                 val dialog = FilterDialog(this)
@@ -126,6 +140,13 @@ class RegularUserHomeActivity : AppCompatActivity() {
                     mealsProviderViewModel.getMealsFiltered(it)
                 })
 
+                dialog.show()
+            }
+            R.id.daily_calories -> {
+                val dialog = SetDailyCaloriesDialog(this)
+                dialog.dailyCaloriesLiveData.observe(this, Observer { dailyCalories ->
+                    updateDailyCaloriesViewModel.applyClicked(dailyCalories)
+                })
                 dialog.show()
             }
         }

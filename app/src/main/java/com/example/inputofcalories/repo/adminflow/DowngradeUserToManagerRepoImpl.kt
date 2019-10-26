@@ -25,6 +25,7 @@ class DowngradeUserToManagerRepoImpl(
                             name = userFirebase.name,
                             email = userFirebase.email,
                             password = userFirebase.password,
+                            dailyCalories = userFirebase.dailyCalories,
                             type = TYPE_MANAGER
                         )
 

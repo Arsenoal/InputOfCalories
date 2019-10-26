@@ -10,12 +10,14 @@ data class User(
 data class UserParams(
     val name: String,
     val email: String,
+    val dailyCalories: String,
     val type: UserType
 )
 
 data class UserRegistrationParams(
     val email: String,
     val name: String,
+    val dailyCalories: String = String.empty(),
     val password: String,
     val repeatPassword: String
 )

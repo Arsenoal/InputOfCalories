@@ -17,7 +17,9 @@ class SignInException(error: Throwable? = null, message: String? = null): Runtim
 class MealException(error: Throwable? = null, message: String? = null): RuntimeException(message)
 
 //user request exception
-class UserException(error: Throwable? = null, message: String? = null): RuntimeException(message)
+open class UserException(error: Throwable? = null, message: String? = null): RuntimeException(message)
+
+class UserDailyCaloriesUpdateException(error: Throwable? = null, message: String? = null): UserException(error, message)
 
 fun handleCrashedExceptionOrRunBlock(error: Throwable, block: () -> Unit = {}) {
     //TODO handle all exception cases

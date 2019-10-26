@@ -53,26 +53,25 @@ class SignInUserRepoImpl(
                     querySnapshot.documents.forEach { documentSnapshot ->
                         val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                        userFirebase?.let { it ->
-                            it.run {
-                                if(email == userSignInParams.email && password == userSignInParams.password) {
-                                    val type: UserType = when(type) {
-                                        TYPE_MANAGER -> { UserManager }
-                                        TYPE_ADMIN -> { Admin }
-                                        else -> { RegularUser }
-                                    }
-
-                                    val userParams = UserParams(
-                                        name = name,
-                                        email = email,
-                                        type = type)
-
-                                    val user = User(
-                                        id = documentSnapshot.id,
-                                        userParams = userParams)
-
-                                    emitter.onSuccess(user)
+                        userFirebase?.run {
+                            if(email == userSignInParams.email && password == userSignInParams.password) {
+                                val type: UserType = when(type) {
+                                    TYPE_MANAGER -> { UserManager }
+                                    TYPE_ADMIN -> { Admin }
+                                    else -> { RegularUser }
                                 }
+
+                                val userParams = UserParams(
+                                    name = name,
+                                    email = email,
+                                    dailyCalories = dailyCalories,
+                                    type = type)
+
+                                val user = User(
+                                    id = documentSnapshot.id,
+                                    userParams = userParams)
+
+                                emitter.onSuccess(user)
                             }
                         }
                     }

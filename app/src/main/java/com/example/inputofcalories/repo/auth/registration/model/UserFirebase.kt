@@ -10,7 +10,8 @@ class UserFirebase(
     val id: String,
     val name: String,
     val email: String,
+    val dailyCalories: String,
     val password: String,
     val type: Int) {
-    constructor(): this(String.empty(), String.empty(), String.empty(), String.empty(), -1)
+    constructor(): this(String.empty(), String.empty(), String.empty(), String.empty(), String.empty(), -1)
 }

@@ -53,6 +53,7 @@ class RegisterUserRepoImpl(
                 name = userRegistrationParams.name,
                 email = userRegistrationParams.email,
                 password = userRegistrationParams.password,
+                dailyCalories = userRegistrationParams.dailyCalories,
                 type = TYPE_REGULAR)
 
             usersRef.document(uId).set(userFirebase)

@@ -34,20 +34,28 @@ class GetUsersRepoImpl(
                         .map { documentSnapshot ->
                             val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                            val type: UserType = when(userFirebase?.type ?: String.empty()) {
-                                TYPE_MANAGER -> { UserManager }
-                                TYPE_ADMIN -> { Admin }
-                                else -> { RegularUser }
-                            }
-
-                            val userParams = UserParams(
-                                name = userFirebase?.name ?: String.empty(),
-                                email = userFirebase?.email ?: String.empty(),
-                                type = type)
-
-                            val user = User(
+                            var user = User(
                                 documentSnapshot.id,
-                                userParams)
+                                UserParams(String.empty(), String.empty(), String.empty(), RegularUser)
+                            )
+
+                            userFirebase?.run {
+                                val type: UserType = when(type) {
+                                    TYPE_MANAGER -> { UserManager }
+                                    TYPE_ADMIN -> { Admin }
+                                    else -> { RegularUser }
+                                }
+
+                                val userParams = UserParams(
+                                    name = name,
+                                    email = email,
+                                    dailyCalories = dailyCalories,
+                                    type = type)
+
+                                user = User(
+                                    documentSnapshot.id,
+                                    userParams)
+                            }
 
                             user
                         }

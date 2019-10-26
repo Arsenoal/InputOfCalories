@@ -25,6 +25,7 @@ class UpgradeUserToAdminRepoImpl(
                             name = userFirebase.name,
                             email = userFirebase.email,
                             password = userFirebase.password,
+                            dailyCalories = userFirebase.dailyCalories,
                             type = TYPE_ADMIN
                         )
 

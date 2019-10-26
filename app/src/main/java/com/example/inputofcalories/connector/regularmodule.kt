@@ -6,6 +6,7 @@ import com.example.inputofcalories.domain.user.GetUserUseCaseImpl
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
 import com.example.inputofcalories.presentation.regularflow.home.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealViewModel
+import com.example.inputofcalories.presentation.regularflow.home.CheckDailyLimitViewModel
 import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewModel
 import com.example.inputofcalories.presentation.regularflow.home.UpdateDailyCaloriesViewModel
 import com.example.inputofcalories.repo.regularflow.*
@@ -92,6 +93,20 @@ val mealsmodule = module {
 
     viewModel {
         UpdateDailyCaloriesViewModel(get(), get())
+    }
+
+    //check daily calories limit
+
+    single<DailyCaloriesProviderRepo> {
+        DailyCaloriesProviderRepoImpl(get())
+    }
+
+    single<CheckDailyCaloriesDailyLimitUseCase> {
+        CheckDailyCaloriesDailyLimitUseCaseImpl(get(), get(), get())
+    }
+
+    viewModel {
+        CheckDailyLimitViewModel(get())
     }
 
 }

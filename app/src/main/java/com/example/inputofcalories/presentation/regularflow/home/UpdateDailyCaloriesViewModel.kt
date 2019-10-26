@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.Success
 import com.example.inputofcalories.common.rx.SuccessCompletable
+import com.example.inputofcalories.domain.regularflow.CheckDailyCaloriesDailyLimitUseCase
 import com.example.inputofcalories.domain.regularflow.UpdateUsersDailyCaloriesUseCase
 import com.example.inputofcalories.domain.user.GetUserUseCase
 import com.example.inputofcalories.entity.presentation.Message

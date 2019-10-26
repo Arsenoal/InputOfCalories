@@ -27,6 +27,8 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
     private val updateDailyCaloriesViewModel: UpdateDailyCaloriesViewModel by viewModel()
 
+    private val checkDailyLimitViewModel: CheckDailyLimitViewModel by viewModel()
+
     private val mealsAdapter = MealsRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,8 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
         setupUpdateDailyCaloriesViewModel()
 
+        setupDailyLimitCheckerViewModel()
+
         setupMealsRecyclerView()
 
         setupToolBar()
@@ -46,6 +50,8 @@ class RegularUserHomeActivity : AppCompatActivity() {
         setupClickListeners()
 
         loadMealsList()
+
+        checkDailyCaloriesLimit()
     }
 
     private fun setupViewModel() {
@@ -83,6 +89,26 @@ class RegularUserHomeActivity : AppCompatActivity() {
                 ToastManager.showToastShort(this@RegularUserHomeActivity, message.message)
             })
         }
+    }
+
+    private fun setupDailyLimitCheckerViewModel() {
+        checkDailyLimitViewModel.run {
+            dailyLimitExceededLiveData.observe(this@RegularUserHomeActivity, Observer {
+                //TODO mark list with red color
+                ToastManager.showToastShort(this@RegularUserHomeActivity, "limit exceeded")
+            })
+            dailyLimitNotExceededLiveData.observe(this@RegularUserHomeActivity, Observer {
+                //TODO mark list with green color
+                ToastManager.showToastShort(this@RegularUserHomeActivity, "limit not exceeded")
+            })
+            failedToCheckDailyLimitLiveData.observe(this@RegularUserHomeActivity, Observer {
+                ToastManager.showToastShort(this@RegularUserHomeActivity, "failed to check daily calories limit")
+            })
+        }
+    }
+
+    private fun checkDailyCaloriesLimit() {
+        checkDailyLimitViewModel.checkDailyLimit()
     }
 
     private fun setupEmptyMealsUi() {
@@ -139,7 +165,6 @@ class RegularUserHomeActivity : AppCompatActivity() {
                 dialog.applyFilterLiveData.observe(this, Observer {
                     mealsProviderViewModel.getMealsFiltered(it)
                 })
-
                 dialog.show()
             }
             R.id.daily_calories -> {

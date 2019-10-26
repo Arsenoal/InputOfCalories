@@ -21,6 +21,8 @@ open class UserException(error: Throwable? = null, message: String? = null): Run
 
 class UserDailyCaloriesUpdateException(error: Throwable? = null, message: String? = null): UserException(error, message)
 
+class UserDailyCaloriesLimitExceedException(error: Throwable? = null, message: String? = null): UserException(error, message)
+
 fun handleCrashedExceptionOrRunBlock(error: Throwable, block: () -> Unit = {}) {
     //TODO handle all exception cases
     if (error is InputOfCaloriesException) {

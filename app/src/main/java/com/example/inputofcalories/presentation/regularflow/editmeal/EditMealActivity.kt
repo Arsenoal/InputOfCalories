@@ -47,7 +47,6 @@ class EditMealActivity: AppCompatActivity() {
 
     private fun setupClickListeners() {
         editMealButton.setOnClickListener {
-            //TODO
             getMealSerializableExtra().run {
                 val meal = Meal(
                     id = id,

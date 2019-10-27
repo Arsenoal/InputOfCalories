@@ -14,7 +14,6 @@ object ActivityNavigator {
         }
     }
 
-
     fun navigate(
         activity: AppCompatActivity,
         activityClassName: Class<out AppCompatActivity>,
@@ -34,6 +33,18 @@ object ActivityNavigator {
             val intent = Intent(this, activityClassName)
             startActivity(intent)
             finish()
+        }
+    }
+
+    fun navigateAndFinishCurrent(
+        activity: AppCompatActivity,
+        activityClassName: Class<out AppCompatActivity>,
+        key: String,
+        value: Serializable) {
+        activity.run {
+            val intent = Intent(this, activityClassName)
+            intent.putExtra(key, value)
+            startActivity(intent)
         }
     }
 

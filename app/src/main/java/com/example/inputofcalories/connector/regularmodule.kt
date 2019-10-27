@@ -38,8 +38,9 @@ val mealsmodule = module {
         GetMealsFilteredUseCaseImpl(get())
     }
 
-    viewModel {
-        MealsProviderViewModel(get(), get(), get())
+    viewModel { params ->
+        val userId: String = params[0]
+        MealsProviderViewModel(userId, get(), get())
     }
 
     //add meal
@@ -77,8 +78,9 @@ val mealsmodule = module {
         DeleteMealUseCaseImpl(get())
     }
 
-    viewModel {
-        DeleteMealViewModel(get(), get())
+    viewModel { params ->
+        val userId: String = params[0]
+        DeleteMealViewModel(userId, get())
     }
 
     //update daily calories
@@ -91,8 +93,9 @@ val mealsmodule = module {
         UpdateUsersDailyCaloriesUseCaseImpl(get())
     }
 
-    viewModel {
-        UpdateDailyCaloriesViewModel(get(), get())
+    viewModel { params ->
+        val userId: String = params[0]
+        UpdateDailyCaloriesViewModel(userId, get())
     }
 
     //check daily calories limit

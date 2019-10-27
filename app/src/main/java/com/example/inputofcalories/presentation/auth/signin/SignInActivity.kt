@@ -13,6 +13,7 @@ import com.example.inputofcalories.presentation.adminflow.home.AdminUserHomeActi
 import com.example.inputofcalories.presentation.managerflow.home.ManagerUserHomeActivity
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
+import com.example.inputofcalories.presentation.regularflow.home.USER_ID_KEY
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -31,11 +32,19 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        signInViewModel.singInSuccessLiveData.observe(this, Observer { userType ->
-            when(userType) {
-                RegularUser -> { ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java) }
-                UserManager -> { ActivityNavigator.navigateAndFinishCurrent(this, ManagerUserHomeActivity::class.java) }
-                Admin -> { ActivityNavigator.navigateAndFinishCurrent(this, AdminUserHomeActivity::class.java) }
+        signInViewModel.singInSuccessLiveData.observe(this, Observer { user ->
+            user.run {
+                when(userParams.type) {
+                    RegularUser -> {
+                        ActivityNavigator.navigateAndFinishCurrent(this@SignInActivity, RegularUserHomeActivity::class.java, USER_ID_KEY, id)
+                    }
+                    UserManager -> {
+                        ActivityNavigator.navigateAndFinishCurrent(this@SignInActivity, ManagerUserHomeActivity::class.java, USER_ID_KEY, id)
+                    }
+                    Admin -> {
+                        ActivityNavigator.navigateAndFinishCurrent(this@SignInActivity, AdminUserHomeActivity::class.java)
+                    }
+                }
             }
 
         })

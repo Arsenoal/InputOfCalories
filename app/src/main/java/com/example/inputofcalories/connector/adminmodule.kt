@@ -9,6 +9,7 @@ import com.example.inputofcalories.repo.adminflow.*
 import com.example.inputofcalories.repo.adminflow.UpgradeUserToManagerRepo
 import com.example.inputofcalories.repo.adminflow.UpgradeUserToManagerRepoImpl
 import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val adminmodule = module {
@@ -23,7 +24,7 @@ val adminmodule = module {
     }
 
     viewModel {
-        AllUsersProviderViewModel(get(), get())
+        AllUsersProviderViewModel(get(), get{ parametersOf(null) })
     }
 
     //user status manipulator

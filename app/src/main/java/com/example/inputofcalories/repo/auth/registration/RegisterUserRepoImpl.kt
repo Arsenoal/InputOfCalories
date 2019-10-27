@@ -1,7 +1,7 @@
 package com.example.inputofcalories.repo.auth.registration
 
 import com.example.inputofcalories.common.exception.RegistrationException
-import com.example.inputofcalories.common.logger.IOFLogger
+import com.example.inputofcalories.common.logger.IOCLogger
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.repo.auth.registration.model.TYPE_REGULAR
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
@@ -58,7 +58,7 @@ class RegisterUserRepoImpl(
 
             usersRef.document(uId).set(userFirebase)
                 .addOnSuccessListener {
-                    IOFLogger.d(RegisterUserRepoImpl::class.java.name, "DocumentSnapshot successfully written!")
+                    IOCLogger.d(RegisterUserRepoImpl::class.java.name, "DocumentSnapshot successfully written!")
                     emitter.onComplete()
                 }
                 .addOnFailureListener {

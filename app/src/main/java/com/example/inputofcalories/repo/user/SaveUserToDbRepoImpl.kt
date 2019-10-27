@@ -6,6 +6,7 @@ import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserManager
 import com.example.inputofcalories.repo.auth.registration.model.TYPE_ADMIN
 import com.example.inputofcalories.repo.auth.registration.model.TYPE_MANAGER
+import com.example.inputofcalories.repo.auth.registration.model.TYPE_REGULAR
 import com.example.inputofcalories.repo.db.local.user.UserDao
 import com.example.inputofcalories.repo.db.local.user.UserRoom
 import io.reactivex.Completable
@@ -17,7 +18,7 @@ class SaveUserToDbRepoImpl(
     override fun save(user: User): Completable {
         return Single.create<UserRoom> {
             val type: Int = when(user.userParams.type) {
-                RegularUser -> { 1 }
+                RegularUser -> { TYPE_REGULAR }
                 UserManager -> { TYPE_MANAGER }
                 Admin -> { TYPE_ADMIN }
             }

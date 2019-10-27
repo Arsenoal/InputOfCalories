@@ -19,7 +19,8 @@ class KoinModulesConnector {
                     singinmodule,
                     mealsmodule,
                     managermodule,
-                    adminmodule
+                    adminmodule,
+                    launchermodule
                 ))
             }
         }

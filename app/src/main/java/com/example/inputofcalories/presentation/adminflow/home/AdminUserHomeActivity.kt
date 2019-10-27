@@ -7,6 +7,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.adminflow.usermeals.USER_ID_KEY
+import com.example.inputofcalories.presentation.adminflow.usermeals.UserMealsActivity
+import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_manager_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -72,6 +75,10 @@ class AdminUserHomeActivity: AppCompatActivity() {
         usersRecyclerView.adapter = usersRecyclerAdapter
 
         usersRecyclerAdapter.run {
+            userSelectedLiveData.observe(this@AdminUserHomeActivity, Observer { userId ->
+                ActivityNavigator.navigate(this@AdminUserHomeActivity, UserMealsActivity::class.java, USER_ID_KEY, userId)
+            })
+
             userDowngradeSelectedLiveData.observe(this@AdminUserHomeActivity, Observer { user ->
                 adminUserStatusManipulatorViewModel.downgradeUserClicked(user)
             })

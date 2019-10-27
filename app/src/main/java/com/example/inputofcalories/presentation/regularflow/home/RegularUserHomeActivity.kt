@@ -18,24 +18,25 @@ import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
 import kotlinx.android.synthetic.main.activity_regular_user_home.toolbar
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
+
+const val USER_ID_KEY = "user_id_key"
 
 class RegularUserHomeActivity : AppCompatActivity() {
 
-    private val mealsProviderViewModel: MealsProviderViewModel by viewModel()
+    private lateinit var mealsProviderViewModel: MealsProviderViewModel
 
-    private val deleteMealViewModel: DeleteMealViewModel by viewModel()
+    private lateinit var deleteMealViewModel: DeleteMealViewModel
 
-    private val updateDailyCaloriesViewModel: UpdateDailyCaloriesViewModel by viewModel()
+    private lateinit var updateDailyCaloriesViewModel: UpdateDailyCaloriesViewModel
 
-    private val checkDailyLimitViewModel: CheckDailyLimitViewModel by viewModel()
+    private lateinit var checkDailyLimitViewModel: CheckDailyLimitViewModel
 
     private val mealsAdapter = MealsRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_regular_user_home)
-
-        setupViewModel()
 
         setupDeleteMealViewModel()
 
@@ -49,38 +50,57 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
         setupClickListeners()
 
-        loadMealsList()
-
         checkDailyCaloriesLimit()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        setupViewModel()
+    }
+
     private fun setupViewModel() {
-        mealsProviderViewModel.mealsLoadFailLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, "failed to load meals")
-        })
+        val mealsProviderViewModel: MealsProviderViewModel by viewModel{ parametersOf(getUserIdExtra()) }
+        this.mealsProviderViewModel = mealsProviderViewModel
 
-        mealsProviderViewModel.mealsLoadSuccessLiveData.observe(this, Observer { list ->
-            mealsAdapter.setItems(list)
-        })
+        this.mealsProviderViewModel.run {
+            mealsLoadFailLiveData.observe(this@RegularUserHomeActivity, Observer {
+                ToastManager.showToastShort(this@RegularUserHomeActivity, "failed to load meals")
+            })
 
-        mealsProviderViewModel.noMealsFoundLiveData.observe(this, Observer {
-            setupEmptyMealsUi()
-        })
+            mealsLoadSuccessLiveData.observe(this@RegularUserHomeActivity, Observer { list ->
+                mealsAdapter.setItems(list)
+            })
+
+            noMealsFoundLiveData.observe(this@RegularUserHomeActivity, Observer {
+                setupEmptyMealsUi()
+            })
+
+            getMeals()
+        }
     }
 
     private fun setupDeleteMealViewModel() {
-        deleteMealViewModel.deleteMealFailLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, "delete meal failed")
-        })
+        val deleteMealViewModel: DeleteMealViewModel by viewModel{ parametersOf(getUserIdExtra()) }
+        this.deleteMealViewModel = deleteMealViewModel
 
-        deleteMealViewModel.deleteMealSuccessLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, "delete meal succeed")
-            mealsProviderViewModel.getMeals()
-        })
+        this.deleteMealViewModel.run {
+            deleteMealFailLiveData.observe(this@RegularUserHomeActivity, Observer {
+                ToastManager.showToastShort(this@RegularUserHomeActivity, "delete meal failed")
+            })
+
+            deleteMealSuccessLiveData.observe(this@RegularUserHomeActivity, Observer {
+                ToastManager.showToastShort(this@RegularUserHomeActivity, "delete meal succeed")
+                mealsProviderViewModel.getMeals()
+            })
+        }
     }
 
     private fun setupUpdateDailyCaloriesViewModel() {
-        updateDailyCaloriesViewModel.run {
+        val updateDailyCaloriesViewModel: UpdateDailyCaloriesViewModel by viewModel{ parametersOf(getUserIdExtra()) }
+        this.updateDailyCaloriesViewModel = updateDailyCaloriesViewModel
+
+        this.updateDailyCaloriesViewModel.run {
             updateCaloriesSucceedLiveData.observe(this@RegularUserHomeActivity, Observer { message ->
                 ToastManager.showToastShort(this@RegularUserHomeActivity, message.message)
             })
@@ -92,7 +112,10 @@ class RegularUserHomeActivity : AppCompatActivity() {
     }
 
     private fun setupDailyLimitCheckerViewModel() {
-        checkDailyLimitViewModel.run {
+        val checkDailyLimitViewModel: CheckDailyLimitViewModel by viewModel{ parametersOf(getUserIdExtra()) }
+        this.checkDailyLimitViewModel = checkDailyLimitViewModel
+
+        this.checkDailyLimitViewModel.run {
             dailyLimitExceededLiveData.observe(this@RegularUserHomeActivity, Observer {
                 //TODO mark list with red color
                 ToastManager.showToastShort(this@RegularUserHomeActivity, "limit exceeded")
@@ -113,10 +136,6 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
     private fun setupEmptyMealsUi() {
         noMealsToShowTextView.visibility = VISIBLE
-    }
-
-    private fun loadMealsList() {
-        mealsProviderViewModel.getMeals()
     }
 
     private fun setupMealsRecyclerView() {
@@ -178,4 +197,6 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
         return true
     }
+
+    private fun getUserIdExtra() = intent.getStringExtra(USER_ID_KEY)
 }

@@ -20,14 +20,14 @@ class SignInViewModel(
     private val saveUserToLocalUseCase: SaveUserToLocalUseCase
 ): BaseViewModel(), HandleError {
 
-    val singInSuccessLiveData = MutableLiveData<UserType>()
+    val singInSuccessLiveData = MutableLiveData<User>()
 
     val singInFailLiveData = MutableLiveData<Message>()
 
     fun signInClicked(userSignInParams: UserSignInParams) {
         singIn(userSignInParams) { user ->
             saveUser(user) {
-                singInSuccessLiveData.value = user.userParams.type
+                singInSuccessLiveData.value = user
             }
         }
     }

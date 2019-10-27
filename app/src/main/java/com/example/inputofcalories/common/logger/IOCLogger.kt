@@ -2,7 +2,7 @@ package com.example.inputofcalories.common.logger
 
 import timber.log.Timber
 
-object IOFLogger {
+object IOCLogger {
     fun init() {
         Timber.plant(Timber.DebugTree())
     }

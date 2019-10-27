@@ -21,8 +21,9 @@ val managermodule = module {
         GetUsersUseCaseImpl(get())
     }
 
-    viewModel {
-        UsersProviderViewModel(get(), get())
+    viewModel { params->
+        val userId: String = params[0]
+        UsersProviderViewModel(userId, get())
     }
 
     single<UpgradeUserToManagerRepo> {

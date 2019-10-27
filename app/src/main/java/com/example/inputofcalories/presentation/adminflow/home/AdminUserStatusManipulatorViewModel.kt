@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.SuccessCompletable
 import com.example.inputofcalories.domain.adminflow.DowngradeUserToManagerUseCase
+import com.example.inputofcalories.domain.adminflow.DowngradeUserToRegularUseCase
 import com.example.inputofcalories.domain.adminflow.UpgradeUserToAdminUseCase
-import com.example.inputofcalories.domain.managerflow.DowngradeUserToRegularUseCase
-import com.example.inputofcalories.domain.managerflow.UpgradeUserToManagerUseCase
+import com.example.inputofcalories.domain.adminflow.UpgradeUserToManagerUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.Admin
 import com.example.inputofcalories.entity.register.RegularUser

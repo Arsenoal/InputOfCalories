@@ -14,7 +14,8 @@ const val DOWNGRADE_USER_REQUEST_CODE = 2
 
 class ManagerUserStatusManipulatorViewModel(
     private val upgradeUserToManagerUseCase: UpgradeUserToManagerUseCase,
-    private val downgradeUserToRegularUseCase: DowngradeUserToRegularUseCase): BaseViewModel(), HandleError {
+    private val downgradeUserToRegularUseCase: DowngradeUserToRegularUseCase
+): BaseViewModel(), HandleError {
 
     val userUpgradeSucceedLiveData = MutableLiveData<Any>()
 

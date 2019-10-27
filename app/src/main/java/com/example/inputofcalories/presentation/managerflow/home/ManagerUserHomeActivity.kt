@@ -7,12 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.regularflow.home.USER_ID_KEY
 import kotlinx.android.synthetic.main.activity_manager_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class ManagerUserHomeActivity: AppCompatActivity() {
 
-    private val usersProviderViewModel: UsersProviderViewModel by viewModel()
+    private lateinit var usersProviderViewModel: UsersProviderViewModel
 
     private val userStatusManipulatorViewModel: ManagerUserStatusManipulatorViewModel by viewModel()
 
@@ -22,11 +24,11 @@ class ManagerUserHomeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager_user_home)
 
+        setupUsersProviderViewModel()
+
         setupStatusManipulatorViewModel()
 
         setupUsersRecyclerView()
-
-        setupUsersProviderViewModel()
     }
 
     private fun setupStatusManipulatorViewModel() {
@@ -50,7 +52,10 @@ class ManagerUserHomeActivity: AppCompatActivity() {
     }
 
     private fun setupUsersProviderViewModel() {
-        usersProviderViewModel.let {
+        val usersProviderViewModel: UsersProviderViewModel by viewModel{ parametersOf(getUserIdExtra()) }
+        this.usersProviderViewModel = usersProviderViewModel
+
+        this.usersProviderViewModel.let {
             it.usersLoadFailLiveData.observe(this, Observer { message ->
                 ToastManager.showToastShort(this, message.message)
             })
@@ -80,6 +85,7 @@ class ManagerUserHomeActivity: AppCompatActivity() {
                 userStatusManipulatorViewModel.upgradeUserClicked(user)
             })
         }
-
     }
+
+    private fun getUserIdExtra() = intent.getStringExtra(USER_ID_KEY)
 }

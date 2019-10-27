@@ -23,6 +23,8 @@ class AllUsersRecyclerAdapter(
 
     val userDowngradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
 
+    val userSelectedLiveData: MutableLiveData<String> = MutableLiveData()
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
 
@@ -46,6 +48,10 @@ class AllUsersRecyclerAdapter(
 
         holder.downgradeButton.setOnClickListener {
             userDowngradeSelectedLiveData.value = user
+        }
+
+        holder.itemView.setOnClickListener {
+            userSelectedLiveData.value = user.id
         }
     }
 

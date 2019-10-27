@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.Meal
+import java.util.*
 
 class MealsRecyclerAdapter(
     val meals: MutableList<Meal> = mutableListOf()
@@ -35,8 +36,14 @@ class MealsRecyclerAdapter(
         fun bind(meal: Meal) {
             mealTextTextView.text = meal.params.text
             mealCaloriesTextView.text = meal.params.calories
-            mealWeightTextView.text = "${meal.params.weight} g"
-            dateTextView.text = "${meal.filterParams.date.month}/${meal.filterParams.date.dayOfMonth} from: ${meal.filterParams.time.from}, to: ${meal.filterParams.time.to}"
+            mealWeightTextView.text = String.format(Locale.ENGLISH, "%s g", meal.params.weight)
+            dateTextView.text = String.format(Locale.ENGLISH, "%s/%s %s: %s, %s: %s",
+                meal.filterParams.date.month,
+                meal.filterParams.date.dayOfMonth,
+                itemView.context.resources.getString(R.string.from),
+                meal.filterParams.time.from,
+                itemView.context.resources.getString(R.string.to),
+                meal.filterParams.time.to)
         }
     }
 

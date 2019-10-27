@@ -22,8 +22,8 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        invalidateLocalDataViewModel.run {
-            dataClearSucceedLiveData.observe(this@LauncherActivity, Observer {
+        invalidateLocalDataViewModel.let {
+            it.dataClearSucceedLiveData.observe(this, Observer {
                 openRegistration()
             })
         }

@@ -7,6 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
 import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewModel
@@ -14,13 +16,10 @@ import com.example.inputofcalories.presentation.regularflow.home.MealsProviderVi
 import com.example.inputofcalories.presentation.regularflow.home.MealsRecyclerAdapter
 import com.example.inputofcalories.presentation.regularflow.home.UpdateDailyCaloriesViewModel
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
-import com.example.inputofcalories.presentation.regularflow.viewmeal.MEAL_EXTRA
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-
-const val USER_ID_KEY = "user_id_key"
 
 class UserMealsActivity: AppCompatActivity() {
 
@@ -51,20 +50,20 @@ class UserMealsActivity: AppCompatActivity() {
         val mealsProviderViewModel: MealsProviderViewModel by viewModel{ parametersOf(getUserIdExtra()) }
         this.mealsProviderViewModel = mealsProviderViewModel
 
-        this.mealsProviderViewModel.run {
-            mealsLoadFailLiveData.observe(this@UserMealsActivity, Observer {
-                ToastManager.showToastShort(this@UserMealsActivity, "failed to load meals")
+        this.mealsProviderViewModel.let {
+            it.mealsLoadFailLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.failed_to_load_meals))
             })
 
-            mealsLoadSuccessLiveData.observe(this@UserMealsActivity, Observer { list ->
+            it.mealsLoadSuccessLiveData.observe(this, Observer { list ->
                 mealsAdapter.setItems(list)
             })
 
-            noMealsFoundLiveData.observe(this@UserMealsActivity, Observer {
+            it.noMealsFoundLiveData.observe(this, Observer {
                 setupEmptyMealsUi()
             })
 
-            getMeals()
+            it.getMeals()
         }
     }
 
@@ -72,13 +71,13 @@ class UserMealsActivity: AppCompatActivity() {
         val deleteMealViewModel: DeleteMealViewModel by viewModel{ parametersOf(getUserIdExtra()) }
         this.deleteMealViewModel = deleteMealViewModel
 
-        this.deleteMealViewModel.run {
-            deleteMealFailLiveData.observe(this@UserMealsActivity, Observer {
-                ToastManager.showToastShort(this@UserMealsActivity, "delete meal failed")
+        this.deleteMealViewModel.let {
+            it.deleteMealFailLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.delete_meal_failed))
             })
 
-            deleteMealSuccessLiveData.observe(this@UserMealsActivity, Observer {
-                ToastManager.showToastShort(this@UserMealsActivity, "delete meal succeed")
+            it.deleteMealSuccessLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.delete_meal_succeed))
                 mealsProviderViewModel.getMeals()
             })
         }
@@ -88,13 +87,13 @@ class UserMealsActivity: AppCompatActivity() {
         val updateDailyCaloriesViewModel: UpdateDailyCaloriesViewModel by viewModel{ parametersOf(getUserIdExtra()) }
         this.updateDailyCaloriesViewModel = updateDailyCaloriesViewModel
 
-        this.updateDailyCaloriesViewModel.run {
-            updateCaloriesSucceedLiveData.observe(this@UserMealsActivity, Observer { message ->
-                ToastManager.showToastShort(this@UserMealsActivity, message.text)
+        this.updateDailyCaloriesViewModel.let {
+            it.updateCaloriesSucceedLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.update_succeed))
             })
 
-            updateCaloriesFailedLiveData.observe(this@UserMealsActivity, Observer { message ->
-                ToastManager.showToastShort(this@UserMealsActivity, message.text)
+            it.updateCaloriesFailedLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.update_failed))
             })
         }
     }

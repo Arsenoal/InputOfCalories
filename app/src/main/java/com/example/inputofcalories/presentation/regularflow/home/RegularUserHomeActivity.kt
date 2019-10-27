@@ -4,25 +4,27 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.ProgressView
 import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
-import com.example.inputofcalories.presentation.regularflow.viewmeal.MEAL_EXTRA
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
 import kotlinx.android.synthetic.main.activity_regular_user_home.toolbar
+import kotlinx.android.synthetic.main.progress_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-const val USER_ID_KEY = "user_id_key"
-
-class RegularUserHomeActivity : AppCompatActivity() {
+class RegularUserHomeActivity : AppCompatActivity(), ProgressView {
 
     private lateinit var mealsProviderViewModel: MealsProviderViewModel
 
@@ -63,20 +65,24 @@ class RegularUserHomeActivity : AppCompatActivity() {
         val mealsProviderViewModel: MealsProviderViewModel by viewModel{ parametersOf(getUserIdExtra()) }
         this.mealsProviderViewModel = mealsProviderViewModel
 
-        this.mealsProviderViewModel.run {
-            mealsLoadFailLiveData.observe(this@RegularUserHomeActivity, Observer {
-                ToastManager.showToastShort(this@RegularUserHomeActivity, "failed to load meals")
+        this.mealsProviderViewModel.let {
+            it.mealsLoadFailLiveData.observe(this, Observer {
+                hideProgress()
+                ToastManager.showToastShort(this, resources.getString(R.string.failed_to_load_meals))
             })
 
-            mealsLoadSuccessLiveData.observe(this@RegularUserHomeActivity, Observer { list ->
+            it.mealsLoadSuccessLiveData.observe(this, Observer { list ->
+                hideProgress()
                 mealsAdapter.setItems(list)
             })
 
-            noMealsFoundLiveData.observe(this@RegularUserHomeActivity, Observer {
+            it.noMealsFoundLiveData.observe(this, Observer {
+                hideProgress()
                 setupEmptyMealsUi()
             })
 
-            getMeals()
+            showProgress()
+            it.getMeals()
         }
     }
 
@@ -84,13 +90,17 @@ class RegularUserHomeActivity : AppCompatActivity() {
         val deleteMealViewModel: DeleteMealViewModel by viewModel{ parametersOf(getUserIdExtra()) }
         this.deleteMealViewModel = deleteMealViewModel
 
-        this.deleteMealViewModel.run {
-            deleteMealFailLiveData.observe(this@RegularUserHomeActivity, Observer {
-                ToastManager.showToastShort(this@RegularUserHomeActivity, "delete meal failed")
+        this.deleteMealViewModel.let {
+            it.deleteMealFailLiveData.observe(this, Observer {
+                hideProgress()
+
+                ToastManager.showToastShort(this, resources.getString(R.string.delete_meal_failed))
             })
 
-            deleteMealSuccessLiveData.observe(this@RegularUserHomeActivity, Observer {
-                ToastManager.showToastShort(this@RegularUserHomeActivity, "delete meal succeed")
+            it.deleteMealSuccessLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.delete_meal_succeed))
+
+                showProgress()
                 mealsProviderViewModel.getMeals()
             })
         }
@@ -100,13 +110,15 @@ class RegularUserHomeActivity : AppCompatActivity() {
         val updateDailyCaloriesViewModel: UpdateDailyCaloriesViewModel by viewModel{ parametersOf(getUserIdExtra()) }
         this.updateDailyCaloriesViewModel = updateDailyCaloriesViewModel
 
-        this.updateDailyCaloriesViewModel.run {
-            updateCaloriesSucceedLiveData.observe(this@RegularUserHomeActivity, Observer { message ->
-                ToastManager.showToastShort(this@RegularUserHomeActivity, message.text)
+        this.updateDailyCaloriesViewModel.let {
+            it.updateCaloriesSucceedLiveData.observe(this, Observer {
+                hideProgress()
+                ToastManager.showToastShort(this, resources.getString(R.string.update_succeed))
             })
 
-            updateCaloriesFailedLiveData.observe(this@RegularUserHomeActivity, Observer { message ->
-                ToastManager.showToastShort(this@RegularUserHomeActivity, message.text)
+            it.updateCaloriesFailedLiveData.observe(this, Observer {
+                hideProgress()
+                ToastManager.showToastShort(this, resources.getString(R.string.update_failed))
             })
         }
     }
@@ -115,17 +127,22 @@ class RegularUserHomeActivity : AppCompatActivity() {
         val checkDailyLimitViewModel: CheckDailyLimitViewModel by viewModel{ parametersOf(getUserIdExtra()) }
         this.checkDailyLimitViewModel = checkDailyLimitViewModel
 
-        this.checkDailyLimitViewModel.run {
-            dailyLimitExceededLiveData.observe(this@RegularUserHomeActivity, Observer {
+        this.checkDailyLimitViewModel.let {
+            it.dailyLimitExceededLiveData.observe(this, Observer {
                 //TODO mark list with red color
-                ToastManager.showToastShort(this@RegularUserHomeActivity, "limit exceeded")
+                hideProgress()
+                ToastManager.showToastShort(this, resources.getString(R.string.daily_calories_limit_exceeded))
             })
-            dailyLimitNotExceededLiveData.observe(this@RegularUserHomeActivity, Observer {
+
+            it.dailyLimitNotExceededLiveData.observe(this, Observer {
                 //TODO mark list with green color
-                ToastManager.showToastShort(this@RegularUserHomeActivity, "limit not exceeded")
+                hideProgress()
+                ToastManager.showToastShort(this, resources.getString(R.string.daily_calories_limit_not_exceeded))
             })
-            failedToCheckDailyLimitLiveData.observe(this@RegularUserHomeActivity, Observer {
-                ToastManager.showToastShort(this@RegularUserHomeActivity, "failed to check daily calories limit")
+
+            it.failedToCheckDailyLimitLiveData.observe(this, Observer {
+                hideProgress()
+                ToastManager.showToastShort(this, resources.getString(R.string.failed_to_check_daily_calories_limit))
             })
         }
     }
@@ -158,6 +175,7 @@ class RegularUserHomeActivity : AppCompatActivity() {
         })
 
         mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { mealId ->
+            showProgress()
             deleteMealViewModel.deleteMealClicked(mealId)
         })
     }
@@ -181,14 +199,16 @@ class RegularUserHomeActivity : AppCompatActivity() {
         when(item.itemId) {
             R.id.action_filter -> {
                 val dialog = FilterDialog(this)
-                dialog.applyFilterLiveData.observe(this, Observer {
-                    mealsProviderViewModel.getMealsFiltered(it)
+                dialog.applyFilterLiveData.observe(this, Observer { mealFilterParams ->
+                    showProgress()
+                    mealsProviderViewModel.getMealsFiltered(mealFilterParams)
                 })
                 dialog.show()
             }
             R.id.daily_calories -> {
                 val dialog = SetDailyCaloriesDialog(this)
                 dialog.dailyCaloriesLiveData.observe(this, Observer { dailyCalories ->
+                    showProgress()
                     updateDailyCaloriesViewModel.applyClicked(dailyCalories)
                 })
                 dialog.show()
@@ -199,4 +219,12 @@ class RegularUserHomeActivity : AppCompatActivity() {
     }
 
     private fun getUserIdExtra() = intent.getStringExtra(USER_ID_KEY)
+
+    override fun showProgress() {
+        progressContainer.visibility = VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressContainer.visibility = View.GONE
+    }
 }

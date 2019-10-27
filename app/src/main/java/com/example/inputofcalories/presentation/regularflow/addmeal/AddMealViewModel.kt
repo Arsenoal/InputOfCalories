@@ -1,12 +1,9 @@
 package com.example.inputofcalories.presentation.regularflow.addmeal
 
 import androidx.lifecycle.MutableLiveData
-import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.SuccessCompletable
 import com.example.inputofcalories.domain.regularflow.AddMealUseCase
-import com.example.inputofcalories.entity.presentation.Message
-import com.example.inputofcalories.entity.presentation.regular.Meal
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.entity.presentation.regular.MealParams
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
@@ -19,7 +16,7 @@ class AddMealViewModel(
 
     val addMealSuccessLiveData = MutableLiveData<Any>()
 
-    val addMealFailLiveData = MutableLiveData<Message>()
+    val addMealFailLiveData = MutableLiveData<Any>()
 
     fun addMealClicked(params: MealParams, filterParams: MealFilterParams) {
         addMeal(params, filterParams) {
@@ -37,7 +34,7 @@ class AddMealViewModel(
     override fun invoke(t: Throwable, requestCode: Int?) {
         when(requestCode) {
             ADD_MEAL_REQUEST_CODE -> {
-                addMealFailLiveData.value = Message(t.message ?: String.empty())
+                addMealFailLiveData.value = Any()
             }
         }
     }

@@ -23,8 +23,9 @@ val adminmodule = module {
         GetAllUsersUseCaseImpl(get())
     }
 
-    viewModel {
-        AllUsersProviderViewModel(get(), get{ parametersOf(null) })
+    viewModel { params ->
+        val userId: String = params[0]
+        AllUsersProviderViewModel(userId, get())
     }
 
     //user status manipulator

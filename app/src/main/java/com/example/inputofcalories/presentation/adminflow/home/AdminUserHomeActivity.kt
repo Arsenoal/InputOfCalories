@@ -7,15 +7,16 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.ToastManager
-import com.example.inputofcalories.presentation.adminflow.usermeals.USER_ID_KEY
 import com.example.inputofcalories.presentation.adminflow.usermeals.UserMealsActivity
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_manager_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class AdminUserHomeActivity: AppCompatActivity() {
 
-    private val allUsersProviderViewModel: AllUsersProviderViewModel by viewModel()
+    private lateinit var allUsersProviderViewModel: AllUsersProviderViewModel
 
     private val adminUserStatusManipulatorViewModel: AdminUserStatusManipulatorViewModel by viewModel()
 
@@ -36,26 +37,29 @@ class AdminUserHomeActivity: AppCompatActivity() {
         adminUserStatusManipulatorViewModel.let {
             it.userUpgradeSucceedLiveData.observe(this, Observer {
                 allUsersProviderViewModel.getUsers()
-                ToastManager.showToastShort(this, "upgraded")
+                ToastManager.showToastShort(this, resources.getString(R.string.upgraded))
             })
-            it.userUpgradeFailLiveData.observe(this, Observer { message ->
-                ToastManager.showToastShort(this, message.text)
+            it.userUpgradeFailLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.update_failed))
             })
 
             it.userDowngradeSucceedLiveData.observe(this, Observer {
                 allUsersProviderViewModel.getUsers()
-                ToastManager.showToastShort(this, "downgraded")
+                ToastManager.showToastShort(this, resources.getString(R.string.downgraded))
             })
-            it.userDowngradeFailLiveData.observe(this, Observer { message ->
-                ToastManager.showToastShort(this, message.text)
+            it.userDowngradeFailLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.downgrade_fail))
             })
         }
     }
 
     private fun setupUsersProviderViewModel() {
-        allUsersProviderViewModel.let {
-            it.usersLoadFailLiveData.observe(this, Observer { message ->
-                ToastManager.showToastShort(this, message.text)
+        val allUsersProviderViewModel: AllUsersProviderViewModel by viewModel{ parametersOf(getUserIdExtra()) }
+        this.allUsersProviderViewModel = allUsersProviderViewModel
+
+        this.allUsersProviderViewModel.let {
+            it.usersLoadFailLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.failed_to_load_users))
             })
 
             it.usersLoadSuccessLiveData.observe(this, Observer { users ->
@@ -74,18 +78,20 @@ class AdminUserHomeActivity: AppCompatActivity() {
         usersRecyclerView.layoutManager = LinearLayoutManager(this)
         usersRecyclerView.adapter = usersRecyclerAdapter
 
-        usersRecyclerAdapter.run {
-            userSelectedLiveData.observe(this@AdminUserHomeActivity, Observer { userId ->
-                ActivityNavigator.navigate(this@AdminUserHomeActivity, UserMealsActivity::class.java, USER_ID_KEY, userId)
+        usersRecyclerAdapter.let {
+            it.userSelectedLiveData.observe(this, Observer { userId ->
+                ActivityNavigator.navigate(this, UserMealsActivity::class.java, USER_ID_KEY, userId)
             })
 
-            userDowngradeSelectedLiveData.observe(this@AdminUserHomeActivity, Observer { user ->
+            it.userDowngradeSelectedLiveData.observe(this, Observer { user ->
                 adminUserStatusManipulatorViewModel.downgradeUserClicked(user)
             })
 
-            userUpgradeSelectedLiveData.observe(this@AdminUserHomeActivity, Observer { user ->
+            it.userUpgradeSelectedLiveData.observe(this, Observer { user ->
                 adminUserStatusManipulatorViewModel.upgradeUserClicked(user)
             })
         }
     }
+
+    private fun getUserIdExtra() = intent.getStringExtra(USER_ID_KEY)
 }

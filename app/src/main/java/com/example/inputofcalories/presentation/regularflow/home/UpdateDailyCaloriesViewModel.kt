@@ -15,13 +15,13 @@ class UpdateDailyCaloriesViewModel(
     private val updateUsersDailyCaloriesUseCase: UpdateUsersDailyCaloriesUseCase
 ): BaseViewModel(), HandleError {
 
-    val updateCaloriesSucceedLiveData = MutableLiveData<Message>()
+    val updateCaloriesSucceedLiveData = MutableLiveData<Any>()
 
-    val updateCaloriesFailedLiveData = MutableLiveData<Message>()
+    val updateCaloriesFailedLiveData = MutableLiveData<Any>()
 
     fun applyClicked(dailyCalories: String) {
         update(userId, dailyCalories) {
-            updateCaloriesSucceedLiveData.value = Message("update succeed")
+            updateCaloriesSucceedLiveData.value = Any()
         }
     }
 

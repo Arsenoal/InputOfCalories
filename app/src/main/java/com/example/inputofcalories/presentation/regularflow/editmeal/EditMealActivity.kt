@@ -6,9 +6,9 @@ import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
-import com.example.inputofcalories.presentation.regularflow.viewmeal.MEAL_EXTRA
 import kotlinx.android.synthetic.main.activity_edit_meal.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -39,7 +39,7 @@ class EditMealActivity: AppCompatActivity() {
         })
 
         editMealViewModel.mealEditSucceededLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, "meal edit succeeded")
+            ToastManager.showToastShort(this, resources.getString(R.string.meal_edit_succeed))
             ActivityNavigator.navigateBack(this)
         })
     }

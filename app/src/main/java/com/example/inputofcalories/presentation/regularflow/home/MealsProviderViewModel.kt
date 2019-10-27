@@ -10,9 +10,8 @@ import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
-private const val GET_USER_REQUEST_CODE = 1
-private const val GET_MEALS_REQUEST_CODE = 2
-private const val GET_MEALS_FILTERED_REQUEST_CODE = 3
+private const val GET_MEALS_REQUEST_CODE = 1
+private const val GET_MEALS_FILTERED_REQUEST_CODE = 2
 
 class MealsProviderViewModel(
     private val userId: String,
@@ -20,7 +19,7 @@ class MealsProviderViewModel(
     private val getMealsFilteredUseCase: GetMealsFilteredUseCase
 ): BaseViewModel(), HandleError {
 
-    val mealsLoadFailLiveData = MutableLiveData<Message>()
+    val mealsLoadFailLiveData = MutableLiveData<Any>()
 
     val mealsLoadSuccessLiveData = MutableLiveData<List<Meal>>()
 
@@ -56,8 +55,7 @@ class MealsProviderViewModel(
 
     override fun invoke(t: Throwable, requestCode: Int?) {
         when(requestCode) {
-            GET_USER_REQUEST_CODE -> { mealsLoadFailLiveData.value = Message("failed to get user") }
-            GET_MEALS_REQUEST_CODE -> { mealsLoadFailLiveData.value = Message("failed to load meals") }
+            GET_MEALS_REQUEST_CODE -> { mealsLoadFailLiveData.value = Any() }
         }
     }
 

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.Success
 import com.example.inputofcalories.domain.managerflow.GetUsersUseCase
-import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
@@ -16,7 +15,7 @@ class UsersProviderViewModel(
     private val getUsersUseCase: GetUsersUseCase
 ): BaseViewModel(), HandleError {
 
-    val usersLoadFailLiveData = MutableLiveData<Message>()
+    val usersLoadFailLiveData = MutableLiveData<Any>()
 
     val usersLoadSuccessLiveData = MutableLiveData<List<User>>()
 
@@ -39,7 +38,7 @@ class UsersProviderViewModel(
     override fun invoke(t: Throwable, requestCode: Int?) {
         when(requestCode) {
             GET_REGULAR_USERS_REQUEST_CODE -> {
-                usersLoadFailLiveData.value = Message("falied to load users")
+                usersLoadFailLiveData.value = Any()
             }
             GET_USER_REQUEST_CODE -> {
                 //retry maybe

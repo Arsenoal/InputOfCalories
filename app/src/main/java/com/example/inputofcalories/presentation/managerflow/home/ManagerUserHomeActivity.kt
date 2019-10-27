@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.ToastManager
-import com.example.inputofcalories.presentation.regularflow.home.USER_ID_KEY
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import kotlinx.android.synthetic.main.activity_manager_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -35,7 +35,7 @@ class ManagerUserHomeActivity: AppCompatActivity() {
         userStatusManipulatorViewModel.let {
             it.userUpgradeSucceedLiveData.observe(this, Observer {
                 usersProviderViewModel.getUsers()
-                ToastManager.showToastShort(this, "upgraded")
+                ToastManager.showToastShort(this, resources.getString(R.string.upgraded))
             })
             it.userUpgradeFailLiveData.observe(this, Observer { message ->
                 ToastManager.showToastShort(this, message.text)
@@ -43,7 +43,7 @@ class ManagerUserHomeActivity: AppCompatActivity() {
 
             it.userDowngradeSucceedLiveData.observe(this, Observer {
                 usersProviderViewModel.getUsers()
-                ToastManager.showToastShort(this, "downgraded")
+                ToastManager.showToastShort(this, resources.getString(R.string.downgraded))
             })
             it.userDowngradeFailLiveData.observe(this, Observer { message ->
                 ToastManager.showToastShort(this, message.text)
@@ -56,8 +56,8 @@ class ManagerUserHomeActivity: AppCompatActivity() {
         this.usersProviderViewModel = usersProviderViewModel
 
         this.usersProviderViewModel.let {
-            it.usersLoadFailLiveData.observe(this, Observer { message ->
-                ToastManager.showToastShort(this, message.text)
+            it.usersLoadFailLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.failed_to_load_users))
             })
 
             it.usersLoadSuccessLiveData.observe(this, Observer { users ->
@@ -76,12 +76,12 @@ class ManagerUserHomeActivity: AppCompatActivity() {
         usersRecyclerView.layoutManager = LinearLayoutManager(this)
         usersRecyclerView.adapter = usersRecyclerAdapter
 
-        usersRecyclerAdapter.run {
-            userDowngradeSelectedLiveData.observe(this@ManagerUserHomeActivity, Observer { user ->
+        usersRecyclerAdapter.let {
+            it.userDowngradeSelectedLiveData.observe(this, Observer { user ->
                 userStatusManipulatorViewModel.downgradeUserClicked(user)
             })
 
-            userUpgradeSelectedLiveData.observe(this@ManagerUserHomeActivity, Observer { user ->
+            it.userUpgradeSelectedLiveData.observe(this, Observer { user ->
                 userStatusManipulatorViewModel.upgradeUserClicked(user)
             })
         }

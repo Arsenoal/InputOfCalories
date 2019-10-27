@@ -53,6 +53,7 @@ dependencies {
     def test = rootProject.ext.testingDependencies
     testImplementation test.junit
     testImplementation test.junitRunner
+    testImplementation test.mockito
     androidTestImplementation test.testRunner
 
     def rx = rootProject.ext.rxDependencies

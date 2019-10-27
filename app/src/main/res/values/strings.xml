@@ -13,6 +13,49 @@
     <string name="invalid_email_format">Invalid email format</string>
     <string name="fill_all_fields">Fill all fields</string>
 
+    <!-- auth errors -->
     <string name="registration_fail">Registration fail</string>
     <string name="sign_in_fail">Sign in fail</string>
+
+    <!-- regular flow -->
+    <string name="failed_to_load_meals">Failed to load meals</string>
+
+    <string name="delete_meal_failed">Delete meal failed</string>
+    <string name="delete_meal_succeed">Delete meal succeed</string>
+
+    <string name="daily_calories_limit_exceeded">Daily calories limit exceeded</string>
+    <string name="daily_calories_limit_not_exceeded">Daily calories limit not exceeded</string>
+    <string name="failed_to_check_daily_calories_limit">Failed to check daily calories limit</string>
+
+    <string name="no_meals_to_show">No meals to show</string>
+
+    <string name="add_meal">Add meal</string>
+    <string name="meal_add_failed">Meal add failed</string>
+    <string name="meal_successfully_added">Meal successfully added</string>
+
+    <string name="meal_edit_succeed">meal edit succeeded</string>
+
+    <string name="lunch">lunch</string>
+
+    <!-- admin flow -->
+    <string name="upgraded">upgraded</string>
+    <string name="downgraded">downgraded</string>
+
+    <string name="failed_to_load_users">Failed to load users</string>
+
+    <!-- common -->
+    <string name="apply">apply</string>
+    <string name="update_succeed">update succeed</string>
+    <string name="update_failed">update failed</string>
+
+    <string name="upgrade_fail">upgrade fail</string>
+    <string name="downgrade_fail">downgrade fail</string>
+
+    <string name="regular">regular</string>
+    <string name="manager">manager</string>
+    <string name="admin">admin</string>
+
+    <string name="from">from</string>
+    <string name="to">to</string>
+
 </resources>

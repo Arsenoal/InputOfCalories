@@ -5,6 +5,8 @@ import com.example.inputofcalories.domain.auth.registration.validation.*
 import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
 import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCaseImpl
 import com.example.inputofcalories.presentation.auth.registration.RegisterUserViewModel
+import com.example.inputofcalories.repo.auth.GetAllUsersRepo
+import com.example.inputofcalories.repo.auth.GetAllUsersRepoImpl
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorServiceImpl
 import com.example.inputofcalories.repo.auth.registration.RegisterUserRepo
@@ -17,7 +19,11 @@ val registrationModule = module {
 
     single<RegisterUserRepo> { RegisterUserRepoImpl(get(), get()) }
 
-    single<RegisterUserUseCase> { RegisterUserUseCaseImpl(get()) }
+    single<GetAllUsersRepo> {
+        GetAllUsersRepoImpl(get())
+    }
+
+    single<RegisterUserUseCase> { RegisterUserUseCaseImpl(get(), get()) }
 
     single<CheckEmailFormatValidUseCase> {
         CheckEmailFormatValidUseCaseImpl()

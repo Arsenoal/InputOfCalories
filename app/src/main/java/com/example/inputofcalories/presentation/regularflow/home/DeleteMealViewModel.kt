@@ -8,15 +8,14 @@ import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.presentation.regular.MealDeleteParams
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
-private const val GET_USER_REQUEST_CODE = 1
-private const val DELETE_MEAL_REQUEST_CODE = 2
+private const val DELETE_MEAL_REQUEST_CODE = 1
 
 class DeleteMealViewModel(
     private val userId: String,
     private val deleteMealUseCase: DeleteMealUseCase
 ): BaseViewModel(), HandleError {
 
-    val deleteMealFailLiveData = MutableLiveData<Message>()
+    val deleteMealFailLiveData = MutableLiveData<Any>()
 
     val deleteMealSuccessLiveData = MutableLiveData<Any>()
 
@@ -36,9 +35,8 @@ class DeleteMealViewModel(
 
     override fun invoke(t: Throwable, requestCode: Int?) {
         when(requestCode) {
-            GET_USER_REQUEST_CODE -> {}
             DELETE_MEAL_REQUEST_CODE -> {
-                deleteMealFailLiveData.value = Message("meal delete fail")
+                deleteMealFailLiveData.value = Any()
             }
         }
     }

@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.presentation.KeyboardManager
-import com.example.inputofcalories.presentation.ProgressLayout
+import com.example.inputofcalories.presentation.ProgressView
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.auth.signin.SignInActivity
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_register_user.*
 import kotlinx.android.synthetic.main.progress_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class RegisterUserActivity : AppCompatActivity(), ProgressLayout {
+class RegisterUserActivity : AppCompatActivity(), ProgressView {
 
     private val registerUserViewModel: RegisterUserViewModel by viewModel()
 

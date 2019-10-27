@@ -7,7 +7,6 @@ import com.example.inputofcalories.domain.adminflow.DowngradeUserToManagerUseCas
 import com.example.inputofcalories.domain.adminflow.DowngradeUserToRegularUseCase
 import com.example.inputofcalories.domain.adminflow.UpgradeUserToAdminUseCase
 import com.example.inputofcalories.domain.adminflow.UpgradeUserToManagerUseCase
-import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.Admin
 import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.User
@@ -26,11 +25,11 @@ class AdminUserStatusManipulatorViewModel(
 
     val userUpgradeSucceedLiveData = MutableLiveData<Any>()
 
-    val userUpgradeFailLiveData = MutableLiveData<Message>()
+    val userUpgradeFailLiveData = MutableLiveData<Any>()
 
     val userDowngradeSucceedLiveData = MutableLiveData<Any>()
 
-    val userDowngradeFailLiveData = MutableLiveData<Message>()
+    val userDowngradeFailLiveData = MutableLiveData<Any>()
 
     fun upgradeUserClicked(user: User) {
         upgradeUser(user) {
@@ -89,10 +88,10 @@ class AdminUserStatusManipulatorViewModel(
     override fun invoke(t: Throwable, requestCode: Int?) {
         when(requestCode) {
             UPGRADE_USER_REQUEST_CODE -> {
-                userUpgradeFailLiveData.value = Message("upgrade fail")
+                userUpgradeFailLiveData.value = Any()
             }
             DOWNGRADE_USER_REQUEST_CODE -> {
-                userDowngradeFailLiveData.value = Message("downgrade fail")
+                userDowngradeFailLiveData.value = Any()
             }
         }
     }

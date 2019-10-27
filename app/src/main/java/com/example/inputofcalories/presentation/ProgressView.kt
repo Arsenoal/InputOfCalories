@@ -1,6 +1,6 @@
 package com.example.inputofcalories.presentation
 
-interface ProgressLayout {
+interface ProgressView {
     fun showProgress()
 
     fun hideProgress()

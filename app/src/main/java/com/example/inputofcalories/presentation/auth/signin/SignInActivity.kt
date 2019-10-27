@@ -10,19 +10,19 @@ import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.UserManager
 import com.example.inputofcalories.entity.register.UserSignInParams
 import com.example.inputofcalories.presentation.KeyboardManager
-import com.example.inputofcalories.presentation.ProgressLayout
+import com.example.inputofcalories.presentation.ProgressView
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.adminflow.home.AdminUserHomeActivity
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import com.example.inputofcalories.presentation.managerflow.home.ManagerUserHomeActivity
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
-import com.example.inputofcalories.presentation.regularflow.home.USER_ID_KEY
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
 import kotlinx.android.synthetic.main.progress_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SignInActivity : AppCompatActivity(), ProgressLayout {
+class SignInActivity : AppCompatActivity(), ProgressView {
 
     private val signInViewModel: SignInViewModel by viewModel()
 
@@ -40,17 +40,15 @@ class SignInActivity : AppCompatActivity(), ProgressLayout {
             it.singInSuccessLiveData.observe(this, Observer { user ->
                 hideProgress()
 
-                user.run {
-                    when(userParams.type) {
-                        RegularUser -> {
-                            ActivityNavigator.navigateAndFinishCurrent(this@SignInActivity, RegularUserHomeActivity::class.java, USER_ID_KEY, id)
-                        }
-                        UserManager -> {
-                            ActivityNavigator.navigateAndFinishCurrent(this@SignInActivity, ManagerUserHomeActivity::class.java, USER_ID_KEY, id)
-                        }
-                        Admin -> {
-                            ActivityNavigator.navigateAndFinishCurrent(this@SignInActivity, AdminUserHomeActivity::class.java)
-                        }
+                when(user.userParams.type) {
+                    RegularUser -> {
+                        ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java, USER_ID_KEY, user.id)
+                    }
+                    UserManager -> {
+                        ActivityNavigator.navigateAndFinishCurrent(this, ManagerUserHomeActivity::class.java, USER_ID_KEY, user.id)
+                    }
+                    Admin -> {
+                        ActivityNavigator.navigateAndFinishCurrent(this, AdminUserHomeActivity::class.java, USER_ID_KEY, user.id)
                     }
                 }
             })

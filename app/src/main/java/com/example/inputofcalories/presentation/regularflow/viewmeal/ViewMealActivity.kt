@@ -5,13 +5,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import kotlinx.android.synthetic.main.activity_view_meal.*
-
-const val MEAL_EXTRA = "meal_extra"
 
 class ViewMealActivity: AppCompatActivity() {
 

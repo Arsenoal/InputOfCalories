@@ -31,11 +31,11 @@ class AddMealActivity: AppCompatActivity() {
 
     private fun setupViewModel() {
         addMealViewModel.addMealFailLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, "meal add failed")
+            ToastManager.showToastShort(this, resources.getString(R.string.meal_add_failed))
         })
 
         addMealViewModel.addMealSuccessLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, "meal successfully added")
+            ToastManager.showToastShort(this, resources.getString(R.string.meal_successfully_added))
             ActivityNavigator.navigateBack(this)
         })
     }

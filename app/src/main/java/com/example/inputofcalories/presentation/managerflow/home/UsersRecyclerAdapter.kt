@@ -17,7 +17,7 @@ class UsersRecyclerAdapter(
     private val users: MutableList<User> = mutableListOf()
 ): RecyclerView.Adapter<UsersRecyclerAdapter.UserViewHolder>() {
 
-    lateinit var layoutInflater: LayoutInflater
+    private lateinit var layoutInflater: LayoutInflater
 
     val userUpgradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
 
@@ -67,9 +67,9 @@ class UsersRecyclerAdapter(
             userNameTextView.text = user.userParams.name
             emailTextView.text = user.userParams.email
             typeTextView.text = when(user.userParams.type) {
-                RegularUser -> { "regular" }
-                UserManager -> { "manager" }
-                Admin -> { "admin" }
+                RegularUser -> { itemView.context.getString(R.string.regular) }
+                UserManager -> { itemView.context.getString(R.string.manager) }
+                Admin -> { itemView.context.getString(R.string.admin) }
             }
         }
     }

@@ -14,4 +14,5 @@
     <string name="fill_all_fields">Fill all fields</string>
 
     <string name="registration_fail">Registration fail</string>
+    <string name="sign_in_fail">Sign in fail</string>
 </resources>

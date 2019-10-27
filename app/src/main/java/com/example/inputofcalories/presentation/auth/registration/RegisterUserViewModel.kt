@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.common.rx.HandleError
 import com.example.inputofcalories.common.rx.Success
 import com.example.inputofcalories.common.rx.SuccessCompletable
-import com.example.inputofcalories.domain.auth.registration.validation.CheckEmailFormatValidUseCase
+import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
 import com.example.inputofcalories.domain.auth.registration.validation.CheckPasswordsMatchesUseCase
 import com.example.inputofcalories.domain.auth.registration.RegisterUserUseCase
 import com.example.inputofcalories.domain.auth.registration.validation.CheckRegistrationFieldsAreFilledUseCase
@@ -24,11 +24,11 @@ class RegisterUserViewModel(
 
     val userRegistrationFailLiveData: MutableLiveData<Any> = MutableLiveData()
 
+    val notAllFieldsAreFilledLiveData: MutableLiveData<Any> = MutableLiveData()
+
     val emailFormatInvalidLiveData: MutableLiveData<Any> = MutableLiveData()
 
     val passwordsMismatchLiveData: MutableLiveData<Any> = MutableLiveData()
-
-    val notAllFieldsAreFilledLiveData: MutableLiveData<Any> = MutableLiveData()
 
     fun register(userRegistrationParams: UserRegistrationParams) {
 

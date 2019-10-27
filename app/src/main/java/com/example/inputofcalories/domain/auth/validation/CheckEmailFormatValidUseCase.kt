@@ -1,4 +1,4 @@
-package com.example.inputofcalories.domain.auth.registration.validation
+package com.example.inputofcalories.domain.auth.validation
 
 import io.reactivex.Single
 

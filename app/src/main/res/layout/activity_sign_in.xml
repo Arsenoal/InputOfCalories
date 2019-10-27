@@ -3,22 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.auth.registration.RegisterUserActivity">
+    tools:context=".presentation.auth.registration.RegisterUserActivity"
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_large">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/emailEditText"
-            android:hint="email"
+            android:hint="@string/email"
             style="@style/style_reg_edit_text"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/passwordEditText"
-            android:hint="password"
+            android:hint="@string/password"
             style="@style/style_reg_edit_text"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -30,5 +32,8 @@
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
+
+    <include layout="@layout/progress_layout"
+        android:visibility="gone"/>
 
 </FrameLayout>

@@ -2,6 +2,8 @@ package com.example.inputofcalories.connector
 
 import com.example.inputofcalories.domain.auth.registration.*
 import com.example.inputofcalories.domain.auth.registration.validation.*
+import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
+import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCaseImpl
 import com.example.inputofcalories.presentation.auth.registration.RegisterUserViewModel
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorServiceImpl

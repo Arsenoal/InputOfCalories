@@ -9,5 +9,5 @@ data class BaseResponse<T>(
         val response: T? = null,
         @SerializedName("reason")
         val reason: String? = null,
-        @SerializedName("message")
+        @SerializedName("text")
         val message: String? = null)

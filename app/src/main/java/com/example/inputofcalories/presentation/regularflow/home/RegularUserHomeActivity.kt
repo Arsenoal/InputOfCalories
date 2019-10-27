@@ -102,11 +102,11 @@ class RegularUserHomeActivity : AppCompatActivity() {
 
         this.updateDailyCaloriesViewModel.run {
             updateCaloriesSucceedLiveData.observe(this@RegularUserHomeActivity, Observer { message ->
-                ToastManager.showToastShort(this@RegularUserHomeActivity, message.message)
+                ToastManager.showToastShort(this@RegularUserHomeActivity, message.text)
             })
 
             updateCaloriesFailedLiveData.observe(this@RegularUserHomeActivity, Observer { message ->
-                ToastManager.showToastShort(this@RegularUserHomeActivity, message.message)
+                ToastManager.showToastShort(this@RegularUserHomeActivity, message.text)
             })
         }
     }

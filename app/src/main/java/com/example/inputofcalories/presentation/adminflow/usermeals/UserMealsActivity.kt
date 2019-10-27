@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
+import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
 import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewModel
 import com.example.inputofcalories.presentation.regularflow.home.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.home.MealsRecyclerAdapter
@@ -42,6 +43,8 @@ class UserMealsActivity: AppCompatActivity() {
         setupUpdateDailyCaloriesViewModel()
 
         setupMealsRecyclerView()
+
+        setupClickListeners()
     }
 
     private fun setupMealsProviderViewModel() {
@@ -87,11 +90,11 @@ class UserMealsActivity: AppCompatActivity() {
 
         this.updateDailyCaloriesViewModel.run {
             updateCaloriesSucceedLiveData.observe(this@UserMealsActivity, Observer { message ->
-                ToastManager.showToastShort(this@UserMealsActivity, message.message)
+                ToastManager.showToastShort(this@UserMealsActivity, message.text)
             })
 
             updateCaloriesFailedLiveData.observe(this@UserMealsActivity, Observer { message ->
-                ToastManager.showToastShort(this@UserMealsActivity, message.message)
+                ToastManager.showToastShort(this@UserMealsActivity, message.text)
             })
         }
     }
@@ -122,6 +125,12 @@ class UserMealsActivity: AppCompatActivity() {
 
     private fun setupEmptyMealsUi() {
         noMealsToShowTextView.visibility = View.VISIBLE
+    }
+
+    private fun setupClickListeners() {
+        addMealButton.setOnClickListener {
+            ActivityNavigator.navigate(this, AddMealActivity::class.java)
+        }
     }
 
     private fun getUserIdExtra() = intent.getStringExtra(USER_ID_KEY)

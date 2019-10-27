@@ -39,7 +39,7 @@ class AdminUserHomeActivity: AppCompatActivity() {
                 ToastManager.showToastShort(this, "upgraded")
             })
             it.userUpgradeFailLiveData.observe(this, Observer { message ->
-                ToastManager.showToastShort(this, message.message)
+                ToastManager.showToastShort(this, message.text)
             })
 
             it.userDowngradeSucceedLiveData.observe(this, Observer {
@@ -47,7 +47,7 @@ class AdminUserHomeActivity: AppCompatActivity() {
                 ToastManager.showToastShort(this, "downgraded")
             })
             it.userDowngradeFailLiveData.observe(this, Observer { message ->
-                ToastManager.showToastShort(this, message.message)
+                ToastManager.showToastShort(this, message.text)
             })
         }
     }
@@ -55,7 +55,7 @@ class AdminUserHomeActivity: AppCompatActivity() {
     private fun setupUsersProviderViewModel() {
         allUsersProviderViewModel.let {
             it.usersLoadFailLiveData.observe(this, Observer { message ->
-                ToastManager.showToastShort(this, message.message)
+                ToastManager.showToastShort(this, message.text)
             })
 
             it.usersLoadSuccessLiveData.observe(this, Observer { users ->

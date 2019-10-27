@@ -1,7 +1,7 @@
 package com.example.inputofcalories.connector
 
-import com.example.inputofcalories.domain.auth.registration.RegisterUserUseCase
-import com.example.inputofcalories.domain.auth.registration.RegisterUserUseCaseImpl
+import com.example.inputofcalories.domain.auth.registration.*
+import com.example.inputofcalories.domain.auth.registration.validation.*
 import com.example.inputofcalories.presentation.auth.registration.RegisterUserViewModel
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorServiceImpl
@@ -17,5 +17,17 @@ val registrationModule = module {
 
     single<RegisterUserUseCase> { RegisterUserUseCaseImpl(get()) }
 
-    viewModel { RegisterUserViewModel(get()) }
+    single<CheckEmailFormatValidUseCase> {
+        CheckEmailFormatValidUseCaseImpl()
+    }
+
+    single<CheckPasswordsMatchesUseCase> {
+        CheckPasswordsMatchesUseCaseImpl()
+    }
+
+    single<CheckRegistrationFieldsAreFilledUseCase> {
+        CheckRegistrationFieldsAreFilledUseCaseImpl()
+    }
+
+    viewModel { RegisterUserViewModel(get(), get(), get(), get()) }
 }

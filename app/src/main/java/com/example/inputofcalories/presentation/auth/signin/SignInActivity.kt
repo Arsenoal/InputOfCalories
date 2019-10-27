@@ -50,7 +50,7 @@ class SignInActivity : AppCompatActivity() {
         })
 
         signInViewModel.singInFailLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, it.message)
+            ToastManager.showToastShort(this, it.text)
         })
     }
 

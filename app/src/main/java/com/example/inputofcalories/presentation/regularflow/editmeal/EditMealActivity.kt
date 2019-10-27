@@ -7,7 +7,6 @@ import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.viewmeal.MEAL_EXTRA
 import kotlinx.android.synthetic.main.activity_edit_meal.*
@@ -36,12 +35,12 @@ class EditMealActivity: AppCompatActivity() {
 
     private fun setupViewModel() {
         editMealViewModel.mealEditFailedLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, it.message)
+            ToastManager.showToastShort(this, it.text)
         })
 
         editMealViewModel.mealEditSucceededLiveData.observe(this, Observer {
             ToastManager.showToastShort(this, "meal edit succeeded")
-            ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java)
+            ActivityNavigator.navigateBack(this)
         })
     }
 
@@ -51,9 +50,9 @@ class EditMealActivity: AppCompatActivity() {
                 val meal = Meal(
                     id = id,
                     params = MealParams(
-                        text = text,
-                        calories = calories,
-                        weight = weight),
+                        text = mealTextEditText.text.toString(),
+                        calories = mealCaloriesEditText.text.toString(),
+                        weight = mealWeightEditText.text.toString()),
                     filterParams = MealFilterParams(
                         date = MealDateParams(
                             year = year,

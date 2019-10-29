@@ -21,6 +21,14 @@ class MealsProviderRepoImpl(
                                 val list: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
                                     val mealFirebase: MealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
 
+                                    val mealTimeParams = when(mealFirebase.from) {
+                                        BreakfastTime.from -> { BreakfastTime }
+                                        LunchTime.from -> { LunchTime }
+                                        DinnerTime.from -> { DinnerTime }
+                                        SnackTime.from -> { SnackTime }
+                                        else -> { LunchTime }
+                                    }
+
                                     //TODO move to mapper
                                     val mealParams = MealParams(
                                         text = mealFirebase.text,
@@ -33,7 +41,7 @@ class MealsProviderRepoImpl(
                                             year = mealFirebase.year,
                                             month = mealFirebase.month,
                                             dayOfMonth = mealFirebase.day),
-                                        time = LunchTime())
+                                        time = mealTimeParams)
 
                                     val meal = Meal(
                                         id = mealDocumentsSnapshot.id,

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|top"
     >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="vertical"
         >
 
@@ -23,47 +24,71 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/mealTextEditText"
-                android:hint="text"
-                style="@style/style_reg_edit_text"
+                android:hint="@string/text"
+                style="@style/regEditTextStyle"
                 />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/mealCaloriesEditText"
-                android:hint="calories"
-                style="@style/style_reg_edit_text"
+                android:hint="@string/calories"
+                style="@style/regEditTextStyle"
                 />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/mealWeightEditText"
-                android:hint="weight"
-                style="@style/style_reg_edit_text"
+                android:hint="@string/weight"
+                style="@style/regEditTextStyle"
                 />
-        </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/mealDateRadioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <RadioButton
-                android:id="@+id/lunchButton"
+            <RadioGroup
+                android:id="@+id/mealDateRadioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="lunch"
-                />
-        </RadioGroup>
+                android:orientation="vertical"
+                >
+
+                <RadioButton
+                    android:id="@+id/breakfastButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/breakfast"
+                    />
+
+                <RadioButton
+                    android:id="@+id/lunchButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:checked="true"
+                    android:text="@string/lunch"
+                    />
+
+                <RadioButton
+                    android:id="@+id/dinnerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/dinner"
+                    />
+
+                <RadioButton
+                    android:id="@+id/snackButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/snack"
+                    />
+            </RadioGroup>
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/addMealButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="add meal"
+            android:text="@string/add_meal"
+            style="@style/AppButtonStyle"
             />
 
     </LinearLayout>
-
-</FrameLayout>
+</ScrollView>

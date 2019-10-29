@@ -21,11 +21,36 @@
         >
 
         <RadioButton
+            android:id="@+id/breakfastButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/breakfast"
+            />
+
+        <RadioButton
             android:id="@+id/lunchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:checked="true"
             android:text="@string/lunch"
+            />
+
+        <RadioButton
+            android:id="@+id/dinnerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/dinner"
+            />
+
+        <RadioButton
+            android:id="@+id/snackButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/snack"
             />
     </RadioGroup>
 

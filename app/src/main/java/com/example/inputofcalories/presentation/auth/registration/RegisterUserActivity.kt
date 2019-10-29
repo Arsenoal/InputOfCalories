@@ -71,7 +71,6 @@ class RegisterUserActivity : AppCompatActivity(), ProgressView {
 
         signIn.setOnClickListener {
             KeyboardManager.hideKeyboard(this)
-            showProgress()
 
             ActivityNavigator.navigate(this, SignInActivity::class.java)
         }

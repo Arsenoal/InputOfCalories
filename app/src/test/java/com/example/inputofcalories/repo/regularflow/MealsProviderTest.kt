@@ -25,7 +25,8 @@ class MealsProviderTest {
             year = "2019",
             month = "10",
             dayOfMonth = "27")
-        val timeParams = LunchTime()
+
+        val timeParams = LunchTime
 
         val validFilterParams = MealFilterParams(dateParams, timeParams)
 

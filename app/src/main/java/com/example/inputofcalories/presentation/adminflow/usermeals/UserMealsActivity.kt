@@ -15,6 +15,7 @@ import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewM
 import com.example.inputofcalories.presentation.regularflow.home.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.home.MealsRecyclerAdapter
 import com.example.inputofcalories.presentation.regularflow.home.UpdateDailyCaloriesViewModel
+import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
@@ -56,7 +57,22 @@ class UserMealsActivity: AppCompatActivity() {
             })
 
             it.mealsLoadSuccessLiveData.observe(this, Observer { list ->
-                mealsAdapter.setItems(list)
+                val mealAdapterModelList = list.map { meal ->
+                    MealAdapterModel(
+                        id = meal.id,
+                        text = meal.params.text,
+                        calories = meal.params.calories,
+                        weight = meal.params.weight,
+                        dayOfMonth = meal.filterParams.date.dayOfMonth,
+                        month = meal.filterParams.date.month,
+                        year = meal.filterParams.date.year,
+                        from = meal.filterParams.time.from,
+                        to = meal.filterParams.time.to,
+                        isLimitExceeded = false
+                    )
+                }
+
+                mealsAdapter.setItems(mealAdapterModelList)
             })
 
             it.noMealsFoundLiveData.observe(this, Observer {
@@ -105,14 +121,14 @@ class UserMealsActivity: AppCompatActivity() {
         mealsAdapter.mealSelectedLiveData.observe(this, Observer {
             val mealSerializable = MealSerializable(
                 id = it.id,
-                text = it.params.text,
-                calories = it.params.calories,
-                weight = it.params.weight,
-                year = it.filterParams.date.year,
-                month = it.filterParams.date.month,
-                dayOfMonth = it.filterParams.date.dayOfMonth,
-                from = it.filterParams.time.from,
-                to = it.filterParams.time.to)
+                text = it.text,
+                calories = it.calories,
+                weight = it.weight,
+                year = it.year,
+                month = it.month,
+                dayOfMonth = it.dayOfMonth,
+                from = it.from,
+                to = it.to)
 
             ActivityNavigator.navigate(this, ViewMealActivity::class.java, MEAL_EXTRA, mealSerializable)
         })

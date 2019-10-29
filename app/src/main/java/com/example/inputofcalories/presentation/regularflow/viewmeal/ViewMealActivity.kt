@@ -11,6 +11,7 @@ import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActiv
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import kotlinx.android.synthetic.main.activity_view_meal.*
+import java.util.*
 
 class ViewMealActivity: AppCompatActivity() {
 
@@ -34,9 +35,9 @@ class ViewMealActivity: AppCompatActivity() {
     }
 
     private fun updateUi(mealSerializable: MealSerializable) {
-        mealTextTextView.text = mealSerializable.text
-        mealCaloriesTextView.text = mealSerializable.calories
-        mealWeightTextView.text = mealSerializable.weight
+        mealTextTextView.text = String.format(Locale.ENGLISH, "%s: %s", resources.getString(R.string.text), mealSerializable.text)
+        mealCaloriesTextView.text = String.format(Locale.ENGLISH, "%s: %s", resources.getString(R.string.calories), mealSerializable.calories)
+        mealWeightTextView.text = String.format(Locale.ENGLISH, "%s: %s", resources.getString(R.string.weight), mealSerializable.weight)
     }
 
     private fun setupToolBar() {

@@ -47,6 +47,15 @@ class EditMealActivity: AppCompatActivity() {
     private fun setupClickListeners() {
         editMealButton.setOnClickListener {
             getMealSerializableExtra().run {
+
+                val timeParam = when(from) {
+                    BreakfastTime.from -> { BreakfastTime }
+                    LunchTime.from -> { LunchTime }
+                    DinnerTime.from -> { DinnerTime }
+                    SnackTime.from -> { SnackTime }
+                    else -> { LunchTime }
+                }
+
                 val meal = Meal(
                     id = id,
                     params = MealParams(
@@ -58,7 +67,7 @@ class EditMealActivity: AppCompatActivity() {
                             year = year,
                             month = month,
                             dayOfMonth = dayOfMonth),
-                        time = LunchTime()
+                        time = timeParam
                     )
                 )
 

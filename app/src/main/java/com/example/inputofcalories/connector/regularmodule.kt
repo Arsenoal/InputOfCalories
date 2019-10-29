@@ -1,6 +1,8 @@
 package com.example.inputofcalories.connector
 
 import com.example.inputofcalories.domain.regularflow.*
+import com.example.inputofcalories.domain.regularflow.validation.MealParamsValidationUseCase
+import com.example.inputofcalories.domain.regularflow.validation.MealParamsValidationUseCaseImpl
 import com.example.inputofcalories.domain.user.GetUserUseCase
 import com.example.inputofcalories.domain.user.GetUserUseCaseImpl
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
@@ -52,8 +54,12 @@ val mealsmodule = module {
         AddMealUseCaseImpl(get(), get())
     }
 
+    single<MealParamsValidationUseCase> {
+        MealParamsValidationUseCaseImpl()
+    }
+
     viewModel {
-        AddMealViewModel(get())
+        AddMealViewModel(get(), get())
     }
 
     //edit meal

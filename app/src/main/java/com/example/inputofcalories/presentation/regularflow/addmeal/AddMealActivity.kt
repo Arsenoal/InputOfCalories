@@ -16,7 +16,7 @@ class AddMealActivity: AppCompatActivity() {
 
     private val addMealViewModel: AddMealViewModel by viewModel()
 
-    var mealTime = LunchTime()
+    var mealTime: MealTimeParams = LunchTime
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +30,20 @@ class AddMealActivity: AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        addMealViewModel.addMealFailLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, resources.getString(R.string.meal_add_failed))
-        })
+        addMealViewModel.let {
+            it.addMealFailLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.meal_add_failed))
+            })
 
-        addMealViewModel.addMealSuccessLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, resources.getString(R.string.meal_successfully_added))
-            ActivityNavigator.navigateBack(this)
-        })
+            it.addMealSuccessLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.meal_successfully_added))
+                ActivityNavigator.navigateBack(this)
+            })
+
+            it.mealParamsAreInvalidLiveData.observe(this, Observer {
+                ToastManager.showToastShort(this, resources.getString(R.string.meal_params_are_invalid))
+            })
+        }
     }
 
     private fun setupClickListeners() {
@@ -64,9 +70,10 @@ class AddMealActivity: AppCompatActivity() {
     private fun setupMealTimePickerListener() {
         mealDateRadioGroup.setOnCheckedChangeListener { _, id ->
             when(id) {
-                R.id.lunchButton -> {
-                    mealTime = LunchTime()
-                }
+                R.id.breakfastButton -> { mealTime = BreakfastTime }
+                R.id.lunchButton -> { mealTime = LunchTime }
+                R.id.dinnerButton -> { mealTime = DinnerTime }
+                R.id.snackButton -> { mealTime = SnackTime }
             }
         }
     }

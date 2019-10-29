@@ -2,22 +2,25 @@ package com.example.inputofcalories.presentation.regularflow.home
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.Meal
+import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
 import java.util.*
 
 class MealsRecyclerAdapter(
-    val meals: MutableList<Meal> = mutableListOf()
+    val meals: MutableList<MealAdapterModel> = mutableListOf()
 ): RecyclerView.Adapter<MealsRecyclerAdapter.MealViewHolder>() {
 
     private lateinit var layoutInflater: LayoutInflater
 
-    val mealSelectedLiveData: MutableLiveData<Meal> = MutableLiveData()
+    val mealSelectedLiveData: MutableLiveData<MealAdapterModel> = MutableLiveData()
 
     val mealDeleteClickedLiveData: MutableLiveData<String> = MutableLiveData()
 
@@ -31,19 +34,25 @@ class MealsRecyclerAdapter(
         private val mealCaloriesTextView: AppCompatTextView = view.findViewById(R.id.mealCaloriesTextView)
         private val mealWeightTextView: AppCompatTextView = view.findViewById(R.id.mealWeightTextView)
         private val dateTextView: AppCompatTextView = view.findViewById(R.id.dateTextView)
+        private val limitMarker: FrameLayout = view.findViewById(R.id.limitExceededColorView)
         val deleteMealButton: AppCompatImageButton = view.findViewById(R.id.deleteMealButton)
 
-        fun bind(meal: Meal) {
-            mealTextTextView.text = meal.params.text
-            mealCaloriesTextView.text = meal.params.calories
-            mealWeightTextView.text = String.format(Locale.ENGLISH, "%s g", meal.params.weight)
+        fun bind(mealAdapterModel: MealAdapterModel) {
+            mealTextTextView.text = mealAdapterModel.text
+            mealCaloriesTextView.text = mealAdapterModel.calories
+            mealWeightTextView.text = String.format(Locale.ENGLISH, "%s g", mealAdapterModel.weight)
             dateTextView.text = String.format(Locale.ENGLISH, "%s/%s %s: %s, %s: %s",
-                meal.filterParams.date.month,
-                meal.filterParams.date.dayOfMonth,
+                mealAdapterModel.month,
+                mealAdapterModel.dayOfMonth,
                 itemView.context.resources.getString(R.string.from),
-                meal.filterParams.time.from,
+                mealAdapterModel.from,
                 itemView.context.resources.getString(R.string.to),
-                meal.filterParams.time.to)
+                mealAdapterModel.to)
+
+            if(mealAdapterModel.isLimitExceeded) limitMarker.background = itemView.context.getDrawable(R.drawable.background_circle_primary_dark)
+            else limitMarker.background = itemView.context.getDrawable(R.drawable.background_circle_accent)
+
+            limitMarker.visibility = VISIBLE
         }
     }
 
@@ -55,29 +64,33 @@ class MealsRecyclerAdapter(
 
     override fun getItemCount() = meals.size
 
-    fun addItems(items: List<Meal>) {
-        val initialSize = meals.size
-        meals.addAll(items)
-        notifyItemRangeInserted(initialSize, items.size)
-    }
-
-    fun setItems(items: List<Meal>) {
+    fun setItems(items: List<MealAdapterModel>) {
         meals.clear()
         meals.addAll(items)
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
-        val meal = meals[position]
+    fun markOnLimitExceeded() {
+        meals.forEach { it.isLimitExceeded = true }
+        notifyDataSetChanged()
+    }
 
-        holder.bind(meal)
+    fun markOnLimitNotExceeded() {
+        meals.forEach { it.isLimitExceeded = false }
+        notifyDataSetChanged()
+    }
+
+    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
+        val mealAdapterModel = meals[position]
+
+        holder.bind(mealAdapterModel)
 
         holder.itemView.setOnClickListener {
-            mealSelectedLiveData.value = meal
+            mealSelectedLiveData.value = mealAdapterModel
         }
 
         holder.deleteMealButton.setOnClickListener {
-            mealDeleteClickedLiveData.value = meal.id
+            mealDeleteClickedLiveData.value = mealAdapterModel.id
         }
     }
 }

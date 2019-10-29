@@ -19,7 +19,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "10",
                     dayOfMonth = "26"),
-                time = LunchTime())),
+                time = LunchTime)),
         Meal(id = "52fcfe2a-393d-4a6c-97c5-7997b2d53e97",
             params = MealParams(
                 text = "meal2",
@@ -30,7 +30,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "10",
                     dayOfMonth = "27"),
-                time = LunchTime())),
+                time = LunchTime)),
         Meal(id = "885e400f-b4e4-4b7f-a5e8-a4259339fed2",
             params = MealParams(
                 text = "meal3",
@@ -41,7 +41,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "10",
                     dayOfMonth = "27"),
-                time = LunchTime())),
+                time = LunchTime)),
         Meal(id = "df9ab6a2-a140-4780-8a99-dd771a1dda68",
             params = MealParams(
                 text = "meal4",
@@ -52,7 +52,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "10",
                     dayOfMonth = "27"),
-                time = LunchTime())),
+                time = LunchTime)),
         Meal(id = "0eafd5e2-0a1b-405f-a540-41ed039cc0da",
             params = MealParams(
                 text = "meal5",
@@ -63,7 +63,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "9",
                     dayOfMonth = "27"),
-                time = LunchTime()))
+                time = LunchTime))
     )
 
     val filteredMealsList: List<Meal> = listOf(
@@ -77,7 +77,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "10",
                     dayOfMonth = "27"),
-                time = LunchTime())),
+                time = LunchTime)),
         Meal(id = "885e400f-b4e4-4b7f-a5e8-a4259339fed2",
             params = MealParams(
                 text = "meal3",
@@ -88,7 +88,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "10",
                     dayOfMonth = "27"),
-                time = LunchTime())),
+                time = LunchTime)),
         Meal(id = "df9ab6a2-a140-4780-8a99-dd771a1dda68",
             params = MealParams(
                 text = "meal4",
@@ -99,7 +99,7 @@ object MockDataProvider {
                     year = "2019",
                     month = "10",
                     dayOfMonth = "27"),
-                time = LunchTime()))
+                time = LunchTime))
     )
 
     val mealParams = MealParams(
@@ -112,7 +112,7 @@ object MockDataProvider {
             year = "2019",
             month = "10",
             dayOfMonth = "26"),
-        time = LunchTime()
+        time = LunchTime
     )
 
     val mealToEdit =  Meal(id = "96bc1c95-86f0-4cec-88c8-aa97335529b6",
@@ -125,7 +125,7 @@ object MockDataProvider {
                 year = "2019",
                 month = "10",
                 dayOfMonth = "26"),
-            time = LunchTime()))
+            time = LunchTime))
 
     val mealDeleteParams = MealDeleteParams(
         userId = "4449fc18-0210-4f09-adfd-ed216369a173",

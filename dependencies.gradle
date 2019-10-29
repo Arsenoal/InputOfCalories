@@ -41,6 +41,13 @@ ext {
     assertKVersion = '0.17'
     androidArchVersion = '2.0.1'
 
+    //material
+    materialVersion = '1.0.0'
+
+    materialDependencies = [
+            material     : "com.google.android.material:material:$materialVersion"
+    ]
+
     kotlinDependencies = [
             kotlinStdlib : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     ]

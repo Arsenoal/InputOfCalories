@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.auth.registration.RegisterUserActivity"
->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.auth.registration.RegisterUserActivity">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,41 +13,99 @@
         android:padding="@dimen/padding_large"
         >
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/nameEditText"
-            android:hint="@string/name"
-            android:inputType="text"
-            style="@style/style_reg_edit_text"
-            />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/emailEditText"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            style="@style/style_reg_edit_text"
-            />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_user"
+                />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/passwordEditText"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            style="@style/style_reg_edit_text"
-            />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/nameEditText"
+                android:hint="@string/name"
+                android:inputType="text"
+                android:paddingStart="25dp"
+                android:paddingEnd="0dp"
+                style="@style/regEditTextStyle"
+                />
+        </FrameLayout>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/repeatPasswordEditText"
-            android:hint="@string/repeat_password"
-            android:inputType="textPassword"
-            style="@style/style_reg_edit_text"
-            />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_email"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/emailEditText"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="25dp"
+                android:paddingEnd="0dp"
+                style="@style/regEditTextStyle"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_lock"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/passwordEditText"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingStart="25dp"
+                android:paddingEnd="0dp"
+                style="@style/regEditTextStyle"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_lock"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/repeatPasswordEditText"
+                android:hint="@string/repeat_password"
+                android:inputType="textPassword"
+                android:paddingStart="25dp"
+                android:paddingEnd="0dp"
+                style="@style/regEditTextStyle"
+                />
+        </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/registerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
             android:text="@string/register"
             android:layout_gravity="center_horizontal"
+            style="@style/AppButtonStyle"
             />
 
         <androidx.appcompat.widget.AppCompatTextView

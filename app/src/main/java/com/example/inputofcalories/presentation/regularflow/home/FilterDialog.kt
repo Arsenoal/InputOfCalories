@@ -5,9 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.presentation.regular.LunchTime
-import com.example.inputofcalories.entity.presentation.regular.MealDateParams
-import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
+import com.example.inputofcalories.entity.presentation.regular.*
 import kotlinx.android.synthetic.main.dialog_filter.*
 import java.util.*
 
@@ -20,7 +18,7 @@ class FilterDialog(context: Context): Dialog(context) {
             Calendar.getInstance().get(Calendar.YEAR).toString(),
             Calendar.getInstance().get(Calendar.MONTH).toString(),
             Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString()),
-        LunchTime()
+        LunchTime
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +41,12 @@ class FilterDialog(context: Context): Dialog(context) {
 
     private fun setupMealTimePickerListener() {
         mealDateRadioGroup.setOnCheckedChangeListener { _, id ->
-            when(id) {
-                R.id.lunchButton -> {
-                    mealFilterParams.time = LunchTime()
+            mealFilterParams.run {
+                when(id) {
+                    R.id.breakfastButton -> { time = BreakfastTime }
+                    R.id.lunchButton -> { time = LunchTime }
+                    R.id.dinnerButton -> { time = DinnerTime }
+                    R.id.snackButton -> { time = SnackTime }
                 }
             }
         }

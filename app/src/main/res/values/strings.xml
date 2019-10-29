@@ -34,8 +34,18 @@
     <string name="meal_successfully_added">Meal successfully added</string>
 
     <string name="meal_edit_succeed">meal edit succeeded</string>
+    <string name="edit_meal">edit meal</string>
 
+    <string name="text">text</string>
+    <string name="calories">calories</string>
+    <string name="weight">weight</string>
+
+    <string name="breakfast">breakfast</string>
     <string name="lunch">lunch</string>
+    <string name="dinner">dinner</string>
+    <string name="snack">snack</string>
+
+    <string name="meal_params_are_invalid">meal params are invalid</string>
 
     <!-- admin flow -->
     <string name="upgraded">upgraded</string>

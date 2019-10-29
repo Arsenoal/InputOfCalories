@@ -87,6 +87,9 @@ dependencies {
     implementation roomDependencies.runtime
     kapt roomDependencies.compiler
     implementation roomDependencies.rxJava2
+
+    def materialDependencies = rootProject.ext.materialDependencies
+    implementation materialDependencies.material
 }
 
 apply plugin: 'com.google.gms.google-services'

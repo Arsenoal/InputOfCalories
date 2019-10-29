@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/dailyCaloriesEditText"
         android:layout_gravity="center_horizontal"
-        style="@style/style_reg_edit_text"
+        style="@style/regEditTextStyle"
         />
 
     <androidx.appcompat.widget.AppCompatButton

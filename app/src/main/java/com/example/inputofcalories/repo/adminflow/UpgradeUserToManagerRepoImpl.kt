@@ -10,32 +10,29 @@ import io.reactivex.Completable
 class UpgradeUserToManagerRepoImpl(
     private val firestore: FirebaseFirestore
 ): UpgradeUserToManagerRepo {
-    override fun upgrade(userId: String): Completable {
-        return Completable.create { emitter ->
-            firestore.collection(USERS).get()
-                .addOnSuccessListener { usersQuerySnapshot ->
-                    usersQuerySnapshot.filter { documentSnapshot ->
-                        userId == documentSnapshot.id
-                    }.map { documentSnapshot ->
-                        val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
+    override suspend fun upgrade(userId: String) {
+        firestore.collection(USERS).get()
+            .addOnSuccessListener { usersQuerySnapshot ->
+                usersQuerySnapshot.filter { documentSnapshot ->
+                    userId == documentSnapshot.id
+                }.map { documentSnapshot ->
+                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                        val upgradedUser = UserFirebase(
-                            id = userFirebase.id,
-                            name = userFirebase.name,
-                            email = userFirebase.email,
-                            password = userFirebase.password,
-                            dailyCalories = userFirebase.dailyCalories,
-                            type = TYPE_MANAGER
-                        )
+                    val upgradedUser = UserFirebase(
+                        id = userFirebase.id,
+                        name = userFirebase.name,
+                        email = userFirebase.email,
+                        password = userFirebase.password,
+                        dailyCalories = userFirebase.dailyCalories,
+                        type = TYPE_MANAGER)
 
-                        firestore.collection(USERS)
-                            .document(userId)
-                            .set(upgradedUser)
-                            .addOnSuccessListener { emitter.onComplete() }
-                            .addOnFailureListener { emitter.onError(UserException(error = it)) }
-                    }
+                    firestore.collection(USERS)
+                        .document(userId)
+                        .set(upgradedUser)
+                        .addOnSuccessListener {  }
+                        .addOnFailureListener { throw UserException(error = it) }
                 }
-                .addOnFailureListener { emitter.onError(UserException(error = it)) }
-        }
+            }
+            .addOnFailureListener { throw UserException(error = it) }
     }
 }

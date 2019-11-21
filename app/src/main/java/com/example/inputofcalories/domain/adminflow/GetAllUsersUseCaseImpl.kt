@@ -5,5 +5,5 @@ import com.example.inputofcalories.repo.adminflow.GetAllUsersRepo
 class GetAllUsersUseCaseImpl(
     private val getAllUsersRepo: GetAllUsersRepo
 ): GetAllUsersUseCase {
-    override fun get(userId: String) = getAllUsersRepo.get(userId)
+    override suspend fun get(userId: String) = getAllUsersRepo.get(userId)
 }

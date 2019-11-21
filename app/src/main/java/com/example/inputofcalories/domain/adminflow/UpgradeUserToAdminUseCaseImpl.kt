@@ -5,5 +5,5 @@ import com.example.inputofcalories.repo.adminflow.UpgradeUserToAdminRepo
 class UpgradeUserToAdminUseCaseImpl(
     private val upgradeUserToAdminRepo: UpgradeUserToAdminRepo
 ): UpgradeUserToAdminUseCase {
-    override fun upgrade(userId: String) = upgradeUserToAdminRepo.upgrade(userId)
+    override suspend fun upgrade(userId: String) = upgradeUserToAdminRepo.upgrade(userId)
 }

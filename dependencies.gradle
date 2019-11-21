@@ -11,6 +11,7 @@ ext {
     supportLibraryVersion = '1.0.0'
     constraintVersion = '1.1.3'
     lifecycleExtensionsVersion = '2.0.0'
+    coroutineViewModelScopeVersion = '2.1.0-beta01'
     koinVersion = '2.0.1'
     reactivexRxKotlinVersion = '2.2.9'
     reactivexRxAndroidVersion = '2.1.1'
@@ -53,14 +54,14 @@ ext {
     ]
 
     supportLibraryDependencies = [
-            appCompatV7        : "androidx.appcompat:appcompat:$supportLibraryVersion",
-            recyclerView       : "androidx.recyclerview:recyclerview:$supportLibraryVersion",
-            cardView           : "androidx.cardview:cardview:$supportLibraryVersion",
-            supportAnnotations : "androidx.annotation:annotation:$supportLibraryVersion",
-            constraintLayout   : "androidx.constraintlayout:constraintlayout:$constraintVersion",
-            pagingAdapter      : "androidx.paging:paging-runtime:$archComponentsVersion",
-            lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion",
-
+            appCompatV7                 : "androidx.appcompat:appcompat:$supportLibraryVersion",
+            recyclerView                : "androidx.recyclerview:recyclerview:$supportLibraryVersion",
+            cardView                    : "androidx.cardview:cardview:$supportLibraryVersion",
+            supportAnnotations          : "androidx.annotation:annotation:$supportLibraryVersion",
+            constraintLayout            : "androidx.constraintlayout:constraintlayout:$constraintVersion",
+            pagingAdapter               : "androidx.paging:paging-runtime:$archComponentsVersion",
+            lifecycleExtensions         : "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion",
+            coroutineViewmodel          : "androidx.lifecycle:lifecycle-viewmodel-ktx::$coroutineViewModelScopeVersion"
     ]
 
     crashliticsDependencies = [

@@ -10,32 +10,29 @@ import io.reactivex.Completable
 class DowngradeUserToManagerRepoImpl(
     private val firestore: FirebaseFirestore
 ): DowngradeUserToManagerRepo {
-    override fun downgrade(userId: String): Completable {
-        return Completable.create { emitter ->
-            firestore.collection(USERS).get()
-                .addOnSuccessListener { usersQuerySnapshot ->
-                    usersQuerySnapshot.filter { documentSnapshot ->
-                        userId == documentSnapshot.id
-                    }.map { documentSnapshot ->
-                        val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
+    override suspend fun downgrade(userId: String) {
+        firestore.collection(USERS).get()
+            .addOnSuccessListener { usersQuerySnapshot ->
+                usersQuerySnapshot.filter { documentSnapshot ->
+                    userId == documentSnapshot.id
+                }.map { documentSnapshot ->
+                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                        val downgradedUser = UserFirebase(
-                            id = userFirebase.id,
-                            name = userFirebase.name,
-                            email = userFirebase.email,
-                            password = userFirebase.password,
-                            dailyCalories = userFirebase.dailyCalories,
-                            type = TYPE_MANAGER
-                        )
+                    val downgradedUser = UserFirebase(
+                        id = userFirebase.id,
+                        name = userFirebase.name,
+                        email = userFirebase.email,
+                        password = userFirebase.password,
+                        dailyCalories = userFirebase.dailyCalories,
+                        type = TYPE_MANAGER)
 
-                        firestore.collection(USERS)
-                            .document(userId)
-                            .set(downgradedUser)
-                            .addOnSuccessListener { emitter.onComplete() }
-                            .addOnFailureListener { emitter.onError(UserException(error = it)) }
-                    }
+                    firestore.collection(USERS)
+                        .document(userId)
+                        .set(downgradedUser)
+                        .addOnSuccessListener {  }
+                        .addOnFailureListener { throw UserException(error = it) }
                 }
-                .addOnFailureListener { emitter.onError(UserException(error = it)) }
-        }
+            }
+            .addOnFailureListener { throw UserException(error = it) }
     }
 }

@@ -8,49 +8,61 @@ import com.example.inputofcalories.repo.auth.registration.model.TYPE_MANAGER
 import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.google.firebase.firestore.FirebaseFirestore
-import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
 class GetAllUsersRepoImpl(
     private val firestore: FirebaseFirestore
 ): GetAllUsersRepo {
-    override fun get(userId: String): Single<List<User>> {
-        return Single.create<List<User>> { emitter ->
-            firestore.collection(USERS).get()
-                .addOnSuccessListener { usersQuery ->
-                    val users: List<User> = usersQuery.documents
-                        .filter { userId != it.id }
-                        .map { documentSnapshot ->
-                            val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
+    @ExperimentalCoroutinesApi
+    override suspend fun get(userId: String): List<User> =
+            suspendCancellableCoroutine { continuation ->
+                firestore.collection(USERS).get()
+                    .addOnSuccessListener { usersQuery ->
+                        val users: List<User> = usersQuery.documents
+                            .filter { userId != it.id }
+                            .map { documentSnapshot ->
+                                val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                            var user = User(
-                                documentSnapshot.id,
-                                UserParams(name = String.empty(), email = String.empty(), dailyCalories = String.empty(), type = RegularUser))
+                                var user = User(
+                                    documentSnapshot.id,
+                                    UserParams(
+                                        name = String.empty(),
+                                        email = String.empty(),
+                                        dailyCalories = String.empty(),
+                                        type = RegularUser)
+                                )
 
-                            userFirebase?.run {
-                                val type: UserType = when(type) {
-                                    TYPE_MANAGER -> { UserManager }
-                                    TYPE_ADMIN -> { Admin }
-                                    else -> { RegularUser }
+                                userFirebase?.run {
+                                    val type: UserType = when(type) {
+                                        TYPE_MANAGER -> { UserManager }
+                                        TYPE_ADMIN -> { Admin }
+                                        else -> { RegularUser }
+                                    }
+
+                                    val userParams = UserParams(
+                                        name = name,
+                                        email = email,
+                                        dailyCalories = dailyCalories,
+                                        type = type)
+
+                                    user = User(
+                                        documentSnapshot.id,
+                                        userParams)
                                 }
 
-                                val userParams = UserParams(
-                                    name = name,
-                                    email = email,
-                                    dailyCalories = dailyCalories,
-                                    type = type)
-
-                                user = User(
-                                    documentSnapshot.id,
-                                    userParams)
+                                user
                             }
+                            .toList()
 
-                            user
-                        }
-                        .toList()
-
-                    emitter.onSuccess(users)
-                }
-                .addOnFailureListener { emitter.onError(UserException(it)) }
-        }
-    }
+                        continuation.resume(users) { throw UserException(message = "users get cancelled") }
+                    }
+                    .addOnFailureListener {
+                        continuation.resumeWithException(UserException(it))
+                    }
+            }
 }

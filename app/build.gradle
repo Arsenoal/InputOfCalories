@@ -46,6 +46,8 @@ dependencies {
     implementation supportLibrary.cardView
     implementation supportLibrary.constraintLayout
     implementation supportLibrary.supportAnnotations
+    implementation supportLibrary.lifecycleExtensions
+    implementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.2.0-rc02'
 
     def kotlin = rootProject.ext.kotlinDependencies
     implementation kotlin.kotlinStdlib

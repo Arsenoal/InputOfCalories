@@ -1,11 +1,12 @@
 package com.example.inputofcalories.presentation.adminflow.home
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.common.rx.Success
 import com.example.inputofcalories.domain.adminflow.GetAllUsersUseCase
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
+import kotlinx.coroutines.launch
 
 private const val GET_ALL_USERS_REQUEST_CODE = 1
 
@@ -21,18 +22,16 @@ class AllUsersProviderViewModel(
     val noUsersFoundLiveData =  MutableLiveData<Any>()
 
     fun getUsers() {
-        loadUsers(userId) { users ->
+        viewModelScope.launch {
+            val users = loadUsers(userId)
+
             if(users.isNotEmpty()) usersLoadSuccessLiveData.value = users
             else noUsersFoundLiveData.value = Any()
+            //print(users)
         }
     }
 
-    private fun loadUsers(userId: String, success: Success<List<User>>) {
-        execute(getAllUsersUseCase.get(userId),
-            requestCode = GET_ALL_USERS_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
+    private suspend fun loadUsers(userId: String) = getAllUsersUseCase.get(userId)
 
     override fun invoke(t: Throwable, requestCode: Int?) {
         when(requestCode) {

@@ -19,6 +19,8 @@ class MealException(error: Throwable? = null, message: String? = null): RuntimeE
 //user request exception
 open class UserException(error: Throwable? = null, message: String? = null): RuntimeException(message)
 
+class GetAllUsersAsAdminCancelledException(error: Throwable? = null, message: String? = null): UserException(error, message)
+
 class UserDailyCaloriesUpdateException(error: Throwable? = null, message: String? = null): UserException(error, message)
 
 class UserDailyCaloriesLimitExceedException(error: Throwable? = null, message: String? = null): UserException(error, message)

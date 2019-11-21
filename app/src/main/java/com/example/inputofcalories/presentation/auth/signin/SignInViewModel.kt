@@ -8,10 +8,8 @@ import com.example.inputofcalories.domain.user.SaveUserToLocalUseCase
 import com.example.inputofcalories.domain.auth.signin.SignInUserUseCase
 import com.example.inputofcalories.domain.auth.signin.validation.CheckSignInFieldsAreFilledUseCase
 import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
-import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserSignInParams
-import com.example.inputofcalories.entity.register.UserType
 import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 
 const val SIGN_IN_USER_REQUEST_CODE = 1

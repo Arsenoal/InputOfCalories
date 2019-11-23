@@ -27,7 +27,6 @@ class AllUsersProviderViewModel(
 
             if(users.isNotEmpty()) usersLoadSuccessLiveData.value = users
             else noUsersFoundLiveData.value = Any()
-            //print(users)
         }
     }
 

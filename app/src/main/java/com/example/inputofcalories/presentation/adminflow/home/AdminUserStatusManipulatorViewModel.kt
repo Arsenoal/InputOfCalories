@@ -3,10 +3,7 @@ package com.example.inputofcalories.presentation.adminflow.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.UserException
-import com.example.inputofcalories.domain.adminflow.DowngradeUserToManagerUseCase
-import com.example.inputofcalories.domain.adminflow.DowngradeUserToRegularUseCase
-import com.example.inputofcalories.domain.adminflow.UpgradeUserToAdminUseCase
-import com.example.inputofcalories.domain.adminflow.UpgradeUserToManagerUseCase
+import com.example.inputofcalories.domain.adminflow.*
 import com.example.inputofcalories.entity.register.Admin
 import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.User
@@ -15,10 +12,7 @@ import com.example.inputofcalories.presentation.viewModel.BaseViewModel
 import kotlinx.coroutines.launch
 
 class AdminUserStatusManipulatorViewModel(
-    private val upgradeUserToAdminUseCase: UpgradeUserToAdminUseCase,
-    private val downgradeUserToManagerUseCase: DowngradeUserToManagerUseCase,
-    private val upgradeUserToManagerUseCase: UpgradeUserToManagerUseCase,
-    private val downgradeUserToRegularUseCase: DowngradeUserToRegularUseCase
+    private val adminUserStatusManipulatorUseCase: AdminUserStatusManipulatorUseCase
 ): BaseViewModel() {
 
     val userUpgradeSucceedLiveData = MutableLiveData<Any>()
@@ -54,9 +48,9 @@ class AdminUserStatusManipulatorViewModel(
         }
     }
 
-    private suspend fun upgradeToManager(userId: String) { upgradeUserToManagerUseCase.upgrade(userId) }
+    private suspend fun upgradeToManager(userId: String) { adminUserStatusManipulatorUseCase.upgradeToManager(userId) }
 
-    private suspend fun upgradeToAdmin(userId: String) { upgradeUserToAdminUseCase.upgrade(userId) }
+    private suspend fun upgradeToAdmin(userId: String) { adminUserStatusManipulatorUseCase.upgradeToAdmin(userId) }
 
     private suspend fun downgradeUser(user: User) {
         try {
@@ -69,7 +63,7 @@ class AdminUserStatusManipulatorViewModel(
         }
     }
 
-    private suspend fun downgradeToRegular(userId: String) { downgradeUserToRegularUseCase.downgrade(userId) }
+    private suspend fun downgradeToRegular(userId: String) { adminUserStatusManipulatorUseCase.downgradeToRegular(userId) }
 
-    private suspend fun downgradeToManager(userId: String) { downgradeUserToManagerUseCase.downgrade(userId) }
+    private suspend fun downgradeToManager(userId: String) { adminUserStatusManipulatorUseCase.downgradeToManager(userId) }
 }

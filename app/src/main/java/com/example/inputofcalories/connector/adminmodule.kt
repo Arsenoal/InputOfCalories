@@ -11,7 +11,7 @@ val adminmodule = module {
 
     //users provider
     single<GetAllUsersRepo> {
-        GetAllUsersRepoImpl(get())
+        GetAllUsersFirestore(get())
     }
 
     single<GetAllUsersUseCase> {

@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resumeWithException
 
-class GetAllUsersRepoImpl(
+class GetAllUsersFirestore(
     private val firestore: FirebaseFirestore
 ): GetAllUsersRepo {
     @ExperimentalCoroutinesApi

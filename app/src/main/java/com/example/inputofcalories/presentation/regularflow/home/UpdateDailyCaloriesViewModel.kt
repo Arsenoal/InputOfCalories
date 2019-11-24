@@ -1,43 +1,34 @@
 package com.example.inputofcalories.presentation.regularflow.home
 
 import androidx.lifecycle.MutableLiveData
-import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.common.rx.SuccessCompletable
+import androidx.lifecycle.viewModelScope
+import com.example.inputofcalories.common.exception.UserDailyCaloriesUpdateException
 import com.example.inputofcalories.domain.regularflow.UpdateUsersDailyCaloriesUseCase
 import com.example.inputofcalories.entity.presentation.Message
-import com.example.inputofcalories.presentation.viewModel.BaseViewModel
-
-private const val GET_USER_REQUEST_CODE = 1
-private const val UPDATE_DAILY_CALORIES_REQUEST_CODE = 2
+import com.example.inputofcalories.presentation.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class UpdateDailyCaloriesViewModel(
     private val userId: String,
     private val updateUsersDailyCaloriesUseCase: UpdateUsersDailyCaloriesUseCase
-): BaseViewModel(), HandleError {
+): BaseViewModel() {
 
     val updateCaloriesSucceedLiveData = MutableLiveData<Any>()
 
     val updateCaloriesFailedLiveData = MutableLiveData<Any>()
 
     fun applyClicked(dailyCalories: String) {
-        update(userId, dailyCalories) {
-            updateCaloriesSucceedLiveData.value = Any()
-        }
-    }
-
-    private fun update(userId: String, dailyCalories: String, success: SuccessCompletable) {
-        execute(updateUsersDailyCaloriesUseCase.update(userId, dailyCalories),
-            requestCode = UPDATE_DAILY_CALORIES_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
-
-    override fun invoke(t: Throwable, requestCode: Int?) {
-        when(requestCode) {
-            GET_USER_REQUEST_CODE -> {}
-            UPDATE_DAILY_CALORIES_REQUEST_CODE -> {
+        viewModelScope.launch {
+            try {
+                update(userId, dailyCalories)
+                updateCaloriesSucceedLiveData.value = Any()
+            } catch (ex: UserDailyCaloriesUpdateException) {
                 updateCaloriesFailedLiveData.value = Message("update failed")
             }
         }
+    }
+
+    private suspend fun update(userId: String, dailyCalories: String) {
+        updateUsersDailyCaloriesUseCase.update(userId, dailyCalories)
     }
 }

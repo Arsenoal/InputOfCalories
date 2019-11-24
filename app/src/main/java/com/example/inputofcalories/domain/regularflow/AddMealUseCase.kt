@@ -5,5 +5,5 @@ import com.example.inputofcalories.entity.presentation.regular.MealParams
 import io.reactivex.Completable
 
 interface AddMealUseCase {
-    fun add(params: MealParams, filterParams: MealFilterParams): Completable
+    suspend fun add(params: MealParams, filterParams: MealFilterParams)
 }

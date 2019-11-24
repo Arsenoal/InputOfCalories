@@ -8,9 +8,7 @@ import io.reactivex.Single
 class GetMealsFilteredUseCaseImpl(
     private val mealsProviderRepo: MealsProviderRepo
 ): GetMealsFilteredUseCase {
-    override fun get(uId: String, mealFilterParams: MealFilterParams): Single<List<Meal>> {
-        return mealsProviderRepo.getMealsByUserId(uId).map { meals ->
-            meals.filter { it.filterParams == mealFilterParams }
-        }
+    override suspend fun get(uId: String, mealFilterParams: MealFilterParams): List<Meal> {
+        return mealsProviderRepo.getMealsByUserId(uId).filter { it.filterParams == mealFilterParams }
     }
 }

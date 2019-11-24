@@ -13,7 +13,6 @@ class KoinModulesConnector {
                 modules(listOf(
                     preferencesModule,
                     firebasemodule,
-                    rxModule,
                     userdbmodule(context),
                     registrationModule,
                     singinmodule,

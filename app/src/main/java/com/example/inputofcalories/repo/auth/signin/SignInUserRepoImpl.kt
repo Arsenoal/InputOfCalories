@@ -7,45 +7,49 @@ import com.example.inputofcalories.repo.auth.registration.model.TYPE_MANAGER
 import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.google.firebase.firestore.FirebaseFirestore
-import io.reactivex.Single
-import io.reactivex.SingleEmitter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
 class SignInUserRepoImpl(
     private val firestore: FirebaseFirestore
 ): SignInUserRepo {
 
-    override fun signIn(userSignInParams: UserSignInParams): Single<User> {
-        return Single.create<Boolean> { emitter ->
-            checkUserWithEmailPresentInDb(userSignInParams.email, emitter)
-        }.flatMap { isUserWithEmailPresent ->
-            if(isUserWithEmailPresent) {
-                signInUser(userSignInParams)
-            } else {
-                throw SignInException(message = "user with provided email is not present in db")
-            }
+    @ExperimentalCoroutinesApi
+    override suspend fun signIn(userSignInParams: UserSignInParams): User {
+        val isUserWithEmailPresent = checkUserWithEmailPresentInDb(userSignInParams.email)
+
+        if (isUserWithEmailPresent) {
+            return signInUser(userSignInParams)
+        } else {
+            throw SignInException(message = "user with provided email is not present in db")
         }
     }
 
-    private fun checkUserWithEmailPresentInDb(email: String, emitter: SingleEmitter<Boolean>) {
-        val usersRef = firestore.collection(USERS)
+    @ExperimentalCoroutinesApi
+    private suspend fun checkUserWithEmailPresentInDb(email: String): Boolean {
+        return suspendCancellableCoroutine { continuation ->
+            val usersRef = firestore.collection(USERS)
 
-        usersRef.get()
-            .addOnSuccessListener { querySnapshot ->
-                querySnapshot.documents.forEach { documentSnapshot ->
-                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
+            usersRef.get()
+                .addOnSuccessListener { querySnapshot ->
+                    querySnapshot.documents.forEach { documentSnapshot ->
+                        val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                    userFirebase?.let {
-                        if(it.email == email) emitter.onSuccess(true)
+                        userFirebase?.let {
+                            if(it.email == email) continuation.resume(true) {}
+                        }
                     }
-                }
 
-                if (!emitter.isDisposed) emitter.onSuccess(false)
-            }
-            .addOnFailureListener { emitter.onSuccess(false) }
+                    if(continuation.isActive) continuation.resume(false) {}
+                }
+                .addOnFailureListener { continuation.resume(false) {} }
+        }
     }
 
-    private fun signInUser(userSignInParams: UserSignInParams): Single<User> {
-        return Single.create<User> { emitter ->
+    @ExperimentalCoroutinesApi
+    private suspend fun signInUser(userSignInParams: UserSignInParams): User {
+        return suspendCancellableCoroutine { continuation ->
             val usersRef = firestore.collection(USERS)
 
             usersRef.get()
@@ -71,15 +75,15 @@ class SignInUserRepoImpl(
                                     id = documentSnapshot.id,
                                     userParams = userParams)
 
-                                emitter.onSuccess(user)
+                                continuation.resume(user) {}
                             }
                         }
                     }
 
-                    if(!emitter.isDisposed) emitter.onError(SignInException(message = "password mismatch"))
+                    if(continuation.isCompleted) continuation.resumeWithException(SignInException(message = "password mismatch"))
                 }
                 .addOnFailureListener {
-                    if(!emitter.isDisposed) emitter.onError(SignInException(error = it, message = it.message))
+                    if(continuation.isCompleted) continuation.resumeWithException(SignInException(error = it, message = it.message))
                 }
         }
     }

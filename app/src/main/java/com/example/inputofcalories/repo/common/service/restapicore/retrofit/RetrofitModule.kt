@@ -11,10 +11,8 @@ import org.koin.core.parameter.parametersOf
 import org.koin.core.scope.Scope
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 
@@ -32,13 +30,10 @@ internal data class OkHttpConfig(val connectionTimeout: Long = OkHttpProps.CONNE
 fun retrofitModule(apiProviderConfig: ApiProviderConfig) = module {
     single { GsonConverterFactory.create(get<Gson>(GsonQualifier.DEFAULT)) } bind Converter.Factory::class
 
-    single { RxJava2CallAdapterFactory.create() } bind CallAdapter.Factory::class
-
     single {
         Retrofit.Builder().apply {
             baseUrl(apiProviderConfig.baseUrl)
             addConverterFactory(get())
-            addCallAdapterFactory(get())
         }
     }
 

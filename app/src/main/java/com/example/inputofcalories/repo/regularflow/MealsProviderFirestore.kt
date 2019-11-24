@@ -6,13 +6,17 @@ import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.MEALS
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
 import com.google.firebase.firestore.FirebaseFirestore
-import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
-class MealsProviderRepoImpl(
+class MealsProviderFirestore(
     private val firestore: FirebaseFirestore
 ): MealsProviderRepo {
-    override fun getMealsByUserId(uId: String): Single<List<Meal>> {
-        return Single.create<List<Meal>> { emitter ->
+
+    @ExperimentalCoroutinesApi
+    override suspend fun getMealsByUserId(uId: String): List<Meal> {
+        return suspendCancellableCoroutine { continuation ->
             firestore.collection(USERS).get()
                 .addOnSuccessListener { userQuerySnapshot ->
                     userQuerySnapshot.filter { uId == it.id }.forEach { queryDocumentSnapshot ->
@@ -51,18 +55,14 @@ class MealsProviderRepoImpl(
                                     meal
                                 }.toList()
 
-                                if(!emitter.isDisposed)
-                                    emitter.onSuccess(list)
+                                continuation.resume(list) { throw MealException() }
+
                             }
-                            .addOnFailureListener { error ->
-                                if(!emitter.isDisposed)
-                                    emitter.onError(MealException(error = error))
-                            }
+                            .addOnFailureListener { error -> continuation.resumeWithException(MealException(error = error)) }
                     }
                 }
                 .addOnFailureListener { error ->
-                    if(!emitter.isDisposed)
-                        emitter.onError(MealException(error = error))
+                    continuation.resumeWithException(MealException(error = error))
                 }
         }
     }

@@ -6,21 +6,21 @@ import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidU
 import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCaseImpl
 import com.example.inputofcalories.presentation.auth.registration.RegisterUserViewModel
 import com.example.inputofcalories.repo.auth.GetAllUsersRepo
-import com.example.inputofcalories.repo.auth.GetAllUsersRepoImpl
+import com.example.inputofcalories.repo.auth.GetAllUsersFirestore
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorService
 import com.example.inputofcalories.repo.common.service.UUIDGeneratorServiceImpl
 import com.example.inputofcalories.repo.auth.registration.RegisterUserRepo
-import com.example.inputofcalories.repo.auth.registration.RegisterUserRepoImpl
+import com.example.inputofcalories.repo.auth.registration.RegisterUserFirestore
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val registrationModule = module {
     single<UUIDGeneratorService> { UUIDGeneratorServiceImpl() }
 
-    single<RegisterUserRepo> { RegisterUserRepoImpl(get(), get()) }
+    single<RegisterUserRepo> { RegisterUserFirestore(get(), get()) }
 
     single<GetAllUsersRepo> {
-        GetAllUsersRepoImpl(get())
+        GetAllUsersFirestore(get())
     }
 
     single<RegisterUserUseCase> { RegisterUserUseCaseImpl(get(), get()) }

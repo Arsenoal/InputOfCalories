@@ -6,13 +6,11 @@ import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.MEALS
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
 import com.google.firebase.firestore.FirebaseFirestore
-import io.reactivex.Completable
 
-class EditMealRepoImpl(
+class EditMealFirestore(
     private val firestore: FirebaseFirestore
 ): EditMealRepo {
-    override fun edit(meal: Meal): Completable {
-        return Completable.create{ emitter ->
+    override suspend fun edit(meal: Meal) {
             firestore.collection(USERS).get()
                 .addOnSuccessListener { userDocumentsQuerySnapshot ->
                     userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
@@ -30,11 +28,9 @@ class EditMealRepoImpl(
                             .collection(MEALS)
                             .document(meal.id)
                             .set(mealFirebase)
-                            .addOnSuccessListener { emitter.onComplete() }
-                            .addOnFailureListener { emitter.onError(MealException(error = it)) }
+                            .addOnFailureListener { throw MealException(error = it) }
                     }
                 }
-                .addOnFailureListener { emitter.onError(MealException(error = it)) }
-        }
+                .addOnFailureListener { throw MealException(error = it) }
     }
 }

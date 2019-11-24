@@ -6,5 +6,5 @@ import com.example.inputofcalories.repo.regularflow.EditMealRepo
 class EditMealUseCaseImpl(
     private val editMealRepo: EditMealRepo
 ): EditMealUseCase {
-    override fun edit(meal: Meal) = editMealRepo.edit(meal)
+    override suspend fun edit(meal: Meal) = editMealRepo.edit(meal)
 }

@@ -10,12 +10,16 @@ import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
-class GetUsersRepoImpl(
+class GetUsersFirestore(
     private val firestore: FirebaseFirestore
 ): GetUsersRepo {
-    override fun get(userId: String): Single<List<User>> {
-        return Single.create<List<User>> { emitter ->
+    @ExperimentalCoroutinesApi
+    override suspend fun get(userId: String): List<User> {
+        return suspendCancellableCoroutine { continuation ->
             firestore.collection(USERS).get()
                 .addOnSuccessListener { usersQuery ->
                     val users: List<User> = usersQuery.documents
@@ -61,9 +65,11 @@ class GetUsersRepoImpl(
                         }
                         .toList()
 
-                    emitter.onSuccess(users)
+                    continuation.resume(users) {
+                        throw UserException(it)
+                    }
                 }
-                .addOnFailureListener { emitter.onError(UserException(it)) }
+                .addOnFailureListener { continuation.resumeWithException(UserException(it)) }
         }
     }
 }

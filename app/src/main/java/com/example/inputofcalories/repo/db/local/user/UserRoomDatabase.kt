@@ -4,8 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import android.content.Context
 import androidx.room.Room
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.inputofcalories.repo.db.local.user.UserDbInfo.DB_NAME
 import com.example.inputofcalories.repo.db.local.user.UserDbInfo.DB_VERSION
 

@@ -8,7 +8,7 @@ import com.example.inputofcalories.entity.register.Admin
 import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserManager
-import com.example.inputofcalories.presentation.viewModel.BaseViewModel
+import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class AdminUserStatusManipulatorViewModel(

@@ -10,9 +10,8 @@ class AddMealUseCaseImpl(
     private val getUserRepo: GetUserRepo,
     private val addMealRepo: AddMealRepo
 ): AddMealUseCase {
-    override fun add(params: MealParams, filterParams: MealFilterParams): Completable {
-        return getUserRepo.get().flatMapCompletable {
-            addMealRepo.add(params, filterParams)
-        }
+    override suspend fun add(params: MealParams, filterParams: MealFilterParams) {
+        val user = getUserRepo.get()
+        addMealRepo.add(user.id, params, filterParams)
     }
 }

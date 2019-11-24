@@ -4,18 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 interface UserDao {
 
     @Query("SELECT * FROM User")
-    fun getUser(): Single<UserRoom>
+    suspend fun getUser(): UserRoom
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser(userRoom: UserRoom): Completable
+    suspend fun insertUser(userRoom: UserRoom)
 
     @Query("DELETE FROM User")
-    fun deleteUser(): Completable
+    suspend fun deleteUser()
 }

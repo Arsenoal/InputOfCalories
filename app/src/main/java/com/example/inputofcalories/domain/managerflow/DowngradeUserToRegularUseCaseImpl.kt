@@ -6,5 +6,5 @@ class DowngradeUserToRegularUseCaseImpl(
     private val downgradeUserToMangerRepo: DowngradeManagerToRegularUserRepo
 ): DowngradeUserToRegularUseCase {
 
-    override fun downgrade(userId: String) = downgradeUserToMangerRepo.downgrade(userId)
+    override suspend fun downgrade(userId: String) = downgradeUserToMangerRepo.downgrade(userId)
 }

@@ -4,5 +4,5 @@ import com.example.inputofcalories.entity.presentation.regular.MealParams
 import io.reactivex.Completable
 
 interface MealParamsValidationUseCase {
-    fun validate(mealParams: MealParams): Completable
+    suspend fun validate(mealParams: MealParams)
 }

@@ -12,33 +12,27 @@ class CheckDailyCaloriesDailyLimitUseCaseImpl(
     private val dailyCaloriesProviderRepo: DailyCaloriesProviderRepo
 ): CheckDailyCaloriesDailyLimitUseCase {
 
-    override fun check(): Single<Boolean> {
-        return getUserRepo.get().flatMap { user ->
-            mealsProviderRepo.getMealsByUserId(user.id).map { meals ->
-                val dailyMeals = meals.filter { meal ->
-                    val calendar = Calendar.getInstance()
-                    val year = calendar.get(Calendar.YEAR)
-                    val month = calendar.get(Calendar.MONTH)
-                    val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+    override suspend fun check(): Boolean {
 
-                    val date = meal.filterParams.date
+        val user = getUserRepo.get()
+        val meals = mealsProviderRepo.getMealsByUserId(user.id)
 
-                    date.month.toInt() == month && date.year.toInt() == year && (dayOfMonth - date.dayOfMonth.toInt()) == 0
-                }.toList()
+        val dailyMeals = meals.filter { meal ->
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
-                var caloriesConsumed = 0
-                dailyMeals.forEach { meal ->
-                    caloriesConsumed += meal.params.calories.toInt()
-                }
+            val date = meal.filterParams.date
 
-                caloriesConsumed
-            }.flatMap { caloriesConsumed ->
-                dailyCaloriesProviderRepo.provide(user.id)
-                    .map { it.toInt() }
-                    .map { dailyLimit ->
-                        caloriesConsumed > dailyLimit
-                    }
-            }
-        }
+            date.month.toInt() == month && date.year.toInt() == year && (dayOfMonth - date.dayOfMonth.toInt()) == 0
+        }.toList()
+
+        var caloriesConsumed = 0
+        dailyMeals.forEach { meal -> caloriesConsumed += meal.params.calories.toInt() }
+
+        val dailyLimit = dailyCaloriesProviderRepo.provide(user.id).toInt()
+
+        return caloriesConsumed > dailyLimit
     }
 }

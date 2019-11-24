@@ -1,9 +1,7 @@
 package com.example.inputofcalories.repo.regularflow
 
 import com.example.inputofcalories.entity.presentation.regular.Meal
-import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
-import io.reactivex.Single
 
 interface MealsProviderRepo {
-    fun getMealsByUserId(uId: String): Single<List<Meal>>
+    suspend fun getMealsByUserId(uId: String): List<Meal>
 }

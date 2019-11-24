@@ -1,5 +1,6 @@
 package com.example.inputofcalories.domain.auth.registration
 
+import com.example.inputofcalories.common.exception.RegistrationException
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.repo.auth.GetAllUsersRepo
 import com.example.inputofcalories.repo.auth.registration.RegisterUserRepo
@@ -11,18 +12,24 @@ class RegisterUserUseCaseImpl(
     private val allUsersRepo: GetAllUsersRepo
 ): RegisterUserUseCase {
 
-    override fun register(userRegistrationParams: UserRegistrationParams): Completable {
-        return isUserWithEmailPresent(userRegistrationParams.email).flatMapCompletable { registerUserRepo.register(userRegistrationParams) }
+    override suspend fun register(userRegistrationParams: UserRegistrationParams) {
+
+        val isPresent = isUserWithEmailPresent(userRegistrationParams.email)
+
+        if(!isPresent) {
+            registerUserRepo.register(userRegistrationParams)
+        } else {
+            throw RegistrationException(message = "user with params already present in firestore db")
+        }
     }
 
-    private fun isUserWithEmailPresent(email: String): Single<Boolean> {
-        return allUsersRepo.get().map { meals ->
-            val emailMatchUsers = meals.filter { user ->
-                user.userParams.email == email
-            }
-
-            emailMatchUsers.isNotEmpty()
+    private suspend fun isUserWithEmailPresent(email: String): Boolean {
+        val meals = allUsersRepo.get()
+        val emailMatchUsers = meals.filter { user ->
+            user.userParams.email == email
         }
+
+        return emailMatchUsers.isNotEmpty()
     }
 
 }

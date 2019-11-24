@@ -1,43 +1,34 @@
 package com.example.inputofcalories.presentation.regularflow.home
 
 import androidx.lifecycle.MutableLiveData
-import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.common.rx.SuccessCompletable
+import androidx.lifecycle.viewModelScope
+import com.example.inputofcalories.common.exception.MealException
 import com.example.inputofcalories.domain.regularflow.DeleteMealUseCase
-import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.presentation.regular.MealDeleteParams
-import com.example.inputofcalories.presentation.viewModel.BaseViewModel
-
-private const val DELETE_MEAL_REQUEST_CODE = 1
+import com.example.inputofcalories.presentation.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class DeleteMealViewModel(
     private val userId: String,
     private val deleteMealUseCase: DeleteMealUseCase
-): BaseViewModel(), HandleError {
+): BaseViewModel() {
 
     val deleteMealFailLiveData = MutableLiveData<Any>()
 
     val deleteMealSuccessLiveData = MutableLiveData<Any>()
 
     fun deleteMealClicked(mealId: String) {
-        val mealDeleteParams = MealDeleteParams(userId, mealId)
-        deleteMeal(mealDeleteParams) {
-            deleteMealSuccessLiveData.value = Any()
-        }
-    }
-
-    private fun deleteMeal(mealDeleteParams: MealDeleteParams, success: SuccessCompletable) {
-        execute(deleteMealUseCase.delete(mealDeleteParams),
-            requestCode = DELETE_MEAL_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
-
-    override fun invoke(t: Throwable, requestCode: Int?) {
-        when(requestCode) {
-            DELETE_MEAL_REQUEST_CODE -> {
+        viewModelScope.launch {
+            try {
+                deleteMeal(MealDeleteParams(userId, mealId))
+                deleteMealSuccessLiveData.value = Any()
+            } catch (ex: MealException) {
                 deleteMealFailLiveData.value = Any()
             }
         }
+    }
+
+    private suspend fun deleteMeal(mealDeleteParams: MealDeleteParams) {
+        deleteMealUseCase.delete(mealDeleteParams)
     }
 }

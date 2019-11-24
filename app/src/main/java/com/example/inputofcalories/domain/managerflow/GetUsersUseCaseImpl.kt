@@ -6,5 +6,5 @@ class GetUsersUseCaseImpl(
     private val getUsersRepo: GetUsersRepo
 ): GetUsersUseCase {
 
-    override fun get(userId: String) = getUsersRepo.get(userId)
+    override suspend fun get(userId: String) = getUsersRepo.get(userId)
 }

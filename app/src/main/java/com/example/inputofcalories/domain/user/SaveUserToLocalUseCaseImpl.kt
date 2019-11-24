@@ -6,5 +6,5 @@ import com.example.inputofcalories.repo.user.SaveUserToDbRepo
 class SaveUserToLocalUseCaseImpl(
     private val saveUserToDbRepo: SaveUserToDbRepo
 ): SaveUserToLocalUseCase {
-    override fun save(user: User) = saveUserToDbRepo.save(user)
+    override suspend fun save(user: User) = saveUserToDbRepo.save(user)
 }

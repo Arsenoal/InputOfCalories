@@ -1,15 +1,20 @@
 package com.example.inputofcalories.repo.regularflow
 
+import com.example.inputofcalories.common.exception.UserDailyCaloriesException
 import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
 import com.google.firebase.firestore.FirebaseFirestore
-import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
-class DailyCaloriesProviderRepoImpl(
+class DailyCaloriesProviderFirestore(
     private val firestore: FirebaseFirestore
 ): DailyCaloriesProviderRepo {
-    override fun provide(userId: String): Single<String> {
-        return Single.create<String> { emitter ->
+
+    @ExperimentalCoroutinesApi
+    override suspend fun provide(userId: String): String {
+        return suspendCancellableCoroutine { continuation ->
             firestore.collection(USERS)
                 .document(userId)
                 .get()
@@ -17,10 +22,12 @@ class DailyCaloriesProviderRepoImpl(
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                     userFirebase?.let {
-                        emitter.onSuccess(it.dailyCalories)
+                        continuation.resume(it.dailyCalories) {
+                            throw UserDailyCaloriesException()
+                        }
                     }
                 }
-                .addOnFailureListener { error -> emitter.onError(error) }
+                .addOnFailureListener { continuation.resumeWithException(UserDailyCaloriesException(error = it)) }
         }
     }
 }

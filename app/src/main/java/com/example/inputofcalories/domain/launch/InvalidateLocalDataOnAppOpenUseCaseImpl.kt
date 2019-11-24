@@ -5,5 +5,5 @@ import com.example.inputofcalories.repo.launch.ClearDbRepo
 class InvalidateLocalDataOnAppOpenUseCaseImpl(
     private val clearDbRepo: ClearDbRepo
 ): InvalidateLocalDataOnAppOpenUseCase {
-    override fun invalidate() = clearDbRepo.clear()
+    override suspend fun invalidate() = clearDbRepo.clear()
 }

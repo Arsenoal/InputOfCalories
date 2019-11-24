@@ -9,9 +9,10 @@ class InputOfCaloriesResponseException(val reason: String?, message: String?) : 
 
 //api exceptions
 //auth request exceptions
-class RegistrationException(error: Throwable? = null, message: String? = null): RuntimeException(message)
 
 class SignInException(error: Throwable? = null, message: String? = null): RuntimeException(message)
+
+class RegistrationException(error: Throwable? = null, message: String? = null): RuntimeException(message)
 
 //meal request exceptions
 class MealException(error: Throwable? = null, message: String? = null): RuntimeException(message)
@@ -19,11 +20,12 @@ class MealException(error: Throwable? = null, message: String? = null): RuntimeE
 //user request exception
 open class UserException(error: Throwable? = null, message: String? = null): RuntimeException(message)
 
-class GetAllUsersAsAdminCancelledException(error: Throwable? = null, message: String? = null): UserException(error, message)
-
 class UserDailyCaloriesUpdateException(error: Throwable? = null, message: String? = null): UserException(error, message)
 
-class UserDailyCaloriesLimitExceedException(error: Throwable? = null, message: String? = null): UserException(error, message)
+class UserDailyCaloriesException(error: Throwable? = null, message: String? = null): UserException(error, message)
+
+//validation
+class ValidationException(message: String?): RuntimeException(message)
 
 fun handleCrashedExceptionOrRunBlock(error: Throwable, block: () -> Unit = {}) {
     //TODO handle all exception cases

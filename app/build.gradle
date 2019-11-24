@@ -58,10 +58,6 @@ dependencies {
     testImplementation test.mockito
     androidTestImplementation test.testRunner
 
-    def rx = rootProject.ext.rxDependencies
-    implementation rx.reactivexRxKotlin
-    implementation rx.reactivexRxAndroid
-
     def network = rootProject.ext.networkDependencies
     implementation network.retrofit
     implementation network.okhttpLoger
@@ -87,8 +83,8 @@ dependencies {
 
     def roomDependencies = rootProject.ext.roomDependencies
     implementation roomDependencies.runtime
+    implementation roomDependencies.coroutine
     kapt roomDependencies.compiler
-    implementation roomDependencies.rxJava2
 
     def materialDependencies = rootProject.ext.materialDependencies
     implementation materialDependencies.material

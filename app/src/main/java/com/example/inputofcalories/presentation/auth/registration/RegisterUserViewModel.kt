@@ -1,24 +1,22 @@
 package com.example.inputofcalories.presentation.auth.registration
 
 import androidx.lifecycle.MutableLiveData
-import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.common.rx.Success
-import com.example.inputofcalories.common.rx.SuccessCompletable
+import androidx.lifecycle.viewModelScope
+import com.example.inputofcalories.common.exception.RegistrationException
 import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
 import com.example.inputofcalories.domain.auth.registration.validation.CheckPasswordsMatchesUseCase
 import com.example.inputofcalories.domain.auth.registration.RegisterUserUseCase
 import com.example.inputofcalories.domain.auth.registration.validation.CheckRegistrationFieldsAreFilledUseCase
 import com.example.inputofcalories.entity.register.UserRegistrationParams
-import com.example.inputofcalories.presentation.viewModel.BaseViewModel
-
-const val REGISTER_USER_REQUEST_CODE = 1
+import com.example.inputofcalories.presentation.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class RegisterUserViewModel(
     private val registerUserUseCase: RegisterUserUseCase,
     private val checkEmailFormatValidUseCase: CheckEmailFormatValidUseCase,
     private val checkPasswordsMatchesUseCase: CheckPasswordsMatchesUseCase,
     private val checkRegistrationFieldsAreFilledUseCase: CheckRegistrationFieldsAreFilledUseCase
-): BaseViewModel(), HandleError {
+): BaseViewModel() {
 
     val userRegistrationSuccessLiveData: MutableLiveData<Any> = MutableLiveData()
 
@@ -32,59 +30,45 @@ class RegisterUserViewModel(
 
     fun register(userRegistrationParams: UserRegistrationParams) {
 
-        userRegistrationParams.run {
-            checkFieldsAreFilled(userRegistrationParams) { allFieldsAreFilled ->
-                if (allFieldsAreFilled) {
-                    checkEmailValid(email) { isValid ->
-                        if(isValid) {
-                            checkPasswordsMatches(password, repeatPassword) { passwordsMatches ->
-                                if (passwordsMatches) {
-                                    registerUser(this) {
-                                        userRegistrationSuccessLiveData.value = Any()
-                                    }
-                                } else {
-                                    passwordsMismatchLiveData.value = Any()
-                                }
+        userRegistrationParams.let { userRegParams ->
+            viewModelScope.launch {
+                if (allFieldsAreFilled(userRegistrationParams)) {
+                    if(isEmailValid(userRegParams.email)) {
+                        if (arePasswordMatch(userRegParams.password, userRegParams.repeatPassword)) {
+                            try {
+                                registerUser(userRegParams)
+                                userRegistrationSuccessLiveData.value = Any()
+                            } catch (ex: RegistrationException) {
+                                userRegistrationFailLiveData.value = Any()
                             }
+
                         } else {
-                            emailFormatInvalidLiveData.value = Any()
+                            passwordsMismatchLiveData.value = Any()
                         }
+                    } else {
+                        emailFormatInvalidLiveData.value = Any()
                     }
                 } else {
                     notAllFieldsAreFilledLiveData.value = Any()
                 }
-
             }
+
         }
     }
 
-    private fun checkEmailValid(email: String, success: Success<Boolean>) {
-        execute(checkEmailFormatValidUseCase.check(email),
-            success = success)
+    private suspend fun isEmailValid(email: String): Boolean {
+        return checkEmailFormatValidUseCase.check(email)
     }
 
-    private fun checkPasswordsMatches(p1: String, p2: String, success: Success<Boolean>) {
-        execute(checkPasswordsMatchesUseCase.check(p1, p2),
-            success = success)
+    private suspend fun arePasswordMatch(p1: String, p2: String): Boolean {
+        return checkPasswordsMatchesUseCase.check(p1, p2)
     }
 
-    private fun checkFieldsAreFilled(userRegistrationParams: UserRegistrationParams, success: Success<Boolean>) {
-        execute(checkRegistrationFieldsAreFilledUseCase.check(userRegistrationParams),
-            success = success)
+    private suspend fun allFieldsAreFilled(userRegistrationParams: UserRegistrationParams): Boolean {
+        return checkRegistrationFieldsAreFilledUseCase.check(userRegistrationParams)
     }
 
-    private fun registerUser(userRegistrationParams: UserRegistrationParams, success: SuccessCompletable) {
-        execute(registerUserUseCase.register(userRegistrationParams),
-            requestCode = REGISTER_USER_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
-
-    override fun invoke(t: Throwable, requestCode: Int?) {
-        when(requestCode) {
-            REGISTER_USER_REQUEST_CODE -> {
-                userRegistrationFailLiveData.value = Any()
-            }
-        }
+    private suspend fun registerUser(userRegistrationParams: UserRegistrationParams) {
+        registerUserUseCase.register(userRegistrationParams)
     }
 }

@@ -4,17 +4,17 @@ import com.example.inputofcalories.domain.managerflow.*
 import com.example.inputofcalories.presentation.managerflow.home.UsersProviderViewModel
 import com.example.inputofcalories.presentation.managerflow.home.ManagerUserStatusManipulatorViewModel
 import com.example.inputofcalories.repo.managerflow.DowngradeManagerToRegularUserRepo
-import com.example.inputofcalories.repo.managerflow.DowngradeManagerToRegularUserRepoImpl
+import com.example.inputofcalories.repo.managerflow.DowngradeManagerToRegularUserFirestore
 import com.example.inputofcalories.repo.managerflow.GetUsersRepo
-import com.example.inputofcalories.repo.managerflow.GetUsersRepoImpl
+import com.example.inputofcalories.repo.managerflow.GetUsersFirestore
 import com.example.inputofcalories.repo.managerflow.UpgradeUserToManagerRepo
-import com.example.inputofcalories.repo.managerflow.UpgradeUserToManagerRepoImpl
+import com.example.inputofcalories.repo.managerflow.UpgradeUserToManagerFirestore
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val managermodule = module {
     single<GetUsersRepo> {
-        GetUsersRepoImpl(get())
+        GetUsersFirestore(get())
     }
 
     single<GetUsersUseCase> {
@@ -27,7 +27,7 @@ val managermodule = module {
     }
 
     single<UpgradeUserToManagerRepo> {
-        UpgradeUserToManagerRepoImpl(get())
+        UpgradeUserToManagerFirestore(get())
     }
 
     single<UpgradeUserToManagerUseCase> {
@@ -35,7 +35,7 @@ val managermodule = module {
     }
 
     single<DowngradeManagerToRegularUserRepo> {
-        DowngradeManagerToRegularUserRepoImpl(get())
+        DowngradeManagerToRegularUserFirestore(get())
     }
 
     single<DowngradeUserToRegularUseCase> {

@@ -30,7 +30,7 @@ ext {
     fireStroeVersion = "21.2.0"
 
     //room
-    roomVersion = "2.2.0"
+    roomVersion = "2.2.2"
 
     //Testing
     jUnitVersion = '4.12'
@@ -124,6 +124,6 @@ ext {
     roomDependencies = [
             runtime          : "androidx.room:room-runtime:$roomVersion",
             compiler         : "androidx.room:room-compiler:$roomVersion",
-            rxJava2          : "androidx.room:room-rxjava2:$roomVersion"
+            coroutine        : "androidx.room:room-ktx:$roomVersion"
     ]
 }

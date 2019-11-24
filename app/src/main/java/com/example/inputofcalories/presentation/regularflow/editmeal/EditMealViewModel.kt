@@ -1,41 +1,34 @@
 package com.example.inputofcalories.presentation.regularflow.editmeal
 
 import androidx.lifecycle.MutableLiveData
-import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.common.rx.SuccessCompletable
+import androidx.lifecycle.viewModelScope
+import com.example.inputofcalories.common.exception.MealException
 import com.example.inputofcalories.domain.regularflow.EditMealUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.presentation.regular.Meal
-import com.example.inputofcalories.presentation.viewModel.BaseViewModel
-
-const val EDIT_MEAL_REQUEST_CODE = 1
+import com.example.inputofcalories.presentation.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class EditMealViewModel(
     private val editMealUseCase: EditMealUseCase
-): BaseViewModel(), HandleError {
+): BaseViewModel() {
 
     val mealEditSucceededLiveData = MutableLiveData<Any>()
 
     val mealEditFailedLiveData = MutableLiveData<Message>()
 
     fun editClicked(meal: Meal) {
-        editMeal(meal) {
-            mealEditSucceededLiveData.value = Any()
-        }
-    }
-
-    private fun editMeal(meal: Meal, success: SuccessCompletable) {
-        execute(editMealUseCase.edit(meal),
-            requestCode = EDIT_MEAL_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
-
-    override fun invoke(t: Throwable, requestCode: Int?) {
-        when(requestCode) {
-            EDIT_MEAL_REQUEST_CODE -> {
+        viewModelScope.launch {
+            try {
+                editMeal(meal)
+                mealEditSucceededLiveData.value = Any()
+            } catch (ex: MealException) {
                 mealEditFailedLiveData.value = Message("meal edit fail")
             }
         }
+    }
+
+    private suspend fun editMeal(meal: Meal) {
+        editMealUseCase.edit(meal)
     }
 }

@@ -9,12 +9,58 @@ import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
-class GetAllUsersRepoImpl(
+class GetAllUsersFirestore(
     private val firestore: FirebaseFirestore
 ): GetAllUsersRepo {
-    override fun get(): Single<List<User>> {
-        return Single.create<List<User>> { emitter ->
+    @ExperimentalCoroutinesApi
+    override suspend fun get(): List<User> {
+
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
+                .addOnSuccessListener { usersQuery ->
+                    val users: List<com.example.inputofcalories.entity.register.User> = usersQuery.documents
+                        .map { documentSnapshot ->
+                            val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
+
+                            var user = User(
+                                documentSnapshot.id,
+                                UserParams(name = String.empty(), email = String.empty(), dailyCalories = String.empty(), type = RegularUser)
+                            )
+
+                            userFirebase?.run {
+                                val type: UserType = when(type) {
+                                    TYPE_MANAGER -> { UserManager }
+                                    TYPE_ADMIN -> { Admin }
+                                    else -> { RegularUser }
+                                }
+
+                                val userParams = UserParams(
+                                    name = name,
+                                    email = email,
+                                    dailyCalories = dailyCalories,
+                                    type = type)
+
+                                user = User(
+                                    documentSnapshot.id,
+                                    userParams)
+                            }
+
+                            user
+                        }
+                        .toList()
+
+                    continuation.resume(users) {
+                        throw UserException(it)
+                    }
+                }
+                .addOnFailureListener { continuation.resumeWithException(UserException(it)) }
+        }
+
+        /*return Single.create<List<User>> { emitter ->
             firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
                 .addOnSuccessListener { usersQuery ->
                     val users: List<com.example.inputofcalories.entity.register.User> = usersQuery.documents
@@ -51,6 +97,6 @@ class GetAllUsersRepoImpl(
                     emitter.onSuccess(users)
                 }
                 .addOnFailureListener { emitter.onError(UserException(it)) }
-        }
+        }*/
     }
 }

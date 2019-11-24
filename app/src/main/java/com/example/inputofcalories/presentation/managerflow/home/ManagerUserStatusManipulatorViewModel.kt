@@ -1,21 +1,19 @@
 package com.example.inputofcalories.presentation.managerflow.home
 
 import androidx.lifecycle.MutableLiveData
-import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.common.rx.SuccessCompletable
+import androidx.lifecycle.viewModelScope
+import com.example.inputofcalories.common.exception.UserException
 import com.example.inputofcalories.domain.managerflow.DowngradeUserToRegularUseCase
 import com.example.inputofcalories.domain.managerflow.UpgradeUserToManagerUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
-import com.example.inputofcalories.presentation.viewModel.BaseViewModel
-
-const val UPGRADE_USER_REQUEST_CODE = 1
-const val DOWNGRADE_USER_REQUEST_CODE = 2
+import com.example.inputofcalories.presentation.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class ManagerUserStatusManipulatorViewModel(
     private val upgradeUserToManagerUseCase: UpgradeUserToManagerUseCase,
     private val downgradeUserToRegularUseCase: DowngradeUserToRegularUseCase
-): BaseViewModel(), HandleError {
+): BaseViewModel() {
 
     val userUpgradeSucceedLiveData = MutableLiveData<Any>()
 
@@ -26,39 +24,32 @@ class ManagerUserStatusManipulatorViewModel(
     val userDowngradeFailLiveData = MutableLiveData<Message>()
 
     fun upgradeUserClicked(user: User) {
-        upgradeUser(user.id) {
-            userUpgradeSucceedLiveData.value = Any()
+        viewModelScope.launch {
+            try {
+                upgradeUser(user.id)
+                userUpgradeSucceedLiveData.value = Any()
+            } catch (ex: UserException) {
+                userUpgradeFailLiveData.value = Message("upgrade fail")
+            }
         }
     }
 
     fun downgradeUserClicked(user: User) {
-        downgradeUser(user.id) {
-            userDowngradeSucceedLiveData.value = Any()
-        }
-    }
-
-    private fun upgradeUser(userId: String, success: SuccessCompletable) {
-        execute(upgradeUserToManagerUseCase.upgrade(userId),
-            requestCode = UPGRADE_USER_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
-
-    private fun downgradeUser(userId: String, success: SuccessCompletable) {
-        execute(downgradeUserToRegularUseCase.downgrade(userId),
-            requestCode = UPGRADE_USER_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
-
-    override fun invoke(t: Throwable, requestCode: Int?) {
-        when(requestCode) {
-            UPGRADE_USER_REQUEST_CODE -> {
-                userUpgradeFailLiveData.value = Message("upgrade fail")
-            }
-            DOWNGRADE_USER_REQUEST_CODE -> {
+        viewModelScope.launch {
+            try {
+                downgradeUser(user.id)
+                userDowngradeSucceedLiveData.value = Any()
+            } catch (ex: UserException) {
                 userDowngradeFailLiveData.value = Message("downgrade fail")
             }
         }
+    }
+
+    private suspend fun upgradeUser(userId: String) {
+        upgradeUserToManagerUseCase.upgrade(userId)
+    }
+
+    private suspend fun downgradeUser(userId: String) {
+        downgradeUserToRegularUseCase.downgrade(userId)
     }
 }

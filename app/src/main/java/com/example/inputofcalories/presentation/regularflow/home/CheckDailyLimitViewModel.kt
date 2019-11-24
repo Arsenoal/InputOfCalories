@@ -1,16 +1,14 @@
 package com.example.inputofcalories.presentation.regularflow.home
 
 import androidx.lifecycle.MutableLiveData
-import com.example.inputofcalories.common.rx.HandleError
-import com.example.inputofcalories.common.rx.Success
+import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.domain.regularflow.CheckDailyCaloriesDailyLimitUseCase
-import com.example.inputofcalories.presentation.viewModel.BaseViewModel
-
-const val CHECK_DAILY_LIMIT_REQUEST_CODE = 1
+import com.example.inputofcalories.presentation.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class CheckDailyLimitViewModel(
     private val checkDailyCaloriesDailyLimitUseCase: CheckDailyCaloriesDailyLimitUseCase
-): BaseViewModel(), HandleError {
+): BaseViewModel() {
 
     val dailyLimitExceededLiveData = MutableLiveData<Any>()
 
@@ -19,24 +17,13 @@ class CheckDailyLimitViewModel(
     val failedToCheckDailyLimitLiveData = MutableLiveData<Any>()
 
     fun checkDailyLimit() {
-        check { limitExceeded ->
+        viewModelScope.launch {
+            val limitExceeded = checkLimitExceeded()
+
             if (limitExceeded) dailyLimitExceededLiveData.value = Any()
             else dailyLimitNotExceededLiveData.value = Any()
         }
     }
 
-    private fun check(success: Success<Boolean>) {
-        execute(checkDailyCaloriesDailyLimitUseCase.check(),
-            requestCode = CHECK_DAILY_LIMIT_REQUEST_CODE,
-            handleError = this,
-            success = success)
-    }
-
-    override fun invoke(t: Throwable, requestCode: Int?) {
-        when(requestCode) {
-            CHECK_DAILY_LIMIT_REQUEST_CODE -> {
-                failedToCheckDailyLimitLiveData.value = Any()
-            }
-        }
-    }
+    private suspend fun checkLimitExceeded() = checkDailyCaloriesDailyLimitUseCase.check()
 }

@@ -12,7 +12,7 @@ import com.example.inputofcalories.presentation.regularflow.home.CheckDailyLimit
 import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewModel
 import com.example.inputofcalories.presentation.regularflow.home.UpdateDailyCaloriesViewModel
 import com.example.inputofcalories.repo.regularflow.*
-import com.example.inputofcalories.repo.user.GetUserFromLocalRepoImpl
+import com.example.inputofcalories.repo.user.GetUserFromRoom
 import com.example.inputofcalories.repo.user.GetUserRepo
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -20,7 +20,7 @@ import org.koin.dsl.module
 val mealsmodule = module {
 
     single<GetUserRepo> {
-        GetUserFromLocalRepoImpl(get())
+        GetUserFromRoom(get())
     }
 
     single<GetUserUseCase> {
@@ -29,7 +29,7 @@ val mealsmodule = module {
 
     //get meals
     single<MealsProviderRepo> {
-        MealsProviderRepoImpl(get())
+        MealsProviderFirestore(get())
     }
 
     single<GetMealsUseCase> {
@@ -47,7 +47,7 @@ val mealsmodule = module {
 
     //add meal
     single<AddMealRepo> {
-        AddMealRepoImpl(get(), get())
+        AddMealFirestore(get(), get())
     }
 
     single<AddMealUseCase> {
@@ -64,7 +64,7 @@ val mealsmodule = module {
 
     //edit meal
     single<EditMealRepo> {
-        EditMealRepoImpl(get())
+        EditMealFirestore(get())
     }
 
     single<EditMealUseCase> {
@@ -77,7 +77,7 @@ val mealsmodule = module {
 
     //delete meal
     single<DeleteMealRepo> {
-        DeleteMealRepoImpl(get())
+        DeleteMealFirestore(get())
     }
 
     single<DeleteMealUseCase> {
@@ -92,7 +92,7 @@ val mealsmodule = module {
     //update daily calories
 
     single<UpdateUsersDailyCaloriesRepo> {
-        UpdateUsersDailyCaloriesRepoImpl(get())
+        UpdateUsersDailyCaloriesFirestore(get())
     }
 
     single<UpdateUsersDailyCaloriesUseCase> {
@@ -107,7 +107,7 @@ val mealsmodule = module {
     //check daily calories limit
 
     single<DailyCaloriesProviderRepo> {
-        DailyCaloriesProviderRepoImpl(get())
+        DailyCaloriesProviderFirestore(get())
     }
 
     single<CheckDailyCaloriesDailyLimitUseCase> {

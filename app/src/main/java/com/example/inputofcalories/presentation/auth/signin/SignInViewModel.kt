@@ -2,7 +2,6 @@ package com.example.inputofcalories.presentation.auth.signin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.inputofcalories.common.exception.SignInException
 import com.example.inputofcalories.domain.user.SaveUserToLocalUseCase
 import com.example.inputofcalories.domain.auth.signin.SignInUserUseCase
 import com.example.inputofcalories.domain.auth.signin.validation.CheckSignInFieldsAreFilledUseCase
@@ -29,22 +28,22 @@ class SignInViewModel(
 
     fun signInClicked(userSignInParams: UserSignInParams) {
         viewModelScope.launch {
-            userSignInParams.let { userSignInParams ->
-                if (allFieldsAreFilled(userSignInParams)) {
-                    if(isEmailFormatValid(userSignInParams.email)) {
-                        try {
-                            val user = singIn(userSignInParams)
+            try {
+                userSignInParams.let {
+                    if (allFieldsAreFilled(it)) {
+                        if(isEmailFormatValid(it.email)) {
+                            val user = singIn(it)
                             saveUser(user)
                             singInSuccessLiveData.value = user
-                        } catch (ex: SignInException) {
-                            singInFailLiveData.value = Any()
+                        } else {
+                            emailFormatInvalidLiveData.value = Any()
                         }
                     } else {
-                        emailFormatInvalidLiveData.value = Any()
+                        notAllFieldsAreFilledLiveData.value = Any()
                     }
-                } else {
-                    notAllFieldsAreFilledLiveData.value = Any()
                 }
+            } catch (ex: Exception) {
+                singInFailLiveData.value = Any()
             }
         }
     }

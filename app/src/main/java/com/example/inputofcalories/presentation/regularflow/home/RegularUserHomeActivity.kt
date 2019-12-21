@@ -76,18 +76,20 @@ class RegularUserHomeActivity : AppCompatActivity(), ProgressView {
                 hideProgress()
 
                 val mealAdapterModelList = list.map { meal ->
-                    MealAdapterModel(
-                        id = meal.id,
-                        text = meal.params.text,
-                        calories = meal.params.calories,
-                        weight = meal.params.weight,
-                        dayOfMonth = meal.filterParams.date.dayOfMonth,
-                        month = meal.filterParams.date.month,
-                        year = meal.filterParams.date.year,
-                        from = meal.filterParams.time.from,
-                        to = meal.filterParams.time.to,
-                        isLimitExceeded = false
-                    )
+                    meal.run {
+                        MealAdapterModel(
+                            id = id,
+                            text = params.text,
+                            calories = params.calories,
+                            weight = params.weight,
+                            dayOfMonth = filterParams.date.dayOfMonth,
+                            month = filterParams.date.month,
+                            year = filterParams.date.year,
+                            from = filterParams.time.from,
+                            to = filterParams.time.to,
+                            isLimitExceeded = false
+                        )
+                    }
                 }
 
                 mealsAdapter.setItems(mealAdapterModelList)

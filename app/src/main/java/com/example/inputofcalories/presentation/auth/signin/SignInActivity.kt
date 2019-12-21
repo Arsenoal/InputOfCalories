@@ -41,21 +41,18 @@ class SignInActivity : AppCompatActivity(), ProgressView {
                 hideProgress()
 
                 when(user.userParams.type) {
-                    RegularUser -> {
-                        ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java, USER_ID_KEY, user.id)
-                    }
-                    UserManager -> {
-                        ActivityNavigator.navigateAndFinishCurrent(this, ManagerUserHomeActivity::class.java, USER_ID_KEY, user.id)
-                    }
-                    Admin -> {
-                        ActivityNavigator.navigateAndFinishCurrent(this, AdminUserHomeActivity::class.java, USER_ID_KEY, user.id)
-                    }
+                    RegularUser -> { ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java, USER_ID_KEY, user.id) }
+                    UserManager -> { ActivityNavigator.navigateAndFinishCurrent(this, ManagerUserHomeActivity::class.java, USER_ID_KEY, user.id) }
+                    Admin -> { ActivityNavigator.navigateAndFinishCurrent(this, AdminUserHomeActivity::class.java, USER_ID_KEY, user.id) }
                 }
             })
 
-            it.singInFailLiveData.observe(this, Observer {
+            it.singInFailLiveData.observe(this, Observer { message ->
                 hideProgress()
-                ToastManager.showToastShort(this, resources.getString(R.string.sign_in_fail))
+
+                val failureMessage = if(message.text.isEmpty()) resources.getString(R.string.sign_in_fail) else message.text
+
+                ToastManager.showToastShort(this, failureMessage)
             })
 
             it.notAllFieldsAreFilledLiveData.observe(this, Observer {

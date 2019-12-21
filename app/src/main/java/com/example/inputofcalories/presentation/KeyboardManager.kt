@@ -9,7 +9,7 @@ object KeyboardManager {
         activity.run {
             val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
-            activity.currentFocus?.let {
+            currentFocus?.let {
                 imm.hideSoftInputFromWindow(it.windowToken, 0)
             }
         }

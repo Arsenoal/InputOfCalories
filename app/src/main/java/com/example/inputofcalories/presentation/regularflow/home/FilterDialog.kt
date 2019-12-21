@@ -13,7 +13,7 @@ class FilterDialog(context: Context): Dialog(context) {
 
     val applyFilterLiveData = MutableLiveData<MealFilterParams>()
 
-    private val mealFilterParams = MealFilterParams(
+    private var mealFilterParams: MealFilterParams = MealFilterParams(
         MealDateParams(
             Calendar.getInstance().get(Calendar.YEAR).toString(),
             Calendar.getInstance().get(Calendar.MONTH).toString(),

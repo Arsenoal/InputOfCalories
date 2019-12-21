@@ -8,7 +8,4 @@ open class BaseViewModel : ViewModel(), KoinComponent {
 
     open fun handleError(throwable: Throwable, requestCode: Int?) {}
 
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

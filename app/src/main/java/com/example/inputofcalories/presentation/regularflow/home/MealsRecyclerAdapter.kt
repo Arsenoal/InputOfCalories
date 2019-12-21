@@ -44,10 +44,8 @@ class MealsRecyclerAdapter(
             dateTextView.text = String.format(Locale.ENGLISH, "%s/%s %s: %s, %s: %s",
                 mealAdapterModel.month,
                 mealAdapterModel.dayOfMonth,
-                itemView.context.resources.getString(R.string.from),
-                mealAdapterModel.from,
-                itemView.context.resources.getString(R.string.to),
-                mealAdapterModel.to)
+                itemView.context.resources.getString(R.string.from), mealAdapterModel.from,
+                itemView.context.resources.getString(R.string.to), mealAdapterModel.to)
 
             if(mealAdapterModel.isLimitExceeded) limitMarker.background = itemView.context.getDrawable(R.drawable.background_circle_primary_dark)
             else limitMarker.background = itemView.context.getDrawable(R.drawable.background_circle_accent)

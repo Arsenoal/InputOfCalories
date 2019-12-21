@@ -8,8 +8,7 @@ object FragmentNavigator {
         activity: AppCompatActivity,
         fragment: Fragment,
         containerViewId: Int,
-        tag: String?
-    ) {
+        tag: String?) {
         activity
             .supportFragmentManager
             .beginTransaction()

@@ -2,10 +2,12 @@ package com.example.inputofcalories.presentation.auth.signin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.domain.user.SaveUserToLocalUseCase
 import com.example.inputofcalories.domain.auth.signin.SignInUserUseCase
 import com.example.inputofcalories.domain.auth.signin.validation.CheckSignInFieldsAreFilledUseCase
 import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
+import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserSignInParams
 import com.example.inputofcalories.presentation.base.BaseViewModel
@@ -20,7 +22,7 @@ class SignInViewModel(
 
     val singInSuccessLiveData = MutableLiveData<User>()
 
-    val singInFailLiveData = MutableLiveData<Any>()
+    val singInFailLiveData = MutableLiveData<Message>()
 
     val notAllFieldsAreFilledLiveData: MutableLiveData<Any> = MutableLiveData()
 
@@ -43,7 +45,7 @@ class SignInViewModel(
                     }
                 }
             } catch (ex: Exception) {
-                singInFailLiveData.value = Any()
+                singInFailLiveData.value = Message(text = ex.message ?: String.empty())
             }
         }
     }

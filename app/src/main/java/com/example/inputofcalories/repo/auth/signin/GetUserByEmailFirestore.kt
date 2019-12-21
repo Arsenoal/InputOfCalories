@@ -46,12 +46,12 @@ class GetUserByEmailFirestore(
                                 )
                             }
 
-                            continuation.resume(user) { throw UserException(message = "weird message") }
+                            if (continuation.isActive) continuation.resume(user) { throw UserException(message = "user with email: $email not found") }
                         }
+
+                    if (continuation.isActive) continuation.resumeWithException(UserException(message = "user with email: $email not found"))
                 }
                 .addOnFailureListener { error -> continuation.resumeWithException(UserException(message = error.message)) }
-
-            if (continuation.isActive) continuation.resumeWithException(UserException(message = "user with email: $email not found"))
         }
     }
 }

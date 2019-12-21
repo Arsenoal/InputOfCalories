@@ -34,7 +34,7 @@ class RegisterUserViewModel(
             viewModelScope.launch {
                 if (allFieldsAreFilled(userRegistrationParams)) {
                     if(isEmailValid(userRegParams.email)) {
-                        if (arePasswordMatch(userRegParams.password, userRegParams.repeatPassword)) {
+                        if(arePasswordMatch(userRegParams.password, userRegParams.repeatPassword)) {
                             try {
                                 registerUser(userRegParams)
                                 userRegistrationSuccessLiveData.value = Any()

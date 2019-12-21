@@ -51,8 +51,7 @@ class AddMealActivity: AppCompatActivity() {
             val params = MealParams(
                 text = mealTextEditText.text.toString(),
                 calories = mealCaloriesEditText.text.toString(),
-                weight = mealWeightEditText.text.toString()
-            )
+                weight = mealWeightEditText.text.toString())
 
             val year = Calendar.getInstance().get(Calendar.YEAR).toString()
             val month = Calendar.getInstance().get(Calendar.MONTH).toString()
@@ -60,8 +59,7 @@ class AddMealActivity: AppCompatActivity() {
 
             val filterParams = MealFilterParams(
                 MealDateParams(year, month, dayOfMonth),
-                mealTime
-            )
+                mealTime)
 
             addMealViewModel.addMealClicked(params, filterParams)
         }

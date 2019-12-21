@@ -4,8 +4,6 @@ import com.example.inputofcalories.common.exception.RegistrationException
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.repo.auth.GetAllUsersRepo
 import com.example.inputofcalories.repo.auth.registration.RegisterUserRepo
-import io.reactivex.Completable
-import io.reactivex.Single
 
 class RegisterUserUseCaseImpl(
     private val registerUserRepo: RegisterUserRepo,

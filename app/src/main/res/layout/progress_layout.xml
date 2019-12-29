@@ -4,7 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/progress_background_white_transparent">
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/white_transparent">
 
     <ProgressBar
         android:layout_width="wrap_content"

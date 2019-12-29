@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray"
     tools:context=".presentation.auth.registration.RegisterUserActivity">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -17,87 +19,85 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="5dp"
-                android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_user"
-                />
-
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/nameEditText"
                 android:hint="@string/name"
                 android:inputType="text"
-                android:paddingStart="25dp"
-                android:paddingEnd="0dp"
-                style="@style/regEditTextStyle"
+                style="@style/AppAuthEditTextStyle"
                 />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_email"
+                app:srcCompat="@drawable/ic_user"
                 />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/emailEditText"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:paddingStart="25dp"
-                android:paddingEnd="0dp"
-                style="@style/regEditTextStyle"
+                style="@style/AppAuthEditTextStyle"
                 />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_lock"
+                app:srcCompat="@drawable/ic_email"
                 />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/passwordEditText"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:paddingStart="25dp"
-                android:paddingEnd="0dp"
-                style="@style/regEditTextStyle"
+                style="@style/AppAuthEditTextStyle"
                 />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_lock"
                 />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/repeatPasswordEditText"
                 android:hint="@string/repeat_password"
                 android:inputType="textPassword"
-                android:paddingStart="25dp"
-                android:paddingEnd="0dp"
-                style="@style/regEditTextStyle"
+                style="@style/AppAuthEditTextStyle"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_lock"
                 />
         </FrameLayout>
 
@@ -105,18 +105,10 @@
             android:id="@+id/registerButton"
             android:text="@string/register"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_large"
             style="@style/AppButtonStyle"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/signIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textAllCaps="false"
-            android:text="@string/sign_in"
-            android:layout_gravity="center_horizontal"
-            />
     </LinearLayout>
 
     <include layout="@layout/progress_layout"

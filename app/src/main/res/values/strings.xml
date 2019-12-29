@@ -7,6 +7,7 @@
     <string name="repeat_password">repeat password</string>
     <string name="register">Register</string>
     <string name="sign_in">Sign in</string>
+    <string name="do_not_have_account">Don\'t have an account? <b><font color="#00574B">Register</font></b> </string>
 
     <!-- user input errors -->
     <string name="passwords_mismatch">Passwords mismatch</string>

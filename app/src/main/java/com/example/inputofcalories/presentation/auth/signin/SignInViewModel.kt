@@ -3,6 +3,7 @@ package com.example.inputofcalories.presentation.auth.signin
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.extensions.empty
+import com.example.inputofcalories.common.logger.IOCLogger
 import com.example.inputofcalories.domain.user.SaveUserToLocalUseCase
 import com.example.inputofcalories.domain.auth.signin.SignInUserUseCase
 import com.example.inputofcalories.domain.auth.signin.validation.CheckSignInFieldsAreFilledUseCase

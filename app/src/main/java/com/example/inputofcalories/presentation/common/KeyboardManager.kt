@@ -1,6 +1,8 @@
-package com.example.inputofcalories.presentation
+package com.example.inputofcalories.presentation.common
 
 import android.app.Activity
+import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 
@@ -13,5 +15,9 @@ object KeyboardManager {
                 imm.hideSoftInputFromWindow(it.windowToken, 0)
             }
         }
+    }
+
+    fun showKeyboard(window: Window) {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
     }
 }

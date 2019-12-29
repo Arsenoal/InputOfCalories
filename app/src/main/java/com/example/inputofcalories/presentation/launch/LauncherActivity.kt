@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import com.example.inputofcalories.presentation.auth.registration.RegisterUserActivity
+import com.example.inputofcalories.presentation.auth.signin.SignInActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LauncherActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class LauncherActivity : AppCompatActivity() {
     private fun setupViewModel() {
         invalidateLocalDataViewModel.let {
             it.dataClearSucceedLiveData.observe(this, Observer {
-                openRegistration()
+                openSignInActivity()
             })
         }
     }
@@ -33,7 +33,7 @@ class LauncherActivity : AppCompatActivity() {
         invalidateLocalDataViewModel.clearLocalData()
     }
 
-    private fun openRegistration() {
-        ActivityNavigator.navigateAndFinishCurrent(this, RegisterUserActivity::class.java)
+    private fun openSignInActivity() {
+        ActivityNavigator.navigateAndFinishCurrent(this, SignInActivity::class.java)
     }
 }

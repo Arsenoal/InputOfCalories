@@ -7,10 +7,11 @@ import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.register.UserRegistrationParams
-import com.example.inputofcalories.presentation.KeyboardManager
+import com.example.inputofcalories.presentation.common.KeyboardManager
 import com.example.inputofcalories.presentation.ProgressView
-import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.auth.signin.SignInActivity
+import com.example.inputofcalories.presentation.common.SnackBarManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_register_user.*
 import kotlinx.android.synthetic.main.progress_layout.*
@@ -29,27 +30,39 @@ class RegisterUserActivity : AppCompatActivity(), ProgressView {
         setupClickListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        setupFocus()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        KeyboardManager.hideKeyboard(this)
+    }
+
     private fun setupViewModels() {
         registerUserViewModel.let {
             it.userRegistrationSuccessLiveData.observe(this, Observer {
-                hideProgress()
                 ActivityNavigator.navigateAndFinishCurrent(this, SignInActivity::class.java)
+                hideProgress()
             })
             it.userRegistrationFailLiveData.observe(this, Observer {
                 hideProgress()
-                ToastManager.showToastShort(this, resources.getString(R.string.registration_fail))
+                SnackBarManager.showSnackLong(view = parentView, text = resources.getString(R.string.registration_fail))
             })
             it.emailFormatInvalidLiveData.observe(this, Observer {
                 hideProgress()
-                ToastManager.showToastShort(this, resources.getString(R.string.invalid_email_format))
+                SnackBarManager.showSnackLong(view = parentView, text = resources.getString(R.string.invalid_email_format))
             })
             it.passwordsMismatchLiveData.observe(this, Observer {
                 hideProgress()
-                ToastManager.showToastShort(this, resources.getString(R.string.passwords_mismatch))
+                SnackBarManager.showSnackLong(view = parentView, text = resources.getString(R.string.passwords_mismatch))
             })
             it.notAllFieldsAreFilledLiveData.observe(this, Observer {
                 hideProgress()
-                ToastManager.showToastShort(this, resources.getString(R.string.fill_all_fields))
+                SnackBarManager.showSnackLong(view = parentView, text = resources.getString(R.string.fill_all_fields))
             })
         }
     }
@@ -68,11 +81,35 @@ class RegisterUserActivity : AppCompatActivity(), ProgressView {
 
             registerUserViewModel.register(userRegistrationParams)
         }
+    }
 
-        signIn.setOnClickListener {
-            KeyboardManager.hideKeyboard(this)
+    private fun setupFocus() {
+        nameEditText.text?.run {
+            if(isEmpty()) {
+                nameEditText.requestFocus()
+                return
+            }
+        }
 
-            ActivityNavigator.navigate(this, SignInActivity::class.java)
+        emailEditText.text?.run {
+            if (isEmpty()) {
+                emailEditText.requestFocus()
+                return
+            }
+        }
+
+        passwordEditText.text?.run {
+            if (isEmpty()) {
+                passwordEditText.requestFocus()
+                return
+            }
+        }
+
+        repeatPasswordEditText.text?.run {
+            if (isEmpty()) {
+                repeatPasswordEditText.requestFocus()
+                return
+            }
         }
     }
 

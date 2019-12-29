@@ -6,8 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.register.User
-import com.example.inputofcalories.presentation.ToastManager
+import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.adminflow.usermeals.UserMealsActivity
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator

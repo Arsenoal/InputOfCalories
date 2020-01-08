@@ -6,11 +6,11 @@ import com.example.inputofcalories.domain.regularflow.validation.MealParamsValid
 import com.example.inputofcalories.domain.user.GetUserUseCase
 import com.example.inputofcalories.domain.user.GetUserUseCaseImpl
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
-import com.example.inputofcalories.presentation.regularflow.home.MealsProviderViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealViewModel
-import com.example.inputofcalories.presentation.regularflow.home.CheckDailyLimitViewModel
-import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewModel
-import com.example.inputofcalories.presentation.regularflow.home.UpdateDailyCaloriesViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.CheckDailyLimitViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.DeleteMealViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.UpdateDailyCaloriesViewModel
 import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.user.GetUserFromRoom
 import com.example.inputofcalories.repo.user.GetUserRepo
@@ -42,7 +42,11 @@ val mealsmodule = module {
 
     viewModel { params ->
         val userId: String = params[0]
-        MealsProviderViewModel(userId, get(), get())
+        MealsProviderViewModel(
+            userId,
+            get(),
+            get()
+        )
     }
 
     //add meal
@@ -86,7 +90,10 @@ val mealsmodule = module {
 
     viewModel { params ->
         val userId: String = params[0]
-        DeleteMealViewModel(userId, get())
+        DeleteMealViewModel(
+            userId,
+            get()
+        )
     }
 
     //update daily calories
@@ -101,7 +108,10 @@ val mealsmodule = module {
 
     viewModel { params ->
         val userId: String = params[0]
-        UpdateDailyCaloriesViewModel(userId, get())
+        UpdateDailyCaloriesViewModel(
+            userId,
+            get()
+        )
     }
 
     //check daily calories limit
@@ -115,7 +125,9 @@ val mealsmodule = module {
     }
 
     viewModel {
-        CheckDailyLimitViewModel(get())
+        CheckDailyLimitViewModel(
+            get()
+        )
     }
 
 }

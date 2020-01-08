@@ -47,7 +47,7 @@ dependencies {
     implementation supportLibrary.constraintLayout
     implementation supportLibrary.supportAnnotations
     implementation supportLibrary.lifecycleExtensions
-    implementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.2.0-rc02'
+    implementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.2.0-rc03'
 
     def kotlin = rootProject.ext.kotlinDependencies
     implementation kotlin.kotlinStdlib
@@ -88,6 +88,7 @@ dependencies {
 
     def materialDependencies = rootProject.ext.materialDependencies
     implementation materialDependencies.material
+    implementation materialDependencies.dialog
 }
 
 apply plugin: 'com.google.gms.google-services'

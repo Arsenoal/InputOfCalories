@@ -36,7 +36,7 @@ class GetUserByEmailFirestore(
                                 }
 
                                 User(
-                                    id = id,
+                                    id = it.id,
                                     userParams = UserParams(
                                         name = name,
                                         email = email,

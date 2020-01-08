@@ -11,10 +11,10 @@ import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTR
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
-import com.example.inputofcalories.presentation.regularflow.home.DeleteMealViewModel
-import com.example.inputofcalories.presentation.regularflow.home.MealsProviderViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.DeleteMealViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.home.MealsRecyclerAdapter
-import com.example.inputofcalories.presentation.regularflow.home.UpdateDailyCaloriesViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.UpdateDailyCaloriesViewModel
 import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity

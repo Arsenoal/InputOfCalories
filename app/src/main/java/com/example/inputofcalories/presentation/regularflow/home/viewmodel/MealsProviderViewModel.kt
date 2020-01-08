@@ -1,4 +1,4 @@
-package com.example.inputofcalories.presentation.regularflow.home
+package com.example.inputofcalories.presentation.regularflow.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope

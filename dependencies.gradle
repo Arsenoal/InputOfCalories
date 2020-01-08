@@ -24,6 +24,7 @@ ext {
     archComponentsVersion = "2.0.0"
     timberVersion = "4.7.1"
 
+
     //firebase
     firebaseAuthVersion = "19.1.0"
     firebaseDbVersion = "19.2.0"
@@ -44,9 +45,11 @@ ext {
 
     //material
     materialVersion = '1.0.0'
+    materialCoreVersion = '3.1.1'
 
     materialDependencies = [
-            material     : "com.google.android.material:material:$materialVersion"
+            material     : "com.google.android.material:material:$materialVersion",
+            dialog       : "com.afollestad.material-dialogs:core:$materialCoreVersion"
     ]
 
     kotlinDependencies = [

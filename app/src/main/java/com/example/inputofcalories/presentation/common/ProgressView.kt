@@ -1,4 +1,4 @@
-package com.example.inputofcalories.presentation
+package com.example.inputofcalories.presentation.common
 
 interface ProgressView {
     fun showProgress()

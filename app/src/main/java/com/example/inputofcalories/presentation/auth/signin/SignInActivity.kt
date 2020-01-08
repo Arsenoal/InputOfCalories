@@ -10,8 +10,7 @@ import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.UserManager
 import com.example.inputofcalories.entity.register.UserSignInParams
 import com.example.inputofcalories.presentation.common.KeyboardManager
-import com.example.inputofcalories.presentation.ProgressView
-import com.example.inputofcalories.presentation.common.ToastManager
+import com.example.inputofcalories.presentation.common.ProgressView
 import com.example.inputofcalories.presentation.adminflow.home.AdminUserHomeActivity
 import com.example.inputofcalories.presentation.auth.registration.RegisterUserActivity
 import com.example.inputofcalories.presentation.common.SnackBarManager
@@ -24,7 +23,8 @@ import kotlinx.android.synthetic.main.activity_sign_in.emailEditText
 import kotlinx.android.synthetic.main.progress_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SignInActivity : AppCompatActivity(), ProgressView {
+class SignInActivity : AppCompatActivity(),
+    ProgressView {
 
     private val signInViewModel: SignInViewModel by viewModel()
 
@@ -52,12 +52,13 @@ class SignInActivity : AppCompatActivity(), ProgressView {
     private fun setupViewModel() {
         signInViewModel.let {
             it.singInSuccessLiveData.observe(this, Observer { user ->
+                hideProgress()
+
                 when(user.userParams.type) {
                     RegularUser -> { ActivityNavigator.navigateAndFinishCurrent(this, RegularUserHomeActivity::class.java, USER_ID_KEY, user.id) }
                     UserManager -> { ActivityNavigator.navigateAndFinishCurrent(this, ManagerUserHomeActivity::class.java, USER_ID_KEY, user.id) }
                     Admin -> { ActivityNavigator.navigateAndFinishCurrent(this, AdminUserHomeActivity::class.java, USER_ID_KEY, user.id) }
                 }
-                hideProgress()
             })
 
             it.singInFailLiveData.observe(this, Observer { message ->

@@ -3,14 +3,15 @@ package com.example.inputofcalories.presentation.managerflow.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.UserException
-import com.example.inputofcalories.domain.managerflow.GetUsersUseCase
+import com.example.inputofcalories.domain.managerflow.MangerFlowUseCase
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
+//TODO chage users list retrieve functionality(remove user id argument), move getUsers() method to ManagerViewModel(create it)
 class UsersProviderViewModel(
     private val userId: String,
-    private val getUsersUseCase: GetUsersUseCase
+    private val getUsersUseCase: MangerFlowUseCase
 ): BaseViewModel() {
 
     val usersLoadFailLiveData = MutableLiveData<Any>()
@@ -33,6 +34,6 @@ class UsersProviderViewModel(
     }
 
     private suspend fun loadUsers(userId: String): List<User> {
-        return getUsersUseCase.get(userId)
+        return getUsersUseCase.getUsers(userId)
     }
 }

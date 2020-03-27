@@ -10,7 +10,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class LauncherActivity : AppCompatActivity() {
 
-    private val invalidateLocalDataViewModel: InvalidateLocalDataViewModel by viewModel()
+    private val launcherViewModel: LauncherViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        invalidateLocalDataViewModel.let {
+        launcherViewModel.let {
             it.dataClearSucceedLiveData.observe(this, Observer {
                 openSignInActivity()
             })
@@ -30,7 +30,7 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun clearLocalData() {
-        invalidateLocalDataViewModel.clearLocalData()
+        launcherViewModel.clearLocalData()
     }
 
     private fun openSignInActivity() {

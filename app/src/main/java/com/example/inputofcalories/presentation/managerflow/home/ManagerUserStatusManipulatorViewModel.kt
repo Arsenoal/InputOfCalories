@@ -3,16 +3,14 @@ package com.example.inputofcalories.presentation.managerflow.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.UserException
-import com.example.inputofcalories.domain.managerflow.DowngradeUserToRegularUseCase
-import com.example.inputofcalories.domain.managerflow.UpgradeUserToManagerUseCase
+import com.example.inputofcalories.domain.managerflow.MangerFlowUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class ManagerUserStatusManipulatorViewModel(
-    private val upgradeUserToManagerUseCase: UpgradeUserToManagerUseCase,
-    private val downgradeUserToRegularUseCase: DowngradeUserToRegularUseCase
+    private val managerFlowUseCase: MangerFlowUseCase
 ): BaseViewModel() {
 
     val userUpgradeSucceedLiveData = MutableLiveData<Any>()
@@ -45,11 +43,7 @@ class ManagerUserStatusManipulatorViewModel(
         }
     }
 
-    private suspend fun upgradeUser(userId: String) {
-        upgradeUserToManagerUseCase.upgrade(userId)
-    }
+    private suspend fun upgradeUser(userId: String) = managerFlowUseCase.upgradeToManager(userId)
 
-    private suspend fun downgradeUser(userId: String) {
-        downgradeUserToRegularUseCase.downgrade(userId)
-    }
+    private suspend fun downgradeUser(userId: String) = managerFlowUseCase.downgradeToRegular(userId)
 }

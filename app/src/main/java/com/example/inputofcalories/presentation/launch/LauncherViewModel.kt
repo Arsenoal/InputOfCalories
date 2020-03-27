@@ -6,9 +6,8 @@ import com.example.inputofcalories.common.logger.IOCLogger
 import com.example.inputofcalories.domain.launch.InvalidateLocalDataOnAppOpenUseCase
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
-class InvalidateLocalDataViewModel(
+class LauncherViewModel(
     private val invalidateLocalDataOnAppOpenUseCase: InvalidateLocalDataOnAppOpenUseCase
 ): BaseViewModel() {
 
@@ -20,12 +19,10 @@ class InvalidateLocalDataViewModel(
                 clearRoom()
                 dataClearSucceedLiveData.value = Any()
             } catch (ex: Exception) {
-                IOCLogger.d(InvalidateLocalDataViewModel::class.java.name, "failed to clear room data")
+                IOCLogger.d(LauncherViewModel::class.java.name, "failed to clear room data")
             }
         }
     }
 
-    private suspend fun clearRoom() {
-        invalidateLocalDataOnAppOpenUseCase.invalidate()
-    }
+    private suspend fun clearRoom() = invalidateLocalDataOnAppOpenUseCase.invalidate()
 }

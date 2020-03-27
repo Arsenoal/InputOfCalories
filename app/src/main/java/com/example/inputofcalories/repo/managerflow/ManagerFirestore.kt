@@ -7,19 +7,75 @@ import com.example.inputofcalories.repo.auth.model.TYPE_ADMIN
 import com.example.inputofcalories.repo.auth.model.TYPE_MANAGER
 import com.example.inputofcalories.repo.auth.model.TYPE_REGULAR
 import com.example.inputofcalories.repo.auth.model.UserFirebase
-import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames.USERS
+import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resumeWithException
 
-class GetUsersFirestore(
+class ManagerFirestore(
     private val firestore: FirebaseFirestore
-): GetUsersRepo {
+): ManagerRepo {
+    override suspend fun downgradeToRegular(userId: String) {
+        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
+            .addOnSuccessListener { usersQuerySnapshot ->
+                usersQuerySnapshot.filter { documentSnapshot ->
+                    userId == documentSnapshot.id
+                }.map { documentSnapshot ->
+                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
+
+                    val downgradedUser = with(userFirebase) {
+                        UserFirebase(
+                            id = id,
+                            name = name,
+                            email = email,
+                            password = password,
+                            dailyCalories = dailyCalories,
+                            type = TYPE_REGULAR
+                        )
+                    }
+
+                    firestore.collection(FirebaseDataBaseCollectionNames.USERS)
+                        .document(userId)
+                        .set(downgradedUser)
+                        .addOnFailureListener { throw UserException(error = it) }
+                }
+            }
+            .addOnFailureListener { throw UserException(error = it) }
+    }
+
+    override suspend fun upgradeToManager(userId: String) {
+        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
+            .addOnSuccessListener { usersQuerySnapshot ->
+                usersQuerySnapshot
+                    .filter { documentSnapshot -> userId == documentSnapshot.id }
+                    .map { documentSnapshot ->
+                        val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
+
+                        val upgradedUser = with(userFirebase) {
+                            UserFirebase(
+                                id = id,
+                                name = name,
+                                email = email,
+                                password = password,
+                                dailyCalories = dailyCalories,
+                                type = TYPE_MANAGER
+                            )
+                        }
+
+                        firestore.collection(FirebaseDataBaseCollectionNames.USERS)
+                            .document(userId)
+                            .set(upgradedUser)
+                            .addOnFailureListener { throw UserException(error = it) }
+                    }
+            }
+            .addOnFailureListener { throw UserException(error = it) }
+    }
+
     @ExperimentalCoroutinesApi
-    override suspend fun get(userId: String): List<User> {
+    override suspend fun getUsers(userId: String): List<User> {
         return suspendCancellableCoroutine { continuation ->
-            firestore.collection(USERS).get()
+            firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
                 .addOnSuccessListener { usersQuery ->
                     val users: List<User> = usersQuery.documents
                         .asSequence()

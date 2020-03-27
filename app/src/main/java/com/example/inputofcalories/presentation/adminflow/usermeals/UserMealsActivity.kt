@@ -118,17 +118,21 @@ class UserMealsActivity: AppCompatActivity() {
         mealsRecyclerView.layoutManager = LinearLayoutManager(this)
         mealsRecyclerView.adapter = mealsAdapter
 
-        mealsAdapter.mealSelectedLiveData.observe(this, Observer {
-            val mealSerializable = MealSerializable(
-                id = it.id,
-                text = it.text,
-                calories = it.calories,
-                weight = it.weight,
-                year = it.year,
-                month = it.month,
-                dayOfMonth = it.dayOfMonth,
-                from = it.from,
-                to = it.to)
+        mealsAdapter.mealSelectedLiveData.observe(this, Observer { mealsAdapterModel ->
+
+            val mealSerializable = with(mealsAdapterModel) {
+                MealSerializable(
+                    id = id,
+                    text = text,
+                    calories = calories,
+                    weight = weight,
+                    year = year,
+                    month = month,
+                    dayOfMonth = dayOfMonth,
+                    from = from,
+                    to = to
+                )
+            }
 
             ActivityNavigator.navigate(this, ViewMealActivity::class.java, MEAL_EXTRA, mealSerializable)
         })

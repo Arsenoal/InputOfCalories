@@ -3,14 +3,14 @@ package com.example.inputofcalories.presentation.adminflow.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.UserException
-import com.example.inputofcalories.domain.adminflow.GetAllUsersUseCase
+import com.example.inputofcalories.domain.adminflow.AdminFlowUseCase
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class AllUsersProviderViewModel(
     private val userId: String,
-    private val getAllUsersUseCase: GetAllUsersUseCase
+    private val adminFlowUseCase: AdminFlowUseCase
 ): BaseViewModel() {
 
     val usersLoadFailLiveData = MutableLiveData<Any>()
@@ -32,5 +32,5 @@ class AllUsersProviderViewModel(
         }
     }
 
-    private suspend fun loadUsers(userId: String) = getAllUsersUseCase.get(userId)
+    private suspend fun loadUsers(userId: String) = adminFlowUseCase.getUsers(userId)
 }

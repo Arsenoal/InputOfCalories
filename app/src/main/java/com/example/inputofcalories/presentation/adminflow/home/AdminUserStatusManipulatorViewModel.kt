@@ -12,7 +12,7 @@ import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class AdminUserStatusManipulatorViewModel(
-    private val adminUserStatusManipulatorUseCase: AdminUserStatusManipulatorUseCase
+    private val adminFlowUseCase: AdminFlowUseCase
 ): BaseViewModel() {
 
     val userUpgradeSucceedLiveData = MutableLiveData<Any>()
@@ -48,9 +48,9 @@ class AdminUserStatusManipulatorViewModel(
         }
     }
 
-    private suspend fun upgradeToManager(userId: String) { adminUserStatusManipulatorUseCase.upgradeToManager(userId) }
+    private suspend fun upgradeToManager(userId: String) { adminFlowUseCase.upgradeToManager(userId) }
 
-    private suspend fun upgradeToAdmin(userId: String) { adminUserStatusManipulatorUseCase.upgradeToAdmin(userId) }
+    private suspend fun upgradeToAdmin(userId: String) { adminFlowUseCase.upgradeToAdmin(userId) }
 
     private suspend fun downgradeUser(user: User) {
         try {
@@ -63,7 +63,7 @@ class AdminUserStatusManipulatorViewModel(
         }
     }
 
-    private suspend fun downgradeToRegular(userId: String) { adminUserStatusManipulatorUseCase.downgradeToRegular(userId) }
+    private suspend fun downgradeToRegular(userId: String) { adminFlowUseCase.downgradeToRegular(userId) }
 
-    private suspend fun downgradeToManager(userId: String) { adminUserStatusManipulatorUseCase.downgradeToManager(userId) }
+    private suspend fun downgradeToManager(userId: String) { adminFlowUseCase.downgradeToManager(userId) }
 }

@@ -1,6 +1,8 @@
 package com.example.inputofcalories.domain.adminflow
 
-interface AdminUserStatusManipulatorUseCase {
+import com.example.inputofcalories.entity.register.User
+
+interface AdminFlowUseCase {
     suspend fun downgradeToManager(userId: String)
 
     suspend fun downgradeToRegular(userId: String)
@@ -8,4 +10,6 @@ interface AdminUserStatusManipulatorUseCase {
     suspend fun upgradeToManager(userId: String)
 
     suspend fun upgradeToAdmin(userId: String)
+
+    suspend fun getUsers(userId: String): List<User>
 }

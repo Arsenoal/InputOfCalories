@@ -4,9 +4,9 @@ import com.example.inputofcalories.entity.register.Admin
 import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserManager
-import com.example.inputofcalories.repo.auth.registration.model.TYPE_ADMIN
-import com.example.inputofcalories.repo.auth.registration.model.TYPE_MANAGER
-import com.example.inputofcalories.repo.auth.registration.model.TYPE_REGULAR
+import com.example.inputofcalories.repo.auth.model.TYPE_ADMIN
+import com.example.inputofcalories.repo.auth.model.TYPE_MANAGER
+import com.example.inputofcalories.repo.auth.model.TYPE_REGULAR
 import com.example.inputofcalories.repo.db.local.user.UserDao
 import com.example.inputofcalories.repo.db.local.user.UserRoom
 

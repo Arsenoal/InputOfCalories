@@ -3,11 +3,9 @@ package com.example.inputofcalories.presentation.auth.signin
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.extensions.empty
-import com.example.inputofcalories.common.logger.IOCLogger
+import com.example.inputofcalories.domain.auth.AuthUseCase
 import com.example.inputofcalories.domain.user.SaveUserToLocalUseCase
-import com.example.inputofcalories.domain.auth.signin.SignInUserUseCase
-import com.example.inputofcalories.domain.auth.signin.validation.CheckSignInFieldsAreFilledUseCase
-import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
+import com.example.inputofcalories.domain.auth.validation.AuthValidationUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserSignInParams
@@ -15,10 +13,9 @@ import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class SignInViewModel(
-    private val singInUserUseCase: SignInUserUseCase,
+    private val authUseCase: AuthUseCase,
     private val saveUserToLocalUseCase: SaveUserToLocalUseCase,
-    private val checkSignInFieldsAreFilledUseCase: CheckSignInFieldsAreFilledUseCase,
-    private val checkEmailFormatValidUseCase: CheckEmailFormatValidUseCase
+    private val authValidationUseCase: AuthValidationUseCase
 ): BaseViewModel() {
 
     val singInSuccessLiveData = MutableLiveData<User>()
@@ -52,15 +49,15 @@ class SignInViewModel(
     }
 
     private suspend fun allFieldsAreFilled(userSignInParams: UserSignInParams): Boolean {
-        return checkSignInFieldsAreFilledUseCase.check(userSignInParams)
+        return authValidationUseCase.checkSignInFieldsAreFilled(userSignInParams)
     }
 
     private suspend fun isEmailFormatValid(email: String): Boolean {
-        return checkEmailFormatValidUseCase.check(email)
+        return authValidationUseCase.checkEmailFormat(email)
     }
 
     private suspend fun singIn(userSignInParams: UserSignInParams): User {
-        return singInUserUseCase.signIn(userSignInParams)
+        return authUseCase.signIn(userSignInParams)
     }
 
     private suspend fun saveUser(user: User) {

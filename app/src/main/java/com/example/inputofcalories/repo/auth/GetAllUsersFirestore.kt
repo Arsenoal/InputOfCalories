@@ -3,9 +3,9 @@ package com.example.inputofcalories.repo.auth
 import com.example.inputofcalories.common.exception.UserException
 import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.entity.register.*
-import com.example.inputofcalories.repo.auth.registration.model.TYPE_ADMIN
-import com.example.inputofcalories.repo.auth.registration.model.TYPE_MANAGER
-import com.example.inputofcalories.repo.auth.registration.model.UserFirebase
+import com.example.inputofcalories.repo.auth.model.TYPE_ADMIN
+import com.example.inputofcalories.repo.auth.model.TYPE_MANAGER
+import com.example.inputofcalories.repo.auth.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,6 +15,8 @@ import kotlin.coroutines.resumeWithException
 class GetAllUsersFirestore(
     private val firestore: FirebaseFirestore
 ): GetAllUsersRepo {
+
+    //TODO check for usages and refactor
     @ExperimentalCoroutinesApi
     override suspend fun get(): List<User> {
 

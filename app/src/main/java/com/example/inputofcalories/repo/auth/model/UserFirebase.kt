@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.auth.registration.model
+package com.example.inputofcalories.repo.auth.model
 
 import com.example.inputofcalories.common.extensions.empty
 

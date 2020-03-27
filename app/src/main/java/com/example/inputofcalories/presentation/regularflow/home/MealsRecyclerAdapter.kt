@@ -2,6 +2,7 @@ package com.example.inputofcalories.presentation.regularflow.home
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -47,17 +48,13 @@ class MealsRecyclerAdapter(
                 itemView.context.resources.getString(R.string.from), mealAdapterModel.from,
                 itemView.context.resources.getString(R.string.to), mealAdapterModel.to)
 
-            if(mealAdapterModel.isLimitExceeded) limitMarker.background = itemView.context.getDrawable(R.drawable.background_circle_primary_dark)
-            else limitMarker.background = itemView.context.getDrawable(R.drawable.background_circle_accent)
-
-            limitMarker.visibility = VISIBLE
+            if(mealAdapterModel.isLimitExceeded) limitMarker.visibility = VISIBLE
+            else limitMarker.visibility = GONE
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealViewHolder {
-        return MealViewHolder(
-            layoutInflater.inflate(R.layout.meal_recycler_item, parent, false)
-        )
+        return MealViewHolder(layoutInflater.inflate(R.layout.meal_recycler_item, parent, false))
     }
 
     override fun getItemCount() = meals.size
@@ -68,14 +65,23 @@ class MealsRecyclerAdapter(
         notifyDataSetChanged()
     }
 
-    fun markOnLimitExceeded() {
-        meals.forEach { it.isLimitExceeded = true }
-        notifyDataSetChanged()
+    fun deleteItem(position: Int) {
+        meals.removeAt(position)
+        notifyItemRemoved(position)
     }
 
-    fun markOnLimitNotExceeded() {
-        meals.forEach { it.isLimitExceeded = false }
-        notifyDataSetChanged()
+    fun markOnLimitExceeded(meals: List<MealAdapterModel>? = null) {
+        meals?.run {
+            forEach { it.isLimitExceeded = true }
+            notifyDataSetChanged()
+        }
+    }
+
+    fun markOnLimitNotExceeded(meals: List<MealAdapterModel>? = null) {
+        meals?.run{
+            forEach { it.isLimitExceeded = false }
+            notifyDataSetChanged()
+        }
     }
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) {

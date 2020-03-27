@@ -3,19 +3,15 @@ package com.example.inputofcalories.presentation.auth.registration
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.RegistrationException
-import com.example.inputofcalories.domain.auth.validation.CheckEmailFormatValidUseCase
-import com.example.inputofcalories.domain.auth.registration.validation.CheckPasswordsMatchesUseCase
-import com.example.inputofcalories.domain.auth.registration.RegisterUserUseCase
-import com.example.inputofcalories.domain.auth.registration.validation.CheckRegistrationFieldsAreFilledUseCase
+import com.example.inputofcalories.domain.auth.AuthUseCase
+import com.example.inputofcalories.domain.auth.validation.AuthValidationUseCase
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class RegisterUserViewModel(
-    private val registerUserUseCase: RegisterUserUseCase,
-    private val checkEmailFormatValidUseCase: CheckEmailFormatValidUseCase,
-    private val checkPasswordsMatchesUseCase: CheckPasswordsMatchesUseCase,
-    private val checkRegistrationFieldsAreFilledUseCase: CheckRegistrationFieldsAreFilledUseCase
+    private val authUseCase: AuthUseCase,
+    private val authValidationUseCase: AuthValidationUseCase
 ): BaseViewModel() {
 
     val userRegistrationSuccessLiveData: MutableLiveData<Any> = MutableLiveData()
@@ -57,18 +53,18 @@ class RegisterUserViewModel(
     }
 
     private suspend fun isEmailValid(email: String): Boolean {
-        return checkEmailFormatValidUseCase.check(email)
+        return authValidationUseCase.checkEmailFormat(email)
     }
 
     private suspend fun arePasswordMatch(p1: String, p2: String): Boolean {
-        return checkPasswordsMatchesUseCase.check(p1, p2)
+        return authValidationUseCase.checkPasswordsMatch(p1, p2)
     }
 
     private suspend fun allFieldsAreFilled(userRegistrationParams: UserRegistrationParams): Boolean {
-        return checkRegistrationFieldsAreFilledUseCase.check(userRegistrationParams)
+        return authValidationUseCase.checkRegistrationFieldsAreFilled(userRegistrationParams)
     }
 
     private suspend fun registerUser(userRegistrationParams: UserRegistrationParams) {
-        registerUserUseCase.register(userRegistrationParams)
+        authUseCase.register(userRegistrationParams)
     }
 }

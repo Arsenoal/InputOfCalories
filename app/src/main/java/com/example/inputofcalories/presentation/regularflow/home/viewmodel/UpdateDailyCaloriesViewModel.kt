@@ -3,14 +3,14 @@ package com.example.inputofcalories.presentation.regularflow.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.UserDailyCaloriesUpdateException
-import com.example.inputofcalories.domain.regularflow.UpdateUsersDailyCaloriesUseCase
+import com.example.inputofcalories.domain.regularflow.dailycalories.DailyCaloriesUseCase
 import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class UpdateDailyCaloriesViewModel(
     private val userId: String,
-    private val updateUsersDailyCaloriesUseCase: UpdateUsersDailyCaloriesUseCase
+    private val dailyCaloriesUseCase: DailyCaloriesUseCase
 ): BaseViewModel() {
 
     val updateCaloriesSucceedLiveData = MutableLiveData<Any>()
@@ -28,7 +28,5 @@ class UpdateDailyCaloriesViewModel(
         }
     }
 
-    private suspend fun update(userId: String, dailyCalories: String) {
-        updateUsersDailyCaloriesUseCase.update(userId, dailyCalories)
-    }
+    private suspend fun update(userId: String, dailyCalories: String) = dailyCaloriesUseCase.updateDailyCaloriesLimit(userId, dailyCalories)
 }

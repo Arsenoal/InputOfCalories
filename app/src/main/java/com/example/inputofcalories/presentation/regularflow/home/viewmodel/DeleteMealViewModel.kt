@@ -3,14 +3,14 @@ package com.example.inputofcalories.presentation.regularflow.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.MealException
-import com.example.inputofcalories.domain.regularflow.DeleteMealUseCase
+import com.example.inputofcalories.domain.regularflow.UserMealsUseCase
 import com.example.inputofcalories.entity.presentation.regular.MealDeleteParams
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class DeleteMealViewModel(
     private val userId: String,
-    private val deleteMealUseCase: DeleteMealUseCase
+    private val userMealsUseCase: UserMealsUseCase
 ): BaseViewModel() {
 
     val deleteMealFailLiveData = MutableLiveData<Any>()
@@ -28,7 +28,5 @@ class DeleteMealViewModel(
         }
     }
 
-    private suspend fun deleteMeal(mealDeleteParams: MealDeleteParams) {
-        deleteMealUseCase.delete(mealDeleteParams)
-    }
+    private suspend fun deleteMeal(mealDeleteParams: MealDeleteParams) = userMealsUseCase.deleteMeal(mealDeleteParams)
 }

@@ -1,21 +1,19 @@
-package com.example.inputofcalories.domain.regularflow
+package com.example.inputofcalories.domain.regularflow.dailycalories
 
-import com.example.inputofcalories.repo.regularflow.DailyCaloriesProviderRepo
-import com.example.inputofcalories.repo.regularflow.MealsProviderRepo
+import com.example.inputofcalories.repo.regularflow.UserMealsRepo
+import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesRepo
 import com.example.inputofcalories.repo.user.GetUserRepo
-import io.reactivex.Single
 import java.util.*
 
-class CheckDailyCaloriesDailyLimitUseCaseImpl(
-    private val mealsProviderRepo: MealsProviderRepo,
+class IocDailyCalories(
+    private val userMealsRepo: UserMealsRepo,
     private val getUserRepo: GetUserRepo,
-    private val dailyCaloriesProviderRepo: DailyCaloriesProviderRepo
-): CheckDailyCaloriesDailyLimitUseCase {
+    private val dailyCaloriesRepo: DailyCaloriesRepo
+): DailyCaloriesUseCase {
 
-    override suspend fun check(): Boolean {
-
+    override suspend fun isLimitExceeded(): Boolean {
         val user = getUserRepo.get()
-        val meals = mealsProviderRepo.getMealsByUserId(user.id)
+        val meals = userMealsRepo.getMeals(user.id)
 
         val dailyMeals = meals.filter { meal ->
             val calendar = Calendar.getInstance()
@@ -31,8 +29,10 @@ class CheckDailyCaloriesDailyLimitUseCaseImpl(
         var caloriesConsumed = 0
         dailyMeals.forEach { meal -> caloriesConsumed += meal.params.calories.toInt() }
 
-        val dailyLimit = dailyCaloriesProviderRepo.provide(user.id).toInt()
+        val dailyLimit = dailyCaloriesRepo.getDailyCaloriesLimit(user.id).toInt()
 
         return caloriesConsumed > dailyLimit
     }
+
+    override suspend fun updateDailyCaloriesLimit(userId: String, dailyCalories: String) = dailyCaloriesRepo.updateDailyCaloriesLimit(userId, dailyCalories)
 }

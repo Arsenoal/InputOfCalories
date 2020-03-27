@@ -2,12 +2,12 @@ package com.example.inputofcalories.presentation.regularflow.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.inputofcalories.domain.regularflow.CheckDailyCaloriesDailyLimitUseCase
+import com.example.inputofcalories.domain.regularflow.dailycalories.DailyCaloriesUseCase
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class CheckDailyLimitViewModel(
-    private val checkDailyCaloriesDailyLimitUseCase: CheckDailyCaloriesDailyLimitUseCase
+    private val dailyCaloriesUseCase: DailyCaloriesUseCase
 ): BaseViewModel() {
 
     val dailyLimitExceededLiveData = MutableLiveData<Any>()
@@ -25,5 +25,5 @@ class CheckDailyLimitViewModel(
         }
     }
 
-    private suspend fun checkLimitExceeded() = checkDailyCaloriesDailyLimitUseCase.check()
+    private suspend fun checkLimitExceeded() = dailyCaloriesUseCase.isLimitExceeded()
 }

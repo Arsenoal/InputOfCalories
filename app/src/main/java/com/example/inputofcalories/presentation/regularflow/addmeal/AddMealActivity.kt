@@ -16,7 +16,7 @@ class AddMealActivity: AppCompatActivity() {
 
     private val addMealViewModel: AddMealViewModel by viewModel()
 
-    var mealTime: MealTimeParams = LunchTime
+    private var mealTime: MealTimeParams = LunchTime
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +38,6 @@ class AddMealActivity: AppCompatActivity() {
             it.addMealSuccessLiveData.observe(this, Observer {
                 ToastManager.showToastShort(this, resources.getString(R.string.meal_successfully_added))
                 ActivityNavigator.navigateBack(this)
-            })
-
-            it.mealParamsAreInvalidLiveData.observe(this, Observer {
-                ToastManager.showToastShort(this, resources.getString(R.string.meal_params_are_invalid))
             })
         }
     }

@@ -3,8 +3,7 @@ package com.example.inputofcalories.presentation.regularflow.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.inputofcalories.common.exception.MealException
-import com.example.inputofcalories.domain.regularflow.GetMealsFilteredUseCase
-import com.example.inputofcalories.domain.regularflow.GetMealsUseCase
+import com.example.inputofcalories.domain.regularflow.UserMealsUseCase
 import com.example.inputofcalories.entity.presentation.regular.Meal
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.presentation.base.BaseViewModel
@@ -12,8 +11,7 @@ import kotlinx.coroutines.launch
 
 class MealsProviderViewModel(
     private val userId: String,
-    private val getMealsUseCase: GetMealsUseCase,
-    private val getMealsFilteredUseCase: GetMealsFilteredUseCase
+    private val userMealsUseCase: UserMealsUseCase
 ): BaseViewModel() {
 
     val mealsLoadFailLiveData = MutableLiveData<Any>()
@@ -48,12 +46,8 @@ class MealsProviderViewModel(
         }
     }
 
-    private suspend fun loadMeals(uId: String): List<Meal> {
-        return getMealsUseCase.get(uId)
-    }
+    private suspend fun loadMeals(uId: String) = userMealsUseCase.getMeals(uId)
 
-    private suspend fun loadMealsByFilter(uId: String, mealFilterParams: MealFilterParams): List<Meal> {
-        return getMealsFilteredUseCase.get(uId, mealFilterParams)
-    }
+    private suspend fun loadMealsByFilter(uId: String, mealFilterParams: MealFilterParams) = userMealsUseCase.getMealsFiltered(uId, mealFilterParams)
 
 }

@@ -12,16 +12,18 @@ class IocUserMeals(
     private val userMealsRepo: UserMealsRepo
 ) : UserMealsUseCase {
 
-    override suspend fun addMeal(params: MealParams, filterParams: MealFilterParams) {
-        userMealsRepo.addMeal(getUserRepo.get().id, params, filterParams)
-    }
+    override suspend fun addMeal(params: MealParams, filterParams: MealFilterParams)
+            = userMealsRepo.addMeal(getUserRepo.get().id, params, filterParams)
 
-    override suspend fun deleteMeal(mealDeleteParams: MealDeleteParams) = userMealsRepo.deleteMeal(mealDeleteParams)
+    override suspend fun deleteMeal(mealDeleteParams: MealDeleteParams)
+            = userMealsRepo.deleteMeal(mealDeleteParams)
 
-    override suspend fun editMeal(meal: Meal) = userMealsRepo.editMeal(meal)
+    override suspend fun editMeal(meal: Meal)
+            = userMealsRepo.editMeal(meal)
 
     override suspend fun getMealsFiltered(uId: String, mealFilterParams: MealFilterParams)
             = userMealsRepo.getMeals(uId).filter { it.filterParams == mealFilterParams }
 
-    override suspend fun getMeals(uId: String) = userMealsRepo.getMeals(uId)
+    override suspend fun getMeals(uId: String)
+            = userMealsRepo.getMeals(uId)
 }

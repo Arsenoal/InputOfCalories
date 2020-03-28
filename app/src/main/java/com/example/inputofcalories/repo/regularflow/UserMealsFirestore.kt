@@ -6,7 +6,7 @@ import com.example.inputofcalories.common.logger.IOCLogger
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
-import com.example.inputofcalories.repo.service.IoCEncoderService
+import com.example.inputofcalories.repo.service.EncoderService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -14,7 +14,7 @@ import kotlin.coroutines.resumeWithException
 
 class UserMealsFirestore(
     private val firestore: FirebaseFirestore,
-    private val encoderService: IoCEncoderService
+    private val encoderService: EncoderService
 ): UserMealsRepo {
 
     var TAG = UserMealsFirestore::class.java.name

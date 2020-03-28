@@ -20,15 +20,12 @@ class DailyCaloriesFirestore(
                 .document(userId)
                 .get()
                 .addOnSuccessListener { documentSnapshot ->
-                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
-
-                    userFirebase?.let {
-                        continuation.resume(it.dailyCalories) {
-                            throw UserDailyCaloriesException()
-                        }
+                    documentSnapshot.toObject(UserFirebase::class.java)?.run {
+                        val res = if(dailyCalories.isNotBlank()) dailyCalories else "0"
+                        continuation.resume(res) { throw UserDailyCaloriesException() }
                     }
                 }
-                .addOnFailureListener { continuation.resumeWithException(UserDailyCaloriesException(error = it)) }
+                .addOnFailureListener { error -> continuation.resumeWithException(UserDailyCaloriesException(error = error)) }
         }
     }
 
@@ -41,13 +38,7 @@ class DailyCaloriesFirestore(
                         val userFirebase = it.toObject(UserFirebase::class.java)
 
                         val userUpdateFirebase = with(userFirebase) {
-                            UserFirebase(
-                                id = id,
-                                name = name,
-                                email = email,
-                                dailyCalories = dailyCalories,
-                                password = password,
-                                type = type
+                            UserFirebase(id = id, name = name, email = email, dailyCalories = dailyCalories, password = password, type = type
                             )
                         }
 
@@ -57,6 +48,6 @@ class DailyCaloriesFirestore(
                             .addOnFailureListener { error -> throw UserDailyCaloriesUpdateException(error = error) }
                     }
             }
-            .addOnFailureListener { throw UserDailyCaloriesUpdateException(error = it) }
+            .addOnFailureListener { error -> throw UserDailyCaloriesUpdateException(error = error) }
     }
 }

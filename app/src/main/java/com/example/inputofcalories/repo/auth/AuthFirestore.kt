@@ -76,7 +76,9 @@ class AuthFirestore(
 
                     continuation.resume(user) { throw SignInException() }
                 }
-                .addOnFailureListener { continuation.resumeWithException(SignInException(message = "user with email: $email not found")) }
+                .addOnFailureListener { ex ->
+                    continuation.resumeWithException(SignInException(message = "user with email: $email not found"))
+                }
         }
     }
 }

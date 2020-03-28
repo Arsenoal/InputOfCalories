@@ -28,23 +28,16 @@ class SignInViewModel(
     fun signInClicked(userSignInParams: UserSignInParams) {
         viewModelScope.launch {
             try {
-                userSignInParams.let {
-                    if (allFieldsAreFilled(it)) {
-                        if(isEmailFormatValid(it.email)) {
-                            val user = singIn(it)
+                if (allFieldsAreFilled(userSignInParams)) {
+                    if(isEmailFormatValid(userSignInParams.email)) {
+                        singIn(userSignInParams)?.let { user ->
                             saveUser(user)
                             singInSuccessLiveData.value = user
-                        } else {
-                            emailFormatInvalidLiveData.value = Any()
                         }
-                    } else {
-                        notAllFieldsAreFilledLiveData.value = Any()
-                    }
-                }
+                    } else { emailFormatInvalidLiveData.value = Any() }
+                } else { notAllFieldsAreFilledLiveData.value = Any() }
             } catch (ex: Exception) {
-                ex.message?.let { message ->
-                    singInFailLiveData.value = Message(text = message)
-                }
+                ex.message?.let { message -> singInFailLiveData.value = Message(text = message) }
             }
         }
     }

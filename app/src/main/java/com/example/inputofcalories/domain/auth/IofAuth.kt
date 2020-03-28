@@ -1,6 +1,5 @@
 package com.example.inputofcalories.domain.auth
 
-import com.example.inputofcalories.common.exception.UserException
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.entity.register.UserSignInParams
 import com.example.inputofcalories.repo.auth.AuthRepo
@@ -13,7 +12,5 @@ class IofAuth(
 
     override suspend fun signIn(userSignInParams: UserSignInParams) = with(userSignInParams) {
         authRepo.signIn(email)
-
-        throw UserException(message = "user with email: ${userSignInParams.email} not found")
     }
 }

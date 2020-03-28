@@ -7,5 +7,5 @@ import com.example.inputofcalories.entity.register.UserSignInParams
 interface AuthUseCase {
     suspend fun register(userRegistrationParams: UserRegistrationParams, result: (Any) -> Unit)
 
-    suspend fun signIn(userSignInParams: UserSignInParams): User
+    suspend fun signIn(userSignInParams: UserSignInParams): User?
 }

@@ -1,20 +1,27 @@
 package com.example.inputofcalories.repo.service
 
-import javax.crypto.Mac
+import android.util.Base64
+import java.security.MessageDigest
+import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 
-const val key: String = "0123456789ABCDEF0123456789ABCDEFsafestPasswordBtw"
+class IoCEncoderService: EncoderService {
 
-class SHAViaSecretKeyCreatorService: SHACreatorService {
+    override suspend fun encode(text: String): String {
+        val cipher: Cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")
+        cipher.init(Cipher.ENCRYPT_MODE, getSecretKey())
 
-    override suspend fun encrypt(text: String): String {
-        val key = SecretKeySpec(key.toByteArray(Charsets.UTF_8), "HmacSHA1")
-        val mac: Mac = Mac.getInstance("HmacSHA1")
-        mac.init(key)
+        return Base64.encodeToString(cipher.doFinal(text.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
 
-        val bytes: ByteArray = mac.doFinal(text.toByteArray(Charsets.UTF_8))
+    }
 
-        return bytes.toString().replace("/","_")
+    private fun getSecretKey() = run {
+        val key = "0123456789ABCDEF0123456789ABCDEFsafestPasswordBtw"
 
+        var bites = key.toByteArray(Charsets.UTF_8)
+        val sha = MessageDigest.getInstance("SHA-1")
+        bites = sha.digest(bites)
+        bites = bites.copyOf(16)
+        SecretKeySpec(bites, "AES")
     }
 }

@@ -13,5 +13,6 @@ class UserFirebase(
     val dailyCalories: String,
     val password: String,
     val type: Int) {
+
     constructor(): this(String.empty(), String.empty(), String.empty(), String.empty(), String.empty(), -1)
 }

@@ -2,7 +2,6 @@ package com.example.inputofcalories.presentation.auth.signin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.domain.auth.AuthUseCase
 import com.example.inputofcalories.domain.user.SaveUserToLocalUseCase
 import com.example.inputofcalories.domain.auth.validation.AuthValidationUseCase
@@ -50,20 +49,12 @@ class SignInViewModel(
         }
     }
 
-    private suspend fun allFieldsAreFilled(userSignInParams: UserSignInParams): Boolean {
-        return authValidationUseCase.checkSignInFieldsAreFilled(userSignInParams)
-    }
+    private suspend fun allFieldsAreFilled(userSignInParams: UserSignInParams) = authValidationUseCase.checkSignInFieldsAreFilled(userSignInParams)
 
-    private suspend fun isEmailFormatValid(email: String): Boolean {
-        return authValidationUseCase.checkEmailFormat(email)
-    }
+    private suspend fun isEmailFormatValid(email: String) = authValidationUseCase.checkEmailFormat(email)
 
-    private suspend fun singIn(userSignInParams: UserSignInParams): User {
-        return authUseCase.signIn(userSignInParams)
-    }
+    private suspend fun singIn(userSignInParams: UserSignInParams) = authUseCase.signIn(userSignInParams)
 
-    private suspend fun saveUser(user: User) {
-        saveUserToLocalUseCase.save(user)
-    }
+    private suspend fun saveUser(user: User) = saveUserToLocalUseCase.save(user)
 
 }

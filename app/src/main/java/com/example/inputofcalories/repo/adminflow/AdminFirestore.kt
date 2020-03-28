@@ -25,14 +25,15 @@ class AdminFirestore(
                 }.map { documentSnapshot ->
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                    val downgradedUser = UserFirebase(
-                        id = userFirebase.id,
-                        name = userFirebase.name,
-                        email = userFirebase.email,
-                        password = userFirebase.password,
-                        dailyCalories = userFirebase.dailyCalories,
-                        type = TYPE_MANAGER
-                    )
+                    val downgradedUser = with(userFirebase) {
+                        UserFirebase(
+                            id = id,
+                            name = name,
+                            email = email,
+                            password = password,
+                            dailyCalories = dailyCalories,
+                            type = TYPE_MANAGER)
+                    }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
                         .document(userId)
@@ -51,14 +52,16 @@ class AdminFirestore(
                 }.map { documentSnapshot ->
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                    val downgradedUser = UserFirebase(
-                        id = userFirebase.id,
-                        name = userFirebase.name,
-                        email = userFirebase.email,
-                        password = userFirebase.password,
-                        dailyCalories = userFirebase.dailyCalories,
-                        type = TYPE_REGULAR
-                    )
+                    val downgradedUser = with(userFirebase) {
+                        UserFirebase(
+                            id = id,
+                            name = name,
+                            email = email,
+                            password = password,
+                            dailyCalories = dailyCalories,
+                            type = TYPE_REGULAR
+                        )
+                    }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
                         .document(userId)
@@ -77,14 +80,16 @@ class AdminFirestore(
                 }.map { documentSnapshot ->
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                    val upgradedUser = UserFirebase(
-                        id = userFirebase.id,
-                        name = userFirebase.name,
-                        email = userFirebase.email,
-                        password = userFirebase.password,
-                        dailyCalories = userFirebase.dailyCalories,
-                        type = TYPE_ADMIN
-                    )
+                    val upgradedUser = with(userFirebase) {
+                        UserFirebase(
+                            id = id,
+                            name = name,
+                            email = email,
+                            password = password,
+                            dailyCalories = dailyCalories,
+                            type = TYPE_ADMIN
+                        )
+                    }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
                         .document(userId)
@@ -103,13 +108,16 @@ class AdminFirestore(
                 }.map { documentSnapshot ->
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
-                    val upgradedUser = UserFirebase(
-                        id = userFirebase.id,
-                        name = userFirebase.name,
-                        email = userFirebase.email,
-                        password = userFirebase.password,
-                        dailyCalories = userFirebase.dailyCalories,
-                        type = TYPE_MANAGER)
+                    val upgradedUser = with(userFirebase) {
+                        UserFirebase(
+                            id = id,
+                            name = name,
+                            email = email,
+                            password = password,
+                            dailyCalories = dailyCalories,
+                            type = TYPE_MANAGER
+                        )
+                    }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
                         .document(userId)

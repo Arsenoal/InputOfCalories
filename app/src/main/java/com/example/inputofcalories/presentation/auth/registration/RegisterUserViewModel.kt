@@ -8,6 +8,7 @@ import com.example.inputofcalories.domain.auth.validation.AuthValidationUseCase
 import com.example.inputofcalories.entity.register.UserRegistrationParams
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class RegisterUserViewModel(
     private val authUseCase: AuthUseCase,
@@ -32,8 +33,9 @@ class RegisterUserViewModel(
                     if(isEmailValid(userRegParams.email)) {
                         if(arePasswordMatch(userRegParams.password, userRegParams.repeatPassword)) {
                             try {
-                                registerUser(userRegParams)
-                                userRegistrationSuccessLiveData.value = Any()
+                                registerUser(userRegParams) {
+                                    userRegistrationSuccessLiveData.value = Any()
+                                }
                             } catch (ex: RegistrationException) {
                                 userRegistrationFailLiveData.value = Any()
                             }
@@ -52,19 +54,15 @@ class RegisterUserViewModel(
         }
     }
 
-    private suspend fun isEmailValid(email: String): Boolean {
-        return authValidationUseCase.checkEmailFormat(email)
-    }
+    private suspend fun isEmailValid(email: String)
+            = authValidationUseCase.checkEmailFormat(email)
 
-    private suspend fun arePasswordMatch(p1: String, p2: String): Boolean {
-        return authValidationUseCase.checkPasswordsMatch(p1, p2)
-    }
+    private suspend fun arePasswordMatch(p1: String, p2: String)
+            = authValidationUseCase.checkPasswordsMatch(p1, p2)
 
-    private suspend fun allFieldsAreFilled(userRegistrationParams: UserRegistrationParams): Boolean {
-        return authValidationUseCase.checkRegistrationFieldsAreFilled(userRegistrationParams)
-    }
+    private suspend fun allFieldsAreFilled(userRegistrationParams: UserRegistrationParams)
+            = authValidationUseCase.checkRegistrationFieldsAreFilled(userRegistrationParams)
 
-    private suspend fun registerUser(userRegistrationParams: UserRegistrationParams) {
-        authUseCase.register(userRegistrationParams)
-    }
+    private suspend fun registerUser(userRegistrationParams: UserRegistrationParams, result: (Any) -> Unit)
+            = authUseCase.register(userRegistrationParams, result)
 }

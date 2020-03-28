@@ -1,8 +1,8 @@
-package com.example.inputofcalories.repo.common.service.restapicore.retrofit
+package com.example.inputofcalories.repo.service.restapicore.retrofit
 
-import com.example.inputofcalories.repo.common.service.restapicore.ApiProviderConfig
-import com.example.inputofcalories.repo.common.service.restapicore.gson.GsonQualifier
-import com.example.inputofcalories.repo.common.service.restapicore.okhttp.OkHttpProps
+import com.example.inputofcalories.repo.service.restapicore.ApiProviderConfig
+import com.example.inputofcalories.repo.service.restapicore.gson.GsonQualifier
+import com.example.inputofcalories.repo.service.restapicore.okhttp.OkHttpProps
 import com.google.gson.Gson
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

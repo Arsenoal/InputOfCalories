@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.common.service.restapicore.gson
+package com.example.inputofcalories.repo.service.restapicore.gson
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder

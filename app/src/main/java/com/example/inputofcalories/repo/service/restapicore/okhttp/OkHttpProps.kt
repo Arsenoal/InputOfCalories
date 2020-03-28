@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.common.service.restapicore.okhttp
+package com.example.inputofcalories.repo.service.restapicore.okhttp
 
 import org.koin.core.qualifier.named
 

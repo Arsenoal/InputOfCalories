@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.common.service.restapicore.builder
+package com.example.inputofcalories.repo.service.restapicore.builder
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

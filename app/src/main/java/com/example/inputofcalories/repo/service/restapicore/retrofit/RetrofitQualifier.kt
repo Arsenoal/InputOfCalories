@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.common.service.restapicore.retrofit
+package com.example.inputofcalories.repo.service.restapicore.retrofit
 
 import org.koin.core.qualifier.named
 

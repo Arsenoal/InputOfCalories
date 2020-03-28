@@ -43,7 +43,9 @@ class SignInViewModel(
                     }
                 }
             } catch (ex: Exception) {
-                singInFailLiveData.value = Message(text = ex.message ?: String.empty())
+                ex.message?.let { message ->
+                    singInFailLiveData.value = Message(text = message)
+                }
             }
         }
     }

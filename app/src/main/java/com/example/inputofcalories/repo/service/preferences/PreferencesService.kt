@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.common.service.preferences
+package com.example.inputofcalories.repo.service.preferences
 
 interface PreferencesService {
     val preferencesFilePath: String

@@ -1,11 +1,11 @@
-package com.example.inputofcalories.repo.common.service.restapicore
+package com.example.inputofcalories.repo.service.restapicore
 
-import com.example.inputofcalories.repo.common.service.restapicore.builder.ClientBuilder
-import com.example.inputofcalories.repo.common.service.restapicore.builder.DefaultBuilder
-import com.example.inputofcalories.repo.common.service.restapicore.gson.gsonModule
-import com.example.inputofcalories.repo.common.service.restapicore.okhttp.okHttpModule
-import com.example.inputofcalories.repo.common.service.restapicore.retrofit.RetrofitQualifier
-import com.example.inputofcalories.repo.common.service.restapicore.retrofit.retrofitModule
+import com.example.inputofcalories.repo.service.restapicore.builder.ClientBuilder
+import com.example.inputofcalories.repo.service.restapicore.builder.DefaultBuilder
+import com.example.inputofcalories.repo.service.restapicore.gson.gsonModule
+import com.example.inputofcalories.repo.service.restapicore.okhttp.okHttpModule
+import com.example.inputofcalories.repo.service.restapicore.retrofit.RetrofitQualifier
+import com.example.inputofcalories.repo.service.restapicore.retrofit.retrofitModule
 import org.koin.core.KoinComponent
 import org.koin.core.context.loadKoinModules
 import org.koin.core.inject

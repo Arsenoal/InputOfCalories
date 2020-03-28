@@ -1,6 +1,6 @@
-package com.example.inputofcalories.repo.common.service.restapicore.interceptor
+package com.example.inputofcalories.repo.service.restapicore.interceptor
 
-import com.example.inputofcalories.repo.common.service.restapicore.LazyInitHeadersBlock
+import com.example.inputofcalories.repo.service.restapicore.LazyInitHeadersBlock
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException

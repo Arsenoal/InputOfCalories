@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.common.service.restapicore.gson
+package com.example.inputofcalories.repo.service.restapicore.gson
 
 import org.koin.core.qualifier.named
 

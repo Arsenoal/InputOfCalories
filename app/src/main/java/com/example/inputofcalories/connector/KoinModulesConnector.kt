@@ -13,7 +13,7 @@ class KoinModulesConnector {
                 modules(listOf(
                     preferencesModule,
                     firebasemodule,
-                    userdbmodule(context),
+                    usermodule,
                     authModule,
                     mealsmodule,
                     managermodule,

@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.inputofcalories"
         minSdkVersion 21
@@ -24,17 +24,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    sourceSets {
-        main {
-            res.srcDirs = [
-                    //'src/main/res/layouts/recycleritems',
-                    'src/main/res/layouts/fragment',
-                    'src/main/res/layouts/activity',
-                    'src/main/res/layouts',
-                    'src/main/res'
-            ]
-        }
-    }
 }
 
 dependencies {
@@ -47,7 +36,10 @@ dependencies {
     implementation supportLibrary.constraintLayout
     implementation supportLibrary.supportAnnotations
     implementation supportLibrary.lifecycleExtensions
-    implementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.2.0-rc03'
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha01"
 
     def kotlin = rootProject.ext.kotlinDependencies
     implementation kotlin.kotlinStdlib
@@ -89,6 +81,9 @@ dependencies {
     def materialDependencies = rootProject.ext.materialDependencies
     implementation materialDependencies.material
     implementation materialDependencies.dialog
+
+    def other = rootProject.ext.otherDependencies
+    implementation other.otherDependencies
 }
 
 apply plugin: 'com.google.gms.google-services'

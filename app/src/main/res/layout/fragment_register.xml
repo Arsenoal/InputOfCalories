@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:padding="@dimen/padding_large"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/nameEditText"
+            android:hint="@string/name"
+            android:inputType="text"
+            style="@style/AppAuthEditTextStyle"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center_vertical"
+            app:tint="@color/white_transparent"
+            app:srcCompat="@drawable/ic_user"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/emailEditText"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            style="@style/AppAuthEditTextStyle"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center_vertical"
+            app:tint="@color/white_transparent"
+            app:srcCompat="@drawable/ic_email"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/passwordEditText"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            style="@style/AppAuthEditTextStyle"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center_vertical"
+            app:tint="@color/white_transparent"
+            app:srcCompat="@drawable/ic_lock"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/repeatPasswordEditText"
+            android:hint="@string/repeat_password"
+            android:inputType="textPassword"
+            style="@style/AppAuthEditTextStyle"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center_vertical"
+            app:tint="@color/white_transparent"
+            app:srcCompat="@drawable/ic_lock"
+            />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerButton"
+        android:text="@string/register"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_very_big"
+        style="@style/AuthButtonStyle"
+        />
+
+</LinearLayout>

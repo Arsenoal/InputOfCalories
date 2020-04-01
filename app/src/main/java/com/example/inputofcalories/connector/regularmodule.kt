@@ -6,8 +6,6 @@ import com.example.inputofcalories.domain.regularflow.dailycalories.DailyCalorie
 import com.example.inputofcalories.domain.regularflow.dailycalories.IocDailyCalories
 import com.example.inputofcalories.domain.regularflow.validation.MealParamsValidationUseCase
 import com.example.inputofcalories.domain.regularflow.validation.IocMealParamsValidation
-import com.example.inputofcalories.domain.user.GetUserUseCase
-import com.example.inputofcalories.domain.user.GetUserUseCaseImpl
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
 import com.example.inputofcalories.presentation.regularflow.home.viewmodel.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealViewModel
@@ -17,20 +15,10 @@ import com.example.inputofcalories.presentation.regularflow.home.viewmodel.Updat
 import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesFirestore
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesRepo
-import com.example.inputofcalories.repo.user.GetUserFromRoom
-import com.example.inputofcalories.repo.user.GetUserRepo
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val mealsmodule = module {
-
-    single<GetUserRepo> {
-        GetUserFromRoom(get())
-    }
-
-    single<GetUserUseCase> {
-        GetUserUseCaseImpl(get())
-    }
 
     single<UserMealsRepo> {
         UserMealsFirestore(get(), get())

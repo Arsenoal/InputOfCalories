@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
@@ -13,7 +14,7 @@ import com.example.inputofcalories.presentation.regularflow.model.MealSerializab
 import kotlinx.android.synthetic.main.activity_view_meal.*
 import java.util.*
 
-class ViewMealActivity: AppCompatActivity() {
+class ViewMealActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

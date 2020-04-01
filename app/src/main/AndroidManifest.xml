@@ -10,16 +10,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.regularflow.home.RegularUserHomeActivity"/>
-        <activity android:name=".presentation.auth.signin.SignInActivity" />
-        <activity android:name=".presentation.auth.registration.RegisterUserActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
-        <activity android:name=".presentation.regularflow.addmeal.AddMealActivity"/>
-        <activity android:name=".presentation.regularflow.viewmeal.ViewMealActivity"/>
-        <activity android:name=".presentation.regularflow.editmeal.EditMealActivity"/>
-        <activity android:name=".presentation.managerflow.home.ManagerUserHomeActivity"/>
-        <activity android:name=".presentation.adminflow.home.AdminUserHomeActivity"/>
-        <activity android:name=".presentation.adminflow.usermeals.UserMealsActivity"/>
+
+        <activity android:name=".presentation.auth.AuthActivity" />
+        <activity android:name=".presentation.regularflow.home.RegularUserHomeActivity" />
+        <activity android:name=".presentation.regularflow.addmeal.AddMealActivity" />
+        <activity android:name=".presentation.regularflow.viewmeal.ViewMealActivity" />
+        <activity android:name=".presentation.regularflow.editmeal.EditMealActivity" />
+        <activity android:name=".presentation.managerflow.home.ManagerUserHomeActivity" />
+        <activity android:name=".presentation.adminflow.home.AdminUserHomeActivity" />
+        <activity android:name=".presentation.adminflow.usermeals.UserMealsActivity" />
         <activity
             android:name=".presentation.launch.LauncherActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">

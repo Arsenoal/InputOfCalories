@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
+import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
@@ -12,7 +13,7 @@ import com.example.inputofcalories.presentation.regularflow.model.MealSerializab
 import kotlinx.android.synthetic.main.activity_edit_meal.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class EditMealActivity: AppCompatActivity() {
+class EditMealActivity: BaseActivity() {
 
     private val editMealViewModel: EditMealViewModel by viewModel()
 

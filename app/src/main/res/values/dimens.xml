@@ -4,10 +4,14 @@
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium">12dp</dimen>
     <dimen name="margin_big">18dp</dimen>
-    <dimen name="margin_large">25dp</dimen>
+    <dimen name="margin_very_big">25dp</dimen>
+    <dimen name="margin_very_very_big">35dp</dimen>
 
+    <dimen name="padding_small">12sp</dimen>
     <dimen name="padding_medium">18dp</dimen>
     <dimen name="padding_large">25dp</dimen>
 
     <dimen name="corner_radius_standard">22dp</dimen>
+
+    <dimen name="auth_frame_height">250dp</dimen>
 </resources>

@@ -23,6 +23,7 @@ ext {
     okioVersion = '2.2.2'
     archComponentsVersion = "2.0.0"
     timberVersion = "4.7.1"
+    progressButtonVersion = "2.0.1"
 
 
     //firebase
@@ -128,5 +129,9 @@ ext {
             runtime          : "androidx.room:room-runtime:$roomVersion",
             compiler         : "androidx.room:room-compiler:$roomVersion",
             coroutine        : "androidx.room:room-ktx:$roomVersion"
+    ]
+
+    otherDependencies = [
+            otherDependencies  : "com.github.razir.progressbutton:progressbutton:$progressButtonVersion"
     ]
 }

@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ProgressView
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.progress_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class RegularUserHomeActivity : AppCompatActivity(), ProgressView {
+class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
     private lateinit var mealsProviderViewModel: MealsProviderViewModel
 

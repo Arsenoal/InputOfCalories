@@ -45,6 +45,7 @@ object ActivityNavigator {
             val intent = Intent(this, activityClassName)
             intent.putExtra(key, value)
             startActivity(intent)
+            finish()
         }
     }
 

@@ -29,6 +29,7 @@ class DailyCaloriesFirestore(
         }
     }
 
+    //TODO pass continuation as function argument
     override suspend fun updateDailyCaloriesLimit(userId: String, dailyCaloriesLimit: String) {
         firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
             .addOnSuccessListener { usersQuerySnapshot ->

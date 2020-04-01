@@ -7,6 +7,7 @@
     <string name="repeat_password">repeat password</string>
     <string name="register">Register</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
     <string name="do_not_have_account">Don\'t have an account? <b><font color="#00574B">Register</font></b> </string>
 
     <!-- user input errors -->
@@ -14,9 +15,18 @@
     <string name="invalid_email_format">Invalid email format</string>
     <string name="fill_all_fields">Fill all fields</string>
 
+    <!-- auth -->
+
+    <string name="succeed">Succeed</string>
+
     <!-- auth errors -->
+
     <string name="registration_fail">Registration fail</string>
     <string name="sign_in_fail">Sign in fail</string>
+
+    <!-- end of auth errors -->
+
+    <!-- end of auth -->
 
     <!-- regular flow -->
     <string name="failed_to_load_meals">Failed to load meals</string>
@@ -68,5 +78,7 @@
 
     <string name="from">from</string>
     <string name="to">to</string>
+
+    <string name="processing">Processing</string>
 
 </resources>

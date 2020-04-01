@@ -2,13 +2,13 @@ package com.example.inputofcalories.presentation.launch
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.auth.AuthActivity
+import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import com.example.inputofcalories.presentation.auth.signin.SignInActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class LauncherActivity : AppCompatActivity() {
+class LauncherActivity : BaseActivity() {
 
     private val launcherViewModel: LauncherViewModel by viewModel()
 
@@ -16,24 +16,10 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
 
-        setupViewModel()
-
-        clearLocalData()
+        openAuth()
     }
 
-    private fun setupViewModel() {
-        launcherViewModel.let {
-            it.dataClearSucceedLiveData.observe(this, Observer {
-                openSignInActivity()
-            })
-        }
-    }
-
-    private fun clearLocalData() {
-        launcherViewModel.clearLocalData()
-    }
-
-    private fun openSignInActivity() {
-        ActivityNavigator.navigateAndFinishCurrent(this, SignInActivity::class.java)
+    private fun openAuth() {
+        ActivityNavigator.navigateAndFinishCurrent(this, AuthActivity::class.java)
     }
 }

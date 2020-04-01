@@ -2,17 +2,17 @@ package com.example.inputofcalories.domain.regularflow.dailycalories
 
 import com.example.inputofcalories.repo.regularflow.UserMealsRepo
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesRepo
-import com.example.inputofcalories.repo.user.GetUserRepo
+import com.example.inputofcalories.repo.user.UserRepo
 import java.util.*
 
 class IocDailyCalories(
     private val userMealsRepo: UserMealsRepo,
-    private val getUserRepo: GetUserRepo,
+    private val userRepo: UserRepo,
     private val dailyCaloriesRepo: DailyCaloriesRepo
 ): DailyCaloriesUseCase {
 
     override suspend fun isLimitExceeded(): Boolean {
-        val user = getUserRepo.get()
+        val user = userRepo.get()
         val meals = userMealsRepo.getMeals(user.id)
 
         val dailyMeals = meals.filter { meal ->
@@ -29,9 +29,12 @@ class IocDailyCalories(
         var caloriesConsumed = 0
         dailyMeals.forEach { meal -> caloriesConsumed += meal.params.calories.toInt() }
 
-        val dailyLimit = dailyCaloriesRepo.getDailyCaloriesLimit(user.id).toInt()
+        val dailyLimit = with(dailyCaloriesRepo.getDailyCaloriesLimit(user.id)) {
+            if(isNotBlank()) toInt()
+            else 0
+        }
 
-        return caloriesConsumed > dailyLimit
+        return if(dailyLimit == 0 ) false else caloriesConsumed > dailyLimit
     }
 
     override suspend fun updateDailyCaloriesLimit(userId: String, dailyCalories: String) = dailyCaloriesRepo.updateDailyCaloriesLimit(userId, dailyCalories)

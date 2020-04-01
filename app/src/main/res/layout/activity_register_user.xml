@@ -105,7 +105,7 @@
             android:id="@+id/registerButton"
             android:text="@string/register"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_very_big"
             style="@style/AppButtonStyle"
             />
 

@@ -6,13 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
+import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import kotlinx.android.synthetic.main.activity_manager_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class ManagerUserHomeActivity: AppCompatActivity() {
+class ManagerUserHomeActivity: BaseActivity() {
 
     private lateinit var usersProviderViewModel: UsersProviderViewModel
 

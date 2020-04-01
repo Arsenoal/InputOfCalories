@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <gradient
-        android:startColor="@color/colorPrimary"
-        android:endColor="@color/colorPrimaryDark"
-        />
-
-    <corners android:radius="@dimen/corner_radius_standard"/>
+    <solid
+        android:color="@color/auth_button_color"/>
 
 </shape>

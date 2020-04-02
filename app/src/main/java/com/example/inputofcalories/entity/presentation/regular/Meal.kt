@@ -1,32 +1,17 @@
 package com.example.inputofcalories.entity.presentation.regular
 
-data class Meal(
-    val id: String,
-    val params: MealParams,
-    val filterParams: MealFilterParams
-) {
-    override fun toString(): String {
-        return "Meal: {$id params: $params}"
-    }
+import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
+
+data class Meal(val id: String, val params: MealParams, val filterParams: MealFilterParams) {
+    override fun toString() = "Meal: {id: $id, params: $params}"
 }
 
-data class MealParams(
-    val text: String,
-    val calories: String,
-    val weight: String
-) {
-    override fun toString(): String {
-        return "$text $calories $weight"
-    }
+data class MealParams(val text: String, val calories: String, val weight: String) {
+    override fun toString() = "Meal params: {text: $text, calories: $calories, weight: $weight}"
 }
 
-data class MealFilterParams(
-    var date: MealDateParams,
-    var time: MealTimeParams
-) {
-    override fun toString(): String {
-        return "\nMealFilterParams(date=$date, time=from: ${time.from}, to: ${time.to})"
-    }
+data class MealFilterParams(var date: MealDateParams, var time: MealTimeParams) {
+    override fun toString() = "MealFilterParams(date=$date, time=from: ${time.from}, to: ${time.to})"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -46,6 +31,19 @@ data class MealFilterParams(
         result = 31 * result + time.to.hashCode()
         return result
     }
+}
 
-
+fun Meal.toAdapterModel() = with(this) {
+    MealAdapterModel(
+        id = id,
+        text = params.text,
+        calories = params.calories,
+        weight = params.weight,
+        dayOfMonth = filterParams.date.dayOfMonth,
+        month = filterParams.date.month,
+        year = filterParams.date.year,
+        from = filterParams.time.from,
+        to = filterParams.time.to,
+        isLimitExceeded = false
+    )
 }

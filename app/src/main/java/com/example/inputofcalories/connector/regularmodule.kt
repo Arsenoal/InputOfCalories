@@ -7,11 +7,8 @@ import com.example.inputofcalories.domain.regularflow.dailycalories.IocDailyCalo
 import com.example.inputofcalories.domain.regularflow.validation.MealParamsValidationUseCase
 import com.example.inputofcalories.domain.regularflow.validation.IocMealParamsValidation
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealViewModel
-import com.example.inputofcalories.presentation.regularflow.home.viewmodel.MealsProviderViewModel
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealViewModel
-import com.example.inputofcalories.presentation.regularflow.home.viewmodel.CheckDailyLimitViewModel
-import com.example.inputofcalories.presentation.regularflow.home.viewmodel.DeleteMealViewModel
-import com.example.inputofcalories.presentation.regularflow.home.viewmodel.UpdateDailyCaloriesViewModel
+import com.example.inputofcalories.presentation.regularflow.home.viewmodel.*
 import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesFirestore
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesRepo
@@ -20,62 +17,22 @@ import org.koin.dsl.module
 
 val mealsmodule = module {
 
-    single<UserMealsRepo> {
-        UserMealsFirestore(get(), get())
-    }
+    single<UserMealsRepo> { UserMealsFirestore(get(), get()) }
 
-    single<UserMealsUseCase> {
-        IocUserMeals(get(), get())
-    }
+    single<UserMealsUseCase> { IocUserMeals(get(), get()) }
 
-    viewModel { params ->
-        val userId: String = params[0]
-        MealsProviderViewModel(
-            userId,
-            get()
-        )
-    }
+    single<MealParamsValidationUseCase> { IocMealParamsValidation() }
 
-    single<MealParamsValidationUseCase> {
-        IocMealParamsValidation()
-    }
+    viewModel { AddMealViewModel(get(), get()) }
 
-    viewModel {
-        AddMealViewModel(get(), get())
-    }
+    viewModel { EditMealViewModel(get()) }
 
-    viewModel {
-        EditMealViewModel(get())
-    }
+    single<DailyCaloriesRepo> { DailyCaloriesFirestore(get()) }
 
-    viewModel { params ->
-        val userId: String = params[0]
-        DeleteMealViewModel(
-            userId,
-            get()
-        )
-    }
+    single<DailyCaloriesUseCase> { IocDailyCalories(get(), get(), get()) }
 
-    single<DailyCaloriesRepo> {
-        DailyCaloriesFirestore(get())
-    }
+    viewModel { DailyCaloriesViewModel(get(), get()) }
 
-    single<DailyCaloriesUseCase> {
-        IocDailyCalories(get(), get(), get())
-    }
-
-    viewModel { params ->
-        val userId: String = params[0]
-        UpdateDailyCaloriesViewModel(
-            userId,
-            get()
-        )
-    }
-
-    viewModel {
-        CheckDailyLimitViewModel(
-            get()
-        )
-    }
+    viewModel { MealsViewModel(get(), get(), get()) }
 
 }

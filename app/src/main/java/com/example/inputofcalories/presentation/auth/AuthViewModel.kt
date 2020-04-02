@@ -10,12 +10,9 @@ import com.example.inputofcalories.entity.register.UserSignInParams
 import com.example.inputofcalories.presentation.auth.entity.*
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import com.example.inputofcalories.entity.presentation.Message
-import com.example.inputofcalories.presentation.common.extensions.launchOnDefault
 import com.example.inputofcalories.presentation.common.extensions.switchToDefault
 import com.example.inputofcalories.presentation.common.extensions.switchToUi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class AuthViewModel(

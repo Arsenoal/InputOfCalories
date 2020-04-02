@@ -89,12 +89,8 @@ class MealsRecyclerAdapter(
 
         holder.bind(mealAdapterModel)
 
-        holder.itemView.setOnClickListener {
-            mealSelectedLiveData.value = mealAdapterModel
-        }
+        holder.itemView.setOnClickListener { mealSelectedLiveData.value = mealAdapterModel }
 
-        holder.deleteMealButton.setOnClickListener {
-            mealDeleteClickedLiveData.value = mealAdapterModel.id
-        }
+        holder.deleteMealButton.setOnClickListener { mealDeleteClickedLiveData.value = mealAdapterModel.id }
     }
 }

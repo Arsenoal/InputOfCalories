@@ -1,6 +1,5 @@
 package com.example.inputofcalories.connector
 
-import android.content.Context
 import com.example.inputofcalories.domain.user.IofUser
 import com.example.inputofcalories.domain.user.UserUseCase
 import com.example.inputofcalories.repo.user.UserInMemoryCacheRepo

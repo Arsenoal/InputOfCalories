@@ -36,6 +36,9 @@
     <string name="filter">Filter</string>
     <string name="daily_calories">Daily calories</string>
 
+    <string name="date">Date</string>
+    <string name="non">non</string>
+
     <string name="delete_meal_failed">Delete meal failed</string>
     <string name="delete_meal_succeed">Delete meal succeed</string>
 

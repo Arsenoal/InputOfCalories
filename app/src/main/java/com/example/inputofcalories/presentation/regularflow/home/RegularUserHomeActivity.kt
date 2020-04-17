@@ -13,7 +13,9 @@ import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ProgressView
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
+import com.example.inputofcalories.presentation.navigation.FragmentNavigator
 import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
+import com.example.inputofcalories.presentation.regularflow.home.filter.FilterFragment
 import com.example.inputofcalories.presentation.regularflow.home.viewmodel.*
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsFilteredState
@@ -102,7 +104,8 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.actionFilter -> {
-                val dialog = FilterDialog(this)
+                FragmentNavigator.openFragment(this, FilterFragment.newInstance(), filterFrame.id, null)
+                /*val dialog = FilterDialog(this)
 
                 dialog.applyFilterLiveData.observe(this, Observer { mealFilterParams ->
                     showProgress()
@@ -110,7 +113,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
                     mealsViewModel.getMealsFiltered(mealFilterParams)
                         .observe(this, observerFactory.get<GetMealsFilteredState>(ObservableKey.GetMealsFilteredObserver))
                 })
-                dialog.show()
+                dialog.show()*/
             }
             R.id.dailyCalories -> {
                 val dialog = SetDailyCaloriesDialog(this)

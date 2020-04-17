@@ -17,5 +17,7 @@
 
     <color name="coral_transparent">#FF8686</color>
     <color name="red">#b71c1c</color>
+    <color name="purple">#6a1b9a</color>
+    <color name="brown">#4e342e</color>
 
 </resources>

@@ -60,6 +60,8 @@ class RegisterFragment: BaseFragment(), ErrorView {
 
     private fun setupClickListeners() {
         registerButton.setOnClickListener {
+            registerButton.isClickable = false
+
             activity?.run { KeyboardManager.hideKeyboard(this) }
 
             registerButton.showProgress {
@@ -79,24 +81,35 @@ class RegisterFragment: BaseFragment(), ErrorView {
                 registerButton.isClickable = true
                 when(state) {
                     NotAllFieldsFilledForRegister -> {
+                        registerButton.isClickable = true
+
                         registerButton.hideProgress(R.string.register)
+
                         showErrorView(resources.getString(R.string.fill_all_fields))
                     }
                     InvalidRegisterEmailFormat -> {
+                        registerButton.isClickable = true
+
                         registerButton.hideProgress(R.string.register)
 
                         emailEditText.error = resources.getString(R.string.invalid_email_format)
                     }
                     PasswordsMismatch -> {
+                        registerButton.isClickable = true
+
                         registerButton.hideProgress(R.string.register)
 
                         repeatPasswordEditText.error = resources.getString(R.string.passwords_mismatch)
                     }
                     RegisterSucceed -> {
+                        registerButton.isClickable = true
+
                         registerButton.hideProgress(R.string.succeed)
                         openSignInFragment()
                     }
                     is RegisterFailed -> {
+                        registerButton.isClickable = true
+
                         registerButton.hideProgress(R.string.register)
                         val text = if(state.message.text.isNotBlank()) state.message.text else resources.getString(R.string.registration_fail)
 

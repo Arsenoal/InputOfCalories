@@ -69,6 +69,7 @@ class SignInFragment: BaseFragment(), ErrorView {
 
     private fun setupClickListeners() {
         signInButton.setOnClickListener {
+            signInButton.isClickable = false
             activity?.run { KeyboardManager.hideKeyboard(this) }
 
             signInButton.showProgress {
@@ -84,16 +85,22 @@ class SignInFragment: BaseFragment(), ErrorView {
             authViewModel.signIn(signInParams).observe(viewLifecycleOwner, Observer { state ->
                 when(state) {
                     NotAllFieldsForSignInFilled -> {
+                        signInButton.isClickable = true
+
                         signInButton.hideProgress(R.string.sign_in)
 
                         showErrorView(resources.getString(R.string.fill_all_fields))
                     }
                     InvalidSignInEmailFormat -> {
+                        signInButton.isClickable = true
+
                         signInButton.hideProgress(R.string.sign_in)
 
                         emailEditText.error = resources.getString(R.string.invalid_email_format)
                     }
                     is SignInFailed -> {
+                        signInButton.isClickable = true
+
                         signInButton.hideProgress(R.string.sign_in)
                         val text = if(state.message.text.isNotBlank()) state.message.text else resources.getString(R.string.sign_in_fail)
 

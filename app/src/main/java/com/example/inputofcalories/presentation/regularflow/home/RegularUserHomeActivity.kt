@@ -17,11 +17,9 @@ import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActiv
 import com.example.inputofcalories.presentation.regularflow.home.viewmodel.*
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsFilteredState
-import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsState
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
-import kotlinx.android.synthetic.main.activity_regular_user_home.toolbar
 import kotlinx.android.synthetic.main.progress_layout.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -39,11 +37,11 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_regular_user_home)
 
+        setSupportActionBar(toolbar)
+
         initObserverFactory()
 
         setupMealsRecyclerView()
-
-        setupToolBar()
 
         setupClickListeners()
 
@@ -90,22 +88,20 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         })
     }
 
-    private fun setupToolBar() { setSupportActionBar(toolbar) }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_regular_user_home, menu)
-        return true
-    }
-
     private fun setupClickListeners() {
         addMealButton.setOnClickListener {
             ActivityNavigator.navigate(this, AddMealActivity::class.java)
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_regular_user_home, menu);
+        return true;
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.action_filter -> {
+            R.id.actionFilter -> {
                 val dialog = FilterDialog(this)
 
                 dialog.applyFilterLiveData.observe(this, Observer { mealFilterParams ->
@@ -116,7 +112,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
                 })
                 dialog.show()
             }
-            R.id.daily_calories -> {
+            R.id.dailyCalories -> {
                 val dialog = SetDailyCaloriesDialog(this)
 
                 dialog.dailyCaloriesLiveData.observe(this, Observer { dailyCalories ->

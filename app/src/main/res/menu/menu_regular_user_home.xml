@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_filter"
-        android:title="filter"/>
+        android:id="@+id/actionFilter"
+        android:title="@string/filter"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_filter" />
 
     <item
-        android:id="@+id/daily_calories"
-        android:title="daily calories"/>
+        android:id="@+id/dailyCalories"
+        android:title="@string/daily_calories"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_kcal" />
 
 </menu>

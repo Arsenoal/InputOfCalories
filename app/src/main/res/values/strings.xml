@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">InputOfCalories</string>
 
+    <!-- user input errors -->
+
+    <string name="passwords_mismatch">Passwords mismatch</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="fill_all_fields">Fill all fields</string>
+
+    <!-- end of user input errors -->
+
+    <!-- auth -->
+
     <string name="name">name</string>
     <string name="email">email</string>
     <string name="password">password</string>
@@ -9,14 +19,6 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="do_not_have_account">Don\'t have an account? <b><font color="#00574B">Register</font></b> </string>
-
-    <!-- user input errors -->
-    <string name="passwords_mismatch">Passwords mismatch</string>
-    <string name="invalid_email_format">Invalid email format</string>
-    <string name="fill_all_fields">Fill all fields</string>
-
-    <!-- auth -->
-
     <string name="succeed">Succeed</string>
 
     <!-- auth errors -->
@@ -29,7 +31,10 @@
     <!-- end of auth -->
 
     <!-- regular flow -->
+
     <string name="failed_to_load_meals">Failed to load meals</string>
+    <string name="filter">Filter</string>
+    <string name="daily_calories">Daily calories</string>
 
     <string name="delete_meal_failed">Delete meal failed</string>
     <string name="delete_meal_succeed">Delete meal succeed</string>
@@ -58,13 +63,19 @@
 
     <string name="meal_params_are_invalid">meal params are invalid</string>
 
+    <!-- end of regular flow -->
+
     <!-- admin flow -->
+
     <string name="upgraded">upgraded</string>
     <string name="downgraded">downgraded</string>
 
     <string name="failed_to_load_users">Failed to load users</string>
 
+    <!-- end of admin flow -->
+
     <!-- common -->
+
     <string name="apply">apply</string>
     <string name="update_succeed">update succeed</string>
     <string name="update_failed">update failed</string>
@@ -80,5 +91,7 @@
     <string name="to">to</string>
 
     <string name="processing">Processing</string>
+
+    <!-- end of common -->
 
 </resources>

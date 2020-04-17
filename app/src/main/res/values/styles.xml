@@ -52,4 +52,8 @@
         <!--<item name="android:background">@drawable/background_rounded_white</item>-->
     </style>
 
+    <style name="HeaderBar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 </resources>

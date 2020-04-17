@@ -1,79 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/auth_page_gradient_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".presentation.auth.AuthActivity">
-
-    <FrameLayout
-        android:id="@+id/errorView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/coral_transparent"
-        android:visibility="gone"
-        >
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/errorMessageTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/md_message_textsize"
-            android:textColor="@color/white_transparent"
-            android:padding="@dimen/padding_small"
-            tools:text="Error message"
-            />
-
-    </FrameLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_very_very_big"
-        android:layout_marginEnd="@dimen/margin_very_very_big"
-        android:layout_gravity="center"
         android:orientation="vertical"
         >
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
+            app:tabSelectedTextColor="@color/app_green"
+            app:tabTextColor="@color/app_green_transparent"
             >
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/signInButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:textColor="@color/white"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/sign_in"
                 />
-
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/signUpButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:textColor="@color/white"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:text="@string/sign_up"
                 />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.tabs.TabLayout>
 
         <FrameLayout
             android:id="@+id/authFrameView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-</FrameLayout>
+</ScrollView>

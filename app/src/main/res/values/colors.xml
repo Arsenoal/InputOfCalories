@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#39796b</color>
+    <color name="colorPrimaryDark">#004c40</color>
+    <color name="colorAccent">#002171</color>
 
-    <color name="app_green">#00574B</color>
-    <color name="app_green_transparent">#8000574B</color>
+    <color name="app_green">#00796B</color>
+    <color name="app_green_transparent">#8000796B</color>
     
     <color name="white_transparent">#E6FFFFFF</color>
     <color name="white">#FFFFFF</color>
@@ -16,5 +16,6 @@
     <color name="gray">#F2F2F2</color>
 
     <color name="coral_transparent">#FF8686</color>
+    <color name="red">#b71c1c</color>
 
 </resources>

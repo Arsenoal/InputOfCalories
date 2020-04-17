@@ -7,6 +7,7 @@
     <dimen name="margin_very_big">25dp</dimen>
     <dimen name="margin_very_very_big">35dp</dimen>
 
+    <dimen name="padding_very_small">4dp</dimen>
     <dimen name="padding_small">12sp</dimen>
     <dimen name="padding_medium">18dp</dimen>
     <dimen name="padding_large">25dp</dimen>

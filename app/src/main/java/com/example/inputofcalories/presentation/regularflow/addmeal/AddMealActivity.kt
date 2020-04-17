@@ -1,15 +1,14 @@
 package com.example.inputofcalories.presentation.regularflow.addmeal
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import kotlinx.android.synthetic.main.activity_add_meal.*
-import kotlinx.android.synthetic.main.activity_add_meal.mealDateRadioGroup
+import kotlinx.android.synthetic.main.fragment_add_meal.*
+import kotlinx.android.synthetic.main.fragment_add_meal.mealDateRadioGroup
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -21,7 +20,7 @@ class AddMealActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_meal)
+        setContentView(R.layout.fragment_add_meal)
 
         setupViewModel()
 

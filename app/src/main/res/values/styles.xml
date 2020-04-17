@@ -32,13 +32,11 @@
         <item name="android:background">@drawable/app_button_background</item>
     </style>
 
-    <style name="AuthButtonStyle">
-        <item name="android:layout_width">300dp</item>
-        <item name="android:layout_height">40dp</item>
+    <style name="AuthButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:paddingTop">@dimen/padding_very_small</item>
+        <item name="android:paddingBottom">@dimen/padding_very_small</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:foreground">?android:attr/selectableItemBackground</item>
-        <item name="android:background">@drawable/auth_button_background</item>
     </style>
 
     <style name="AppAuthEditTextStyle" parent="Widget.AppCompat.EditText">

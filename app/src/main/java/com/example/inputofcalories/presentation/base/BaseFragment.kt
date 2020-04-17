@@ -21,5 +21,17 @@ abstract class BaseFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         onLayoutReady(view)
+
+        activity?.run {
+
+            softInputModeFlags().takeIf { it.isNotEmpty() }?.let { flags ->
+                var mode = flags[0]
+                flags.forEach{ mode = mode or it }
+
+                window.setSoftInputMode(mode)
+            }
+        }
     }
+
+    open fun softInputModeFlags() = listOf<Int>()
 }

@@ -54,7 +54,7 @@ class AuthFirestore(
     override suspend fun signIn(userSignInParams: UserSignInParams): User? {
         val uId = encoderService.encode(userSignInParams.email)
 
-        return suspendCancellableCoroutine { continuation ->
+        return suspendCancellableCoroutine<User> { continuation ->
 
             val usersRef = firestore.collection(FirebaseDataBaseCollectionNames.USERS)
 
@@ -62,19 +62,23 @@ class AuthFirestore(
                 .document(uId)
                 .get()
                 .addOnSuccessListener {
-                    val user = it.toObject(UserFirebase::class.java)?.run {
-                        val type: UserType = when (type) {
-                            TYPE_MANAGER -> { UserManager }
-                            TYPE_ADMIN -> { Admin }
-                            else -> { RegularUser }
+                    val userFirebase = it.toObject(UserFirebase::class.java)
+                    if (userFirebase != null) {
+                        userFirebase.run {
+                            val type: UserType = when (type) {
+                                TYPE_MANAGER -> { UserManager }
+                                TYPE_ADMIN -> { Admin }
+                                else -> { RegularUser }
+                            }
+
+                            if (userSignInParams.password != password) continuation.resumeWithException(SignInException(message = "incorrect password"))
+
+                            val user = User(id = it.id,
+                                userParams = UserParams(name = name, email = email, dailyCalories = dailyCalories, type = type))
+
+                            if(continuation.isActive) continuation.resume(user) { throw SignInException() }
                         }
-
-                        if(userSignInParams.password != password) continuation.resumeWithException(SignInException(message = "incorrect password"))
-
-                        User(id = it.id, userParams = UserParams(name = name, email = email, dailyCalories = dailyCalories, type = type))
-                    }
-
-                    if(continuation.isActive) continuation.resume(user) { throw SignInException() }
+                    } else { continuation.resumeWithException(SignInException()) }
                 }
                 .addOnFailureListener { ex ->
                     continuation.resumeWithException(SignInException(message = "user with email: $userSignInParams.email not found"))

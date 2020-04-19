@@ -7,7 +7,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +16,7 @@ import com.example.inputofcalories.entity.presentation.regular.BreakfastTime
 import com.example.inputofcalories.entity.presentation.regular.DinnerTime
 import com.example.inputofcalories.entity.presentation.regular.LunchTime
 import com.example.inputofcalories.entity.presentation.regular.SnackTime
+import com.example.inputofcalories.presentation.regularflow.home.model.DeleteParams
 import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
 import java.util.*
 
@@ -28,7 +28,7 @@ class MealsRecyclerAdapter(
 
     val mealSelectedLiveData: MutableLiveData<MealAdapterModel> = MutableLiveData()
 
-    val mealDeleteClickedLiveData: MutableLiveData<String> = MutableLiveData()
+    val mealDeleteClickedLiveData: MutableLiveData<DeleteParams> = MutableLiveData()
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -102,8 +102,12 @@ class MealsRecyclerAdapter(
 
         holder.bind(mealAdapterModel)
 
-        holder.itemView.setOnClickListener { mealSelectedLiveData.value = mealAdapterModel }
+        holder.itemView.setOnClickListener {
+            mealSelectedLiveData.value = mealAdapterModel
+        }
 
-        holder.deleteMealButton.setOnClickListener { mealDeleteClickedLiveData.value = mealAdapterModel.id }
+        holder.deleteMealButton.setOnClickListener {
+            mealDeleteClickedLiveData.value = DeleteParams(mealAdapterModel.id, position)
+        }
     }
 }

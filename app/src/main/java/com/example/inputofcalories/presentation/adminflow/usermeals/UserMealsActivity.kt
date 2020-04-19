@@ -20,6 +20,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 import com.example.inputofcalories.presentation.adminflow.usermeals.UserMealsFlowObserversFactory.ObservableKey
+import com.example.inputofcalories.presentation.regularflow.home.model.DeleteParams
 
 class UserMealsActivity: BaseActivity() {
 
@@ -50,6 +51,10 @@ class UserMealsActivity: BaseActivity() {
         mealsViewModel.getMeals().observe(this, observersFactory.get(ObservableKey.GetMealsObservable))
     }
 
+    fun deleteMeal(position: Int) {
+        mealsAdapter.deleteItem(position)
+    }
+
     private fun setupMealsRecyclerView() {
         mealsRecyclerView.layoutManager = LinearLayoutManager(this)
         mealsRecyclerView.adapter = mealsAdapter
@@ -61,8 +66,8 @@ class UserMealsActivity: BaseActivity() {
             ActivityNavigator.navigate(this, ViewMealActivity::class.java, MEAL_EXTRA, mealSerializable)
         })
 
-        mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { mealId ->
-            mealsViewModel.deleteMeal(mealId).observe(this, observersFactory.get(ObservableKey.DeleteMealObservable))
+        mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { deleteParams ->
+            mealsViewModel.deleteMeal(deleteParams).observe(this, observersFactory.get(ObservableKey.DeleteMealObservable))
         })
     }
 

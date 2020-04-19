@@ -19,7 +19,7 @@ sealed class GetMealsFilteredState {
 
 sealed class DeleteMealState {
 
-    object DeleteMealSucceed : DeleteMealState()
+    class DeleteMealSucceed(val position: Int) : DeleteMealState()
 
     object DeleteMealFailed : DeleteMealState()
 }

@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.FieldPosition
 
 class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
@@ -118,12 +119,13 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
             ActivityNavigator.navigate(this, ViewMealActivity::class.java, MEAL_EXTRA, mealSerializable)
         })
 
-        mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { mealId ->
+        mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { deleteParams ->
             AlertDialog.Builder(this).setMessage(getString(R.string.do_you_want_to_delete_meal))
                 .setPositiveButton(R.string.yes) { dialog, _ ->
                     dialog.dismiss()
                     showProgress()
-                    mealsViewModel.deleteMeal(mealId).observe(this, observerFactory.get(ObservableKey.DeleteMealObserver))
+
+                    mealsViewModel.deleteMeal(deleteParams).observe(this, observerFactory.get(ObservableKey.DeleteMealObserver))
                 }
                 .setNegativeButton(R.string.no) { dialog, _ ->
                     dialog.dismiss()
@@ -139,9 +141,13 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         }
     }
 
+    fun deleteMeal(position: Int) {
+        mealsAdapter.deleteItem(position)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_regular_user_home, menu);
-        return true;
+        menuInflater.inflate(R.menu.menu_regular_user_home, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

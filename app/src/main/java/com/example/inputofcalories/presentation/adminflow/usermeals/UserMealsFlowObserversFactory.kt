@@ -19,7 +19,7 @@ class UserMealsFlowObserversFactory(activity: UserMealsActivity, adapter: MealsR
     private val deleteMealObserver = Observer<DeleteMealState> { state ->
         when(state) {
             DeleteMealState.DeleteMealFailed -> {}
-            DeleteMealState.DeleteMealSucceed -> { activity.loadMeals() }
+            is DeleteMealState.DeleteMealSucceed -> { activity.deleteMeal(state.position) }
         }
     }
 

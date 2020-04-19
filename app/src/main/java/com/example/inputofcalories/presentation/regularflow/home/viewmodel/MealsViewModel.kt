@@ -12,12 +12,15 @@ import com.example.inputofcalories.entity.presentation.regular.Meal
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import com.example.inputofcalories.presentation.common.extensions.switchToDefault
 import com.example.inputofcalories.presentation.common.extensions.switchToUi
+import com.example.inputofcalories.presentation.regularflow.home.model.DeleteParams
 import com.example.inputofcalories.presentation.regularflow.model.entity.DeleteMealState.*
 import com.example.inputofcalories.presentation.regularflow.model.entity.AddMealState.*
+import com.example.inputofcalories.presentation.regularflow.model.entity.DeleteMealState
 import com.example.inputofcalories.presentation.regularflow.model.entity.EditMealState.*
 import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsFilteredState.*
 import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsState.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 
 class MealsViewModel(
     private val userUseCase: UserUseCase,
@@ -51,12 +54,13 @@ class MealsViewModel(
         }
     }
 
-    fun deleteMeal(mealId: String) = liveData(Dispatchers.Main) {
+    fun deleteMeal(deleteParams: DeleteParams) = liveData(Dispatchers.Main) {
         try {
+            delay(150)
             val userId = userUseCase.get().id
-            userMealsUseCase.deleteMeal(MealDeleteParams(userId, mealId))
+            userMealsUseCase.deleteMeal(MealDeleteParams(userId, deleteParams.mealId))
 
-            switchToUi { emit(DeleteMealSucceed) }
+            switchToUi { emit(DeleteMealSucceed(deleteParams.position)) }
 
         } catch (ex: MealException) { switchToUi { emit(DeleteMealFailed) } }
     }

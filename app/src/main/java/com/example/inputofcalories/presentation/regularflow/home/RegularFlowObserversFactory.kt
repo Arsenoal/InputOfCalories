@@ -64,10 +64,10 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
 
     private val deleteMealObserver = Observer<DeleteMealState> { state ->
         when(state) {
-            DeleteMealSucceed -> {
+            is DeleteMealSucceed -> {
                 activity.run {
-                    showProgress()
-                    loadMeals()
+                    deleteMeal(state.position)
+                    hideProgress()
                 }
             }
             DeleteMealFailed -> { activity.hideProgress() }

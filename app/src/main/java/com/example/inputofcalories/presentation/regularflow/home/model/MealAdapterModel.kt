@@ -15,6 +15,11 @@ data class MealAdapterModel(
     var isLimitExceeded: Boolean
 )
 
+data class DeleteParams(
+    val mealId: String,
+    val position: Int
+)
+
 fun MealAdapterModel.toMealSerializable() = with(this) {
     MealSerializable(
         id = id,

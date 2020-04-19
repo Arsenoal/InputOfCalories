@@ -1,5 +1,7 @@
 package com.example.inputofcalories.presentation.regularflow.home
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -117,8 +119,17 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         })
 
         mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { mealId ->
-            showProgress()
-            mealsViewModel.deleteMeal(mealId).observe(this, observerFactory.get(ObservableKey.DeleteMealObserver))
+            AlertDialog.Builder(this).setMessage(getString(R.string.do_you_want_to_delete_meal))
+                .setPositiveButton(R.string.yes) { dialog, _ ->
+                    dialog.dismiss()
+                    showProgress()
+                    mealsViewModel.deleteMeal(mealId).observe(this, observerFactory.get(ObservableKey.DeleteMealObserver))
+                }
+                .setNegativeButton(R.string.no) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
         })
     }
 

@@ -45,7 +45,9 @@ class MealsViewModel(
 
                 switchToUi { emit(GetMealsFilteredSucceed(meals)) }
 
-            } catch (ex: MealException) { switchToUi { emit(GetMealsFilteredFailed) } }
+            } catch (ex: MealException) {
+                switchToUi { emit(GetMealsFilteredFailed) }
+            }
         }
     }
 

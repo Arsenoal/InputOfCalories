@@ -1,5 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.home
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -34,6 +35,7 @@ class MealsRecyclerAdapter(
         layoutInflater = LayoutInflater.from(recyclerView.context)
     }
 
+    @Suppress("DEPRECATION")
     class MealViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private val rootView: FrameLayout = view.findViewById(R.id.rootView)
         private val mealTextTextView: AppCompatTextView = view.findViewById(R.id.mealTextTextView)
@@ -43,9 +45,14 @@ class MealsRecyclerAdapter(
         val deleteMealButton: AppCompatImageView = view.findViewById(R.id.deleteMealButton)
 
         fun bind(mealAdapterModel: MealAdapterModel) {
+            val resources = rootView.context.resources
+
             mealTextTextView.text = mealAdapterModel.text
-            mealCaloriesTextView.text = mealAdapterModel.calories
-            mealWeightTextView.text = String.format(Locale.ENGLISH, "%s g", mealAdapterModel.weight)
+            mealCaloriesTextView.text = String.format(Locale.ENGLISH, "%s%s",
+                Html.fromHtml(resources.getString(R.string.meal_calories_placeholder)), mealAdapterModel.calories)
+            mealWeightTextView.text =
+                String.format(Locale.ENGLISH, "%s%sg",
+                    Html.fromHtml(resources.getString(R.string.meal_weight_placeholder)), mealAdapterModel.weight)
 
             if(mealAdapterModel.isLimitExceeded) limitMarker.visibility = VISIBLE
             else limitMarker.visibility = GONE

@@ -80,7 +80,7 @@
             android:layout_height="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:padding="@dimen/margin_medium"
+            android:padding="@dimen/padding_medium"
             app:srcCompat="@drawable/ic_cross"
             />
 

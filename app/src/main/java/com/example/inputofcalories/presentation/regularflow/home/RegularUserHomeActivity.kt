@@ -6,8 +6,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
+import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.presentation.regularflow.home.RegularFlowObserversFactory.ObservableKey
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ProgressView
@@ -22,6 +24,12 @@ import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealAct
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
 import kotlinx.android.synthetic.main.progress_layout.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RegularUserHomeActivity : BaseActivity(), ProgressView {
@@ -33,6 +41,20 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
     private val filterFragment = FilterFragment.newInstance()
 
     private lateinit var observerFactory: RegularFlowObserversFactory
+
+    var filterFlow: Flow<List<MealFilterParams>>? = null
+    set(value) {
+        field = value
+        lifecycleScope.launch {
+            field?.let { flow ->
+                flow.collect { listParams ->
+                    mealsViewModel
+                        .getMealsFiltered(listParams)
+                        .observe(this@RegularUserHomeActivity, observerFactory.get(ObservableKey.GetMealsFilteredObserver))
+                }
+            }
+        }
+    }
 
     private val mealsAdapter = MealsRecyclerAdapter()
 
@@ -53,11 +75,18 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         checkDailyCaloriesLimit()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        loadMeals()
+    }
+
     private fun initObserverFactory() {
         observerFactory = RegularFlowObserversFactory(this, mealsAdapter)
     }
 
     fun loadMeals() {
+        showProgress()
         mealsViewModel.getMeals().observe(this, observerFactory.get(ObservableKey.GetMealsObserver))
     }
 
@@ -109,6 +138,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
             R.id.actionFilter -> {
                 isFilterOpened = if(!isFilterOpened) {
                     FragmentNavigator.openOrReplace(this, filterFragment, filterFrame.id, null)
+
                     true
                 } else {
                     FragmentNavigator.remove(this, filterFragment)

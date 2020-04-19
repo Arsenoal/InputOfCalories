@@ -1,12 +1,11 @@
 package com.example.inputofcalories.repo.regularflow
 
 import com.example.inputofcalories.common.exception.MealException
-import com.example.inputofcalories.common.exception.UserException
 import com.example.inputofcalories.common.logger.IOCLogger
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
-import com.example.inputofcalories.repo.service.EncoderService
+import com.example.inputofcalories.repo.service.UUIDGeneratorService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -14,7 +13,7 @@ import kotlin.coroutines.resumeWithException
 
 class UserMealsFirestore(
     private val firestore: FirebaseFirestore,
-    private val encoderService: EncoderService
+    private val uuidGenerator: UUIDGeneratorService
 ): UserMealsRepo {
 
     var TAG = UserMealsFirestore::class.java.name
@@ -24,7 +23,7 @@ class UserMealsFirestore(
         params: MealParams,
         filterParams: MealFilterParams) {
 
-        val mId = encoderService.encode(params.text)
+        val mId = uuidGenerator.get()
 
         firestore.collection(FirebaseDataBaseCollectionNames.USERS)
             .document(userId)
@@ -46,11 +45,10 @@ class UserMealsFirestore(
                     .set(mealFirebase)
                     .addOnFailureListener { throw MealException(error = it) }
             }
-            .addOnFailureListener { throw UserException(error = it) }
+            .addOnFailureListener { throw MealException(error = it) }
     }
 
     override suspend fun deleteMeal(mealDeleteParams: MealDeleteParams) {
-
         firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
             .addOnSuccessListener { userQuerySnapshot ->
                 userQuerySnapshot.filter { it.id == mealDeleteParams.userId }.map { userDocumentQuerySnapshot ->
@@ -66,7 +64,6 @@ class UserMealsFirestore(
     }
 
     override suspend fun editMeal(meal: Meal) {
-
         firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
             .addOnSuccessListener { userDocumentsQuerySnapshot ->
                 userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
@@ -121,17 +118,10 @@ class UserMealsFirestore(
                                 }
 
                                 val mealFilterParams = with(mealFirebase) {
-                                    MealFilterParams(
-                                        date = MealDateParams(year = year, month = month, dayOfMonth = day),
-                                        time = mealTimeParams
-                                    )
+                                    MealFilterParams(date = MealDateParams(year = year, month = month, dayOfMonth = day), time = mealTimeParams)
                                 }
 
-                                val meal = Meal(
-                                    id = mealDocumentsSnapshot.id,
-                                    params = mealParams,
-                                    filterParams = mealFilterParams
-                                )
+                                val meal = Meal(id = mealDocumentsSnapshot.id, params = mealParams, filterParams = mealFilterParams)
 
                                 meal
                             }.toList()

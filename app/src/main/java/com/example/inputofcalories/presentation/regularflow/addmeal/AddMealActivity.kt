@@ -7,6 +7,7 @@ import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
+import com.example.inputofcalories.presentation.regularflow.model.entity.AddMealState
 import kotlinx.android.synthetic.main.fragment_add_meal.*
 import kotlinx.android.synthetic.main.fragment_add_meal.mealDateRadioGroup
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -22,24 +23,9 @@ class AddMealActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_add_meal)
 
-        setupViewModel()
-
         setupMealTimePickerListener()
 
         setupClickListeners()
-    }
-
-    private fun setupViewModel() {
-        addMealViewModel.let {
-            it.addMealFailLiveData.observe(this, Observer {
-                ToastManager.showToastShort(this, resources.getString(R.string.meal_add_failed))
-            })
-
-            it.addMealSuccessLiveData.observe(this, Observer {
-                ToastManager.showToastShort(this, resources.getString(R.string.meal_successfully_added))
-                ActivityNavigator.navigateBack(this)
-            })
-        }
     }
 
     private fun setupClickListeners() {
@@ -57,7 +43,17 @@ class AddMealActivity: BaseActivity() {
                 MealDateParams(year, month, dayOfMonth),
                 mealTime)
 
-            addMealViewModel.addMealClicked(params, filterParams)
+            addMealViewModel.addMeal(params, filterParams).observe(this, Observer { state ->
+                when(state) {
+                    AddMealState.AddMealSucceed -> {
+                        ToastManager.showToastShort(this, resources.getString(R.string.meal_successfully_added))
+                        ActivityNavigator.navigateBack(this)
+                    }
+                    AddMealState.AddMealFailed -> {
+                        ToastManager.showToastShort(this, resources.getString(R.string.meal_add_failed))
+                    }
+                }
+            })
         }
     }
 

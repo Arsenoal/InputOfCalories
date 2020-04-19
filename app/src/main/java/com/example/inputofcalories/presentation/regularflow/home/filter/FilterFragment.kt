@@ -1,15 +1,20 @@
 package com.example.inputofcalories.presentation.regularflow.home.filter
 
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.example.inputofcalories.R
 import com.example.inputofcalories.common.extensions.entity.LEFT
 import com.example.inputofcalories.common.extensions.entity.RIGHT
 import com.example.inputofcalories.common.extensions.makeCornersRounded
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseFragment
+import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import kotlinx.android.synthetic.main.fragment_filter.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -21,6 +26,8 @@ class FilterFragment: BaseFragment() {
         Calendar.getInstance().get(Calendar.YEAR).toString(),
         Calendar.getInstance().get(Calendar.MONTH).toString(),
         Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString())
+
+    lateinit var filterFlow: Flow<List<MealFilterParams>>
 
     override fun getLayoutId() = R.layout.fragment_filter
 
@@ -62,8 +69,15 @@ class FilterFragment: BaseFragment() {
                     dateParams = MealDateParams(
                         year = get(Calendar.YEAR).toString(),
                         month = get(Calendar.MONTH).toString(),
-                        dayOfMonth = get(Calendar.DAY_OF_MONTH).toString()
-                    )
+                        dayOfMonth = get(Calendar.DAY_OF_MONTH).toString())
+                }
+
+                mealFilterParams.forEach { it.date = dateParams }
+
+                activity?.let { activity ->
+                    activity.lifecycleScope.launch {
+                        (activity as RegularUserHomeActivity).filterFlow = flow { emit(mealFilterParams) }
+                    }
                 }
             }
         }
@@ -80,6 +94,12 @@ class FilterFragment: BaseFragment() {
                 mealFilterParams.add(MealFilterParams(dateParams, BreakfastTime))
                 breakfastView.alpha = 1f
             }
+
+            activity?.let { activity ->
+                activity.lifecycleScope.launch {
+                    (activity as RegularUserHomeActivity).filterFlow = flow { emit(mealFilterParams) }
+                }
+            }
         }
         snackView.setOnClickListener {
             val snackFilter = mealFilterParams.find { it.time == SnackTime }
@@ -90,6 +110,12 @@ class FilterFragment: BaseFragment() {
             } else {
                 mealFilterParams.add(MealFilterParams(dateParams, SnackTime))
                 snackView.alpha = 1f
+            }
+
+            activity?.let { activity ->
+                activity.lifecycleScope.launch {
+                    (activity as RegularUserHomeActivity).filterFlow = flow { emit(mealFilterParams) }
+                }
             }
         }
         lunchView.setOnClickListener {
@@ -102,6 +128,12 @@ class FilterFragment: BaseFragment() {
                 mealFilterParams.add(MealFilterParams(dateParams, LunchTime))
                 lunchView.alpha = 1f
             }
+
+            activity?.let { activity ->
+                activity.lifecycleScope.launch {
+                    (activity as RegularUserHomeActivity).filterFlow = flow { emit(mealFilterParams) }
+                }
+            }
         }
         dinnerView.setOnClickListener {
             val dinnerFilter = mealFilterParams.find { it.time == DinnerTime }
@@ -112,6 +144,12 @@ class FilterFragment: BaseFragment() {
             } else {
                 mealFilterParams.add(MealFilterParams(dateParams, DinnerTime))
                 dinnerView.alpha = 1f
+            }
+
+            activity?.let { activity ->
+                activity.lifecycleScope.launch {
+                    (activity as RegularUserHomeActivity).filterFlow = flow { emit(mealFilterParams) }
+                }
             }
         }
     }

@@ -12,10 +12,14 @@ import com.example.inputofcalories.presentation.regularflow.home.viewmodel.*
 import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesFirestore
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesRepo
+import com.example.inputofcalories.repo.service.IOCUUIDGenerator
+import com.example.inputofcalories.repo.service.UUIDGeneratorService
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val mealsmodule = module {
+
+    single<UUIDGeneratorService> { IOCUUIDGenerator() }
 
     single<UserMealsRepo> { UserMealsFirestore(get(), get()) }
 

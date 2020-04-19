@@ -41,7 +41,9 @@ class MealsViewModel(
         switchToDefault {
             try {
                 val userId = userUseCase.get().id
-                val meals = userMealsUseCase.getMealsFiltered(userId, mealFilterParams)
+                val meals =
+                    if(mealFilterParams.isNotEmpty()) userMealsUseCase.getMealsFiltered(userId, mealFilterParams)
+                    else userMealsUseCase.getMeals(userId)
 
                 switchToUi { emit(GetMealsFilteredSucceed(meals)) }
 

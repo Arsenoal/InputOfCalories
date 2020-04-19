@@ -1,5 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.home.model
 
+import com.example.inputofcalories.entity.presentation.regular.MealTimeParams
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 
 data class MealAdapterModel(
@@ -10,8 +11,7 @@ data class MealAdapterModel(
     val year: String,
     val month: String,
     val dayOfMonth: String,
-    val from: String,
-    val to: String,
+    val timeParams: MealTimeParams,
     var isLimitExceeded: Boolean
 )
 
@@ -24,7 +24,7 @@ fun MealAdapterModel.toMealSerializable() = with(this) {
         year = year,
         month = month,
         dayOfMonth = dayOfMonth,
-        from = from,
-        to = to
+        from = timeParams.from,
+        to = timeParams.to
     )
 }

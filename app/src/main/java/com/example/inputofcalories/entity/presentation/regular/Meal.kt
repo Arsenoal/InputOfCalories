@@ -42,8 +42,7 @@ fun Meal.toAdapterModel() = with(this) {
         dayOfMonth = filterParams.date.dayOfMonth,
         month = filterParams.date.month,
         year = filterParams.date.year,
-        from = filterParams.time.from,
-        to = filterParams.time.to,
+        timeParams = filterParams.time,
         isLimitExceeded = false
     )
 }

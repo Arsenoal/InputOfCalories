@@ -7,16 +7,20 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.presentation.regular.Meal
+import com.example.inputofcalories.entity.presentation.regular.BreakfastTime
+import com.example.inputofcalories.entity.presentation.regular.DinnerTime
+import com.example.inputofcalories.entity.presentation.regular.LunchTime
+import com.example.inputofcalories.entity.presentation.regular.SnackTime
 import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
 import java.util.*
 
 class MealsRecyclerAdapter(
-    val meals: MutableList<MealAdapterModel> = mutableListOf()
+    private val meals: MutableList<MealAdapterModel> = mutableListOf()
 ): RecyclerView.Adapter<MealsRecyclerAdapter.MealViewHolder>() {
 
     private lateinit var layoutInflater: LayoutInflater
@@ -31,25 +35,27 @@ class MealsRecyclerAdapter(
     }
 
     class MealViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        private val rootView: FrameLayout = view.findViewById(R.id.rootView)
         private val mealTextTextView: AppCompatTextView = view.findViewById(R.id.mealTextTextView)
         private val mealCaloriesTextView: AppCompatTextView = view.findViewById(R.id.mealCaloriesTextView)
         private val mealWeightTextView: AppCompatTextView = view.findViewById(R.id.mealWeightTextView)
-        private val dateTextView: AppCompatTextView = view.findViewById(R.id.dateTextView)
         private val limitMarker: FrameLayout = view.findViewById(R.id.limitExceededColorView)
-        val deleteMealButton: AppCompatImageButton = view.findViewById(R.id.deleteMealButton)
+        val deleteMealButton: AppCompatImageView = view.findViewById(R.id.deleteMealButton)
 
         fun bind(mealAdapterModel: MealAdapterModel) {
             mealTextTextView.text = mealAdapterModel.text
             mealCaloriesTextView.text = mealAdapterModel.calories
             mealWeightTextView.text = String.format(Locale.ENGLISH, "%s g", mealAdapterModel.weight)
-            dateTextView.text = String.format(Locale.ENGLISH, "%s/%s %s: %s, %s: %s",
-                mealAdapterModel.month,
-                mealAdapterModel.dayOfMonth,
-                itemView.context.resources.getString(R.string.from), mealAdapterModel.from,
-                itemView.context.resources.getString(R.string.to), mealAdapterModel.to)
 
             if(mealAdapterModel.isLimitExceeded) limitMarker.visibility = VISIBLE
             else limitMarker.visibility = GONE
+
+            when(mealAdapterModel.timeParams) {
+                BreakfastTime -> { rootView.setBackgroundResource(R.drawable.breakfast_bg) }
+                LunchTime -> { rootView.setBackgroundResource(R.drawable.lunch_bg) }
+                SnackTime -> { rootView.setBackgroundResource(R.drawable.snack_bg) }
+                DinnerTime -> { rootView.setBackgroundResource(R.drawable.dinner_bg) }
+            }
         }
     }
 

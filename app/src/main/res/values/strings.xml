@@ -66,6 +66,9 @@
 
     <string name="meal_params_are_invalid">meal params are invalid</string>
 
+    <string name="meal_weight_placeholder"><b>weight: </b>100g</string>
+    <string name="meal_calories_placeholder"><b>calories: </b>200</string>
+
     <!-- end of regular flow -->
 
     <!-- admin flow -->

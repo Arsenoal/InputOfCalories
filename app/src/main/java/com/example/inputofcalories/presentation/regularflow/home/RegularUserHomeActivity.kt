@@ -81,7 +81,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
         mealsAdapter.mealSelectedLiveData.observe(this, Observer {
             val mealSerializable = with(it) {
-                MealSerializable(id, text, calories, weight, year, month, dayOfMonth, from, to)
+                MealSerializable(id, text, calories, weight, year, month, dayOfMonth, timeParams.from, timeParams.to)
             }
 
             ActivityNavigator.navigate(this, ViewMealActivity::class.java, MEAL_EXTRA, mealSerializable)

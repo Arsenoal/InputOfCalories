@@ -1,15 +1,11 @@
 package com.example.inputofcalories.presentation.auth
 
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
 
 import com.example.inputofcalories.R
 import com.example.inputofcalories.common.extensions.onItemSelected
 import com.example.inputofcalories.presentation.base.BaseActivity
-import com.example.inputofcalories.presentation.common.ErrorView
 import com.example.inputofcalories.presentation.navigation.FragmentNavigator
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_auth.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -43,10 +39,10 @@ class AuthActivity : BaseActivity() {
     }
 
     fun openSignInFragment() {
-        FragmentNavigator.openFragment(this, SignInFragment.newInstance(), authFrameView.id, SignInFragment::class.java.name)
+        FragmentNavigator.openOrReplace(this, SignInFragment.newInstance(), authFrameView.id, SignInFragment::class.java.name)
     }
 
     fun openRegisterFragment() {
-        FragmentNavigator.openFragment(this, RegisterFragment.newInstance(), authFrameView.id, RegisterFragment::class.java.name)
+        FragmentNavigator.openOrReplace(this, RegisterFragment.newInstance(), authFrameView.id, RegisterFragment::class.java.name)
     }
 }

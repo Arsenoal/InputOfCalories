@@ -37,7 +37,7 @@ class MealsViewModel(
         }
     }
 
-    fun getMealsFiltered(mealFilterParams: MealFilterParams) = liveData(Dispatchers.Main) {
+    fun getMealsFiltered(mealFilterParams: List<MealFilterParams>) = liveData(Dispatchers.Main) {
         switchToDefault {
             try {
                 val userId = userUseCase.get().id

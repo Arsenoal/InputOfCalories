@@ -12,7 +12,7 @@ interface UserMealsUseCase {
 
     suspend fun editMeal(meal: Meal)
 
-    suspend fun getMealsFiltered(uId: String, mealFilterParams: MealFilterParams): List<Meal>
+    suspend fun getMealsFiltered(uId: String, mealFilterParams: List<MealFilterParams>): List<Meal>
 
     suspend fun getMeals(uId: String): List<Meal>
 }

@@ -21,8 +21,8 @@ class IocUserMeals(
     override suspend fun editMeal(meal: Meal)
             = userMealsRepo.editMeal(meal)
 
-    override suspend fun getMealsFiltered(uId: String, mealFilterParams: MealFilterParams)
-            = userMealsRepo.getMeals(uId).filter { it.filterParams == mealFilterParams }
+    override suspend fun getMealsFiltered(uId: String, mealFilterParams: List<MealFilterParams>)
+            = userMealsRepo.getMeals(uId).filter { mealFilterParams.contains(it.filterParams) }
 
     override suspend fun getMeals(uId: String)
             = userMealsRepo.getMeals(uId)

@@ -18,7 +18,6 @@ import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActiv
 import com.example.inputofcalories.presentation.regularflow.home.filter.FilterFragment
 import com.example.inputofcalories.presentation.regularflow.home.viewmodel.*
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
-import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsFilteredState
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
@@ -31,9 +30,13 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
     private val dailyCaloriesViewModel: DailyCaloriesViewModel by viewModel()
 
+    private val filterFragment = FilterFragment.newInstance()
+
     private lateinit var observerFactory: RegularFlowObserversFactory
 
     private val mealsAdapter = MealsRecyclerAdapter()
+
+    private var isFilterOpened = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,16 +107,13 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.actionFilter -> {
-                FragmentNavigator.openFragment(this, FilterFragment.newInstance(), filterFrame.id, null)
-                /*val dialog = FilterDialog(this)
-
-                dialog.applyFilterLiveData.observe(this, Observer { mealFilterParams ->
-                    showProgress()
-
-                    mealsViewModel.getMealsFiltered(mealFilterParams)
-                        .observe(this, observerFactory.get<GetMealsFilteredState>(ObservableKey.GetMealsFilteredObserver))
-                })
-                dialog.show()*/
+                isFilterOpened = if(!isFilterOpened) {
+                    FragmentNavigator.openOrReplace(this, filterFragment, filterFrame.id, null)
+                    true
+                } else {
+                    FragmentNavigator.remove(this, filterFragment)
+                    false
+                }
             }
             R.id.dailyCalories -> {
                 val dialog = SetDailyCaloriesDialog(this)

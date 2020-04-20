@@ -80,7 +80,7 @@ class AuthFirestore(
                         }
                     } else { continuation.resumeWithException(SignInException()) }
                 }
-                .addOnFailureListener { ex ->
+                .addOnFailureListener {
                     continuation.resumeWithException(SignInException(message = "user with email: $userSignInParams.email not found"))
                 }
         }

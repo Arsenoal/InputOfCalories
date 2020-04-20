@@ -29,7 +29,6 @@ fun MealAdapterModel.toMealSerializable() = with(this) {
         year = year,
         month = month,
         dayOfMonth = dayOfMonth,
-        from = timeParams.from,
-        to = timeParams.to
+        timeParam = timeParams
     )
 }

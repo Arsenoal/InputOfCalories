@@ -1,5 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.model
 
+import com.example.inputofcalories.entity.presentation.regular.MealTimeParams
 import java.io.Serializable
 
 data class MealSerializable(
@@ -10,6 +11,5 @@ data class MealSerializable(
     val year: String,
     val month: String,
     val dayOfMonth: String,
-    val from: String,
-    val to: String
+    val timeParam: MealTimeParams
 ): Serializable

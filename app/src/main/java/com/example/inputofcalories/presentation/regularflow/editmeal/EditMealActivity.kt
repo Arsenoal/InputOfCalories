@@ -37,14 +37,6 @@ class EditMealActivity: BaseActivity() {
         editMealButton.setOnClickListener {
             getMealSerializableExtra().run {
 
-                val timeParam = when(from) {
-                    BreakfastTime.from -> { BreakfastTime }
-                    LunchTime.from -> { LunchTime }
-                    DinnerTime.from -> { DinnerTime }
-                    SnackTime.from -> { SnackTime }
-                    else -> { LunchTime }
-                }
-
                 val meal = Meal(
                     id = id,
                     params = MealParams(
@@ -52,10 +44,7 @@ class EditMealActivity: BaseActivity() {
                         calories = mealCaloriesEditText.text.toString(),
                         weight = mealWeightEditText.text.toString()),
                     filterParams = MealFilterParams(
-                        date = MealDateParams(
-                            year = year,
-                            month = month,
-                            dayOfMonth = dayOfMonth),
+                        date = MealDateParams(year = year, month = month, dayOfMonth = dayOfMonth),
                         time = timeParam
                     )
                 )

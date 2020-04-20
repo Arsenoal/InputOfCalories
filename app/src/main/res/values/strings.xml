@@ -70,6 +70,10 @@
     <string name="meal_calories_placeholder"><b>calories: </b></string>
 
     <string name="do_you_want_to_delete_meal">Do you want to delete meal?</string>
+
+    <string name="define_daily_calories">Define daily calories</string>
+    <string name="please_set_daily_calories">Please set daily calories</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
 

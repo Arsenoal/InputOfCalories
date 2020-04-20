@@ -9,12 +9,15 @@
     android:layout_marginTop="@dimen/margin_small"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large">
+        android:orientation="vertical"
+        android:padding="@dimen/padding_large"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,49 +32,59 @@
                 android:id="@+id/userNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="name"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                tools:text="Fantomas"
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="email"
-                />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/typeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="regular"
+                android:textSize="16sp"
+                android:layout_marginTop="@dimen/margin_small"
+                tools:text="fantomas@mail.ru"
                 />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_small"
             >
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/upgradeButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/typeRegular"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
-                android:text="upgrade"/>
+                android:text="@string/regular"
+                />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/downgradeButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/typeManager"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="downgrade"/>
+                android:layout_weight="1"
+                android:text="@string/manager"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/typeAdmin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/admin"
+                />
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

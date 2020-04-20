@@ -79,7 +79,16 @@
 
     <!-- end of regular flow -->
 
+    <!-- manager flow -->
+
+    <string name="no_users_to_show">no users to show</string>
+
+    <!-- end of manager flow -->
+
     <!-- admin flow -->
+
+    <string name="upgrade">upgrade</string>
+    <string name="downgrade">downgrade</string>
 
     <string name="upgraded">upgraded</string>
     <string name="downgraded">downgraded</string>

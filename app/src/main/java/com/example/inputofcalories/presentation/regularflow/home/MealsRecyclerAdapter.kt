@@ -3,8 +3,6 @@ package com.example.inputofcalories.presentation.regularflow.home
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
@@ -41,7 +39,6 @@ class MealsRecyclerAdapter(
         private val mealTextTextView: AppCompatTextView = view.findViewById(R.id.mealTextTextView)
         private val mealCaloriesTextView: AppCompatTextView = view.findViewById(R.id.mealCaloriesTextView)
         private val mealWeightTextView: AppCompatTextView = view.findViewById(R.id.mealWeightTextView)
-        private val limitMarker: FrameLayout = view.findViewById(R.id.limitExceededColorView)
         val deleteMealButton: AppCompatImageView = view.findViewById(R.id.deleteMealButton)
 
         fun bind(mealAdapterModel: MealAdapterModel) {
@@ -54,10 +51,8 @@ class MealsRecyclerAdapter(
                 String.format(Locale.ENGLISH, "%s%sg",
                     Html.fromHtml(resources.getString(R.string.meal_weight_placeholder)), mealAdapterModel.weight)
 
-            if(mealAdapterModel.isLimitExceeded) limitMarker.visibility = VISIBLE
-            else limitMarker.visibility = GONE
-
-            when(mealAdapterModel.timeParams) {
+            if(mealAdapterModel.isLimitExceeded) { rootView.setBackgroundResource(R.drawable.limit_exceeded_bg) }
+            else when(mealAdapterModel.timeParams) {
                 BreakfastTime -> { rootView.setBackgroundResource(R.drawable.breakfast_bg) }
                 LunchTime -> { rootView.setBackgroundResource(R.drawable.lunch_bg) }
                 SnackTime -> { rootView.setBackgroundResource(R.drawable.snack_bg) }

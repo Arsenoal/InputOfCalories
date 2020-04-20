@@ -1,7 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.home
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -26,14 +25,10 @@ import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealAct
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
 import kotlinx.android.synthetic.main.progress_layout.*
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.text.FieldPosition
 
 class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
@@ -88,7 +83,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         observerFactory = RegularFlowObserversFactory(this, mealsAdapter)
     }
 
-    fun loadMeals() {
+    private fun loadMeals() {
         showProgress()
         mealsViewModel.getMeals().observe(this, observerFactory.get(ObservableKey.GetMealsObserver))
     }

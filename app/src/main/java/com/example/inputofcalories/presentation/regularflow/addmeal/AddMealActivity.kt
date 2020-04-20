@@ -8,8 +8,8 @@ import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.model.entity.AddMealState
-import kotlinx.android.synthetic.main.fragment_add_meal.*
-import kotlinx.android.synthetic.main.fragment_add_meal.mealDateRadioGroup
+import kotlinx.android.synthetic.main.add_meal_activity.*
+import kotlinx.android.synthetic.main.add_meal_activity.mealDateRadioGroup
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -21,7 +21,7 @@ class AddMealActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_add_meal)
+        setContentView(R.layout.add_meal_activity)
 
         setupMealTimePickerListener()
 

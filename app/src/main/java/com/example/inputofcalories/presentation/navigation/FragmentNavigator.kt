@@ -19,9 +19,6 @@ object FragmentNavigator {
 
     }
 
-    fun remove(
-        activity: AppCompatActivity,
-        fragment: Fragment) = with(activity.supportFragmentManager) {
-        beginTransaction().remove(fragment).commit()
-    }
+    fun remove(activity: AppCompatActivity,
+        fragment: Fragment) = with(activity.supportFragmentManager) { beginTransaction().remove(fragment).commit() }
 }

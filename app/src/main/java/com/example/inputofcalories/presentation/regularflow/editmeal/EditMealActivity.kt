@@ -1,7 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.editmeal
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
@@ -10,6 +9,7 @@ import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
+import com.example.inputofcalories.presentation.regularflow.model.entity.EditMealState
 import kotlinx.android.synthetic.main.activity_edit_meal.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -25,24 +25,12 @@ class EditMealActivity: BaseActivity() {
 
         setupClickListeners()
 
-        setupViewModel()
     }
 
     private fun updateUi(mealSerializable: MealSerializable) {
         mealTextEditText.setText(mealSerializable.text)
         mealCaloriesEditText.setText(mealSerializable.calories)
         mealWeightEditText.setText(mealSerializable.weight)
-    }
-
-    private fun setupViewModel() {
-        editMealViewModel.mealEditFailedLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, it.text)
-        })
-
-        editMealViewModel.mealEditSucceededLiveData.observe(this, Observer {
-            ToastManager.showToastShort(this, resources.getString(R.string.meal_edit_succeed))
-            ActivityNavigator.navigateBack(this)
-        })
     }
 
     private fun setupClickListeners() {
@@ -72,7 +60,19 @@ class EditMealActivity: BaseActivity() {
                     )
                 )
 
-                editMealViewModel.editClicked(meal)
+                this@EditMealActivity.run {
+                    editMealViewModel.editClicked(meal).observe(this, Observer { state ->
+                        when(state) {
+                            EditMealState.EditMealSucceed -> {
+                                ToastManager.showToastShort(this, resources.getString(R.string.meal_edit_succeed))
+                                ActivityNavigator.finish(this)
+                            }
+                            EditMealState.EditMealFailed -> {
+                                ToastManager.showToastShort(this, "failed to edit meal")
+                            }
+                        }
+                    })
+                }
             }
         }
     }

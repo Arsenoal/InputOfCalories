@@ -1,15 +1,16 @@
 package com.example.inputofcalories.presentation.regularflow.addmeal
 
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
+import com.example.inputofcalories.presentation.navigation.FragmentNavigator
 import com.example.inputofcalories.presentation.regularflow.model.entity.AddMealState
 import kotlinx.android.synthetic.main.add_meal_activity.*
-import kotlinx.android.synthetic.main.add_meal_activity.mealDateRadioGroup
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -19,11 +20,15 @@ class AddMealActivity: BaseActivity() {
 
     private var mealTime: MealTimeParams = LunchTime
 
+    private val addMealFragment = DaytimePickerFragment.newInstance()
+
+    val mealTimeLiveData = MutableLiveData<MealTimeParams>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_meal_activity)
 
-        setupMealTimePickerListener()
+        setupDaytimeFragment()
 
         setupClickListeners()
     }
@@ -47,7 +52,7 @@ class AddMealActivity: BaseActivity() {
                 when(state) {
                     AddMealState.AddMealSucceed -> {
                         ToastManager.showToastShort(this, resources.getString(R.string.meal_successfully_added))
-                        ActivityNavigator.navigateBack(this)
+                        ActivityNavigator.finish(this)
                     }
                     AddMealState.AddMealFailed -> {
                         ToastManager.showToastShort(this, resources.getString(R.string.meal_add_failed))
@@ -57,14 +62,17 @@ class AddMealActivity: BaseActivity() {
         }
     }
 
-    private fun setupMealTimePickerListener() {
-        mealDateRadioGroup.setOnCheckedChangeListener { _, id ->
-            when(id) {
-                R.id.breakfastButton -> { mealTime = BreakfastTime }
-                R.id.lunchButton -> { mealTime = LunchTime }
-                R.id.dinnerButton -> { mealTime = DinnerTime }
-                R.id.snackButton -> { mealTime = SnackTime }
-            }
-        }
+    private fun setupDaytimeFragment() {
+        FragmentNavigator.openOrReplace(this, addMealFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
+
+        mealTimeLiveData.observe(this, Observer {
+            mealTime = it
+            FragmentNavigator.remove(this, addMealFragment)
+        })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        ActivityNavigator.finish(this)
     }
 }

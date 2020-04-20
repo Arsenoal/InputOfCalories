@@ -1,32 +1,27 @@
 package com.example.inputofcalories.presentation.regularflow.editmeal
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.liveData
 import com.example.inputofcalories.common.exception.MealException
 import com.example.inputofcalories.domain.regularflow.UserMealsUseCase
-import com.example.inputofcalories.entity.presentation.Message
 import com.example.inputofcalories.entity.presentation.regular.Meal
 import com.example.inputofcalories.presentation.base.BaseViewModel
-import kotlinx.coroutines.launch
+import com.example.inputofcalories.presentation.common.extensions.switchToDefault
+import com.example.inputofcalories.presentation.common.extensions.switchToUi
+import com.example.inputofcalories.presentation.regularflow.model.entity.EditMealState
+import kotlinx.coroutines.Dispatchers
 
 class EditMealViewModel(
     private val userMealsUseCase: UserMealsUseCase
 ): BaseViewModel() {
 
-    val mealEditSucceededLiveData = MutableLiveData<Any>()
-
-    val mealEditFailedLiveData = MutableLiveData<Message>()
-
-    fun editClicked(meal: Meal) {
-        viewModelScope.launch {
+    fun editClicked(meal: Meal) = liveData(Dispatchers.Main) {
+        switchToDefault {
             try {
-                editMeal(meal)
-                mealEditSucceededLiveData.value = Any()
+                userMealsUseCase.editMeal(meal)
+                switchToUi { emit(EditMealState.EditMealSucceed) }
             } catch (ex: MealException) {
-                mealEditFailedLiveData.value = Message("meal edit fail")
+                switchToUi { emit(EditMealState.EditMealFailed) }
             }
         }
     }
-
-    private suspend fun editMeal(meal: Meal) = userMealsUseCase.editMeal(meal)
 }

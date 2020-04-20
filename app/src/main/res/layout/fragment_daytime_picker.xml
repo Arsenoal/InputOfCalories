@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/breakfastView"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:cardBackgroundColor="@color/purple"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tmp"
+            android:layout_gravity="start"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/breakfastTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="@string/breakfast"
+            android:textSize="22sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/snackView"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:cardBackgroundColor="@color/red"
+        android:layout_margin="@dimen/margin_small"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tmp"
+            android:layout_gravity="start"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/snackTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="@string/snack"
+            android:textSize="22sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/lunchView"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:cardBackgroundColor="@color/brown"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tmp"
+            android:layout_gravity="start"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lunchTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="@string/lunch"
+            android:textSize="22sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dinnerView"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:cardBackgroundColor="@color/colorAccent"
+        android:layout_margin="@dimen/margin_small"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tmp"
+            android:layout_gravity="start"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dinnerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:text="@string/dinner"
+            android:textSize="22sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

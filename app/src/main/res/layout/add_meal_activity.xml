@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal|top"
     >
 
@@ -40,47 +40,6 @@
                 style="@style/regEditTextStyle"
                 />
 
-            <RadioGroup
-                android:id="@+id/mealDateRadioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-
-                <RadioButton
-                    android:id="@+id/breakfastButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/breakfast"
-                    />
-
-                <RadioButton
-                    android:id="@+id/lunchButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:checked="true"
-                    android:text="@string/lunch"
-                    />
-
-                <RadioButton
-                    android:id="@+id/dinnerButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/dinner"
-                    />
-
-                <RadioButton
-                    android:id="@+id/snackButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/snack"
-                    />
-            </RadioGroup>
-
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -91,4 +50,10 @@
             />
 
     </LinearLayout>
-</ScrollView>
+
+    <FrameLayout
+        android:id="@+id/timePickerFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</FrameLayout>

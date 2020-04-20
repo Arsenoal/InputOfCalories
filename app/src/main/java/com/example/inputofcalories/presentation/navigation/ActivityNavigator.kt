@@ -49,7 +49,7 @@ object ActivityNavigator {
         }
     }
 
-    fun navigateBack(activity: AppCompatActivity) {
-        activity.onBackPressed()
+    fun finish(activity: AppCompatActivity) {
+        activity.finish()
     }
 }

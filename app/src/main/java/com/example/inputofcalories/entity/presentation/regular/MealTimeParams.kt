@@ -1,6 +1,8 @@
 package com.example.inputofcalories.entity.presentation.regular
 
-abstract class MealTimeParams(val from: String, val to: String)
+import java.io.Serializable
+
+abstract class MealTimeParams(val from: String, val to: String): Serializable
 
 object BreakfastTime: MealTimeParams("9", "12")
 

@@ -9,7 +9,9 @@
     
     <color name="white_transparent">#E6FFFFFF</color>
     <color name="white">#FFFFFF</color>
+
     <color name="black">#000000</color>
+    <color name="black_transparent_50">#80000000</color>
 
     <color name="auth_button_color">#ffc34d</color>
 

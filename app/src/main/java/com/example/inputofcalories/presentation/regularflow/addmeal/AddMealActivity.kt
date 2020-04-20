@@ -101,7 +101,6 @@ class AddMealActivity: BaseActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         ActivityNavigator.finish(this)
     }
 }

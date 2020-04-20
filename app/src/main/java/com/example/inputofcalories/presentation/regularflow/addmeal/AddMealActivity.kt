@@ -4,13 +4,17 @@ import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
+import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.navigation.FragmentNavigator
 import com.example.inputofcalories.presentation.regularflow.model.entity.AddMealState
+import devs.mulham.horizontalcalendar.HorizontalCalendar
+import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import kotlinx.android.synthetic.main.add_meal_activity.*
+import kotlinx.android.synthetic.main.add_meal_activity.calendarView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -20,6 +24,10 @@ class AddMealActivity: BaseActivity() {
 
     private var mealTime: MealTimeParams = LunchTime
 
+    private var mealDateParams = with(Calendar.getInstance()) {
+        MealDateParams(get(Calendar.YEAR).toString(), get(Calendar.MONTH).toString(), get(Calendar.DAY_OF_MONTH).toString())
+    }
+
     private val addMealFragment = DaytimePickerFragment.newInstance()
 
     val mealTimeLiveData = MutableLiveData<MealTimeParams>()
@@ -28,9 +36,36 @@ class AddMealActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_meal_activity)
 
+        setupCalendar()
+
         setupDaytimeFragment()
 
         setupClickListeners()
+    }
+
+    private fun setupCalendar() {
+        val startDate = Calendar.getInstance()
+        startDate.add(Calendar.MONTH, -2)
+
+        val endDate = Calendar.getInstance()
+        endDate.add(Calendar.MONTH, 0)
+
+        val horizontalCalendar = HorizontalCalendar
+            .Builder(rootView, calendarView.id)
+            .range(startDate, endDate)
+            .build()
+
+        horizontalCalendar.calendarListener = object: HorizontalCalendarListener() {
+            override fun onDateSelected(date: Calendar?, position: Int) {
+                date?.run {
+                    val year = get(Calendar.YEAR).toString()
+                    val month = get(Calendar.MONTH).toString()
+                    val dayOfMonth = get(Calendar.DAY_OF_MONTH).toString()
+
+                    mealDateParams = MealDateParams(year, month, dayOfMonth)
+                }
+            }
+        }
     }
 
     private fun setupClickListeners() {
@@ -40,13 +75,7 @@ class AddMealActivity: BaseActivity() {
                 calories = mealCaloriesEditText.text.toString(),
                 weight = mealWeightEditText.text.toString())
 
-            val year = Calendar.getInstance().get(Calendar.YEAR).toString()
-            val month = Calendar.getInstance().get(Calendar.MONTH).toString()
-            val dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString()
-
-            val filterParams = MealFilterParams(
-                MealDateParams(year, month, dayOfMonth),
-                mealTime)
+            val filterParams = MealFilterParams(mealDateParams, mealTime)
 
             addMealViewModel.addMeal(params, filterParams).observe(this, Observer { state ->
                 when(state) {

@@ -11,7 +11,7 @@ data class UserParams(
     val name: String,
     val email: String,
     val dailyCalories: String,
-    val type: UserType
+    var type: UserType
 )
 
 data class UserRegistrationParams(

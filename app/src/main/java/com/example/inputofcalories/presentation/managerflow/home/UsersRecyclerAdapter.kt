@@ -8,10 +8,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.register.Admin
-import com.example.inputofcalories.entity.register.RegularUser
-import com.example.inputofcalories.entity.register.User
-import com.example.inputofcalories.entity.register.UserManager
+import com.example.inputofcalories.entity.register.*
+import com.example.inputofcalories.presentation.managerflow.home.model.UserTypeChangeParams
 
 class UsersRecyclerAdapter(
     private val users: MutableList<User> = mutableListOf()
@@ -19,9 +17,9 @@ class UsersRecyclerAdapter(
 
     private lateinit var layoutInflater: LayoutInflater
 
-    val userUpgradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
+    val userUpgradeSelectedLiveData: MutableLiveData<UserTypeChangeParams> = MutableLiveData()
 
-    val userDowngradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
+    val userDowngradeSelectedLiveData: MutableLiveData<UserTypeChangeParams> = MutableLiveData()
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -41,11 +39,11 @@ class UsersRecyclerAdapter(
         holder.bind(user)
 
         holder.upgradeButton.setOnClickListener {
-            userUpgradeSelectedLiveData.value = user
+            userUpgradeSelectedLiveData.value = UserTypeChangeParams(user.id, position)
         }
 
         holder.downgradeButton.setOnClickListener {
-            userDowngradeSelectedLiveData.value = user
+            userDowngradeSelectedLiveData.value = UserTypeChangeParams(user.id, position)
         }
     }
 
@@ -53,6 +51,11 @@ class UsersRecyclerAdapter(
         users.clear()
         users.addAll(items)
         notifyDataSetChanged()
+    }
+
+    fun updateUserStatus(userType: UserType, position: Int) {
+        users[position].userParams.type = userType
+        notifyItemChanged(position)
     }
 
     class UserViewHolder(view: View): RecyclerView.ViewHolder(view) {

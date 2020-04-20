@@ -115,10 +115,10 @@ class SignInFragment: BaseFragment(), ErrorView {
 
                             when(user.userParams.type) {
                                 RegularUser -> {
-                                    ActivityNavigator.navigateAndFinishCurrent(activity, RegularUserHomeActivity::class.java, USER_ID_KEY, user.id)
+                                    ActivityNavigator.navigateAndFinishCurrent(activity, RegularUserHomeActivity::class.java)
                                 }
                                 UserManager -> {
-                                    ActivityNavigator.navigateAndFinishCurrent(activity, ManagerUserHomeActivity::class.java, USER_ID_KEY, user.id)
+                                    ActivityNavigator.navigateAndFinishCurrent(activity, ManagerUserHomeActivity::class.java)
                                 }
                                 Admin -> {
                                     ActivityNavigator.navigateAndFinishCurrent(activity, AdminUserHomeActivity::class.java, USER_ID_KEY, user.id)

@@ -12,6 +12,7 @@ import com.example.inputofcalories.entity.register.Admin
 import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserManager
+import com.google.android.material.button.MaterialButtonToggleGroup
 
 class AllUsersRecyclerAdapter(
     private val users: MutableList<User> = mutableListOf()
@@ -56,20 +57,16 @@ class AllUsersRecyclerAdapter(
     class UserViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private val userNameTextView: AppCompatTextView = view.findViewById(R.id.userNameTextView)
         private val emailTextView: AppCompatTextView = view.findViewById(R.id.emailTextView)
+        val typeToggleGroup: MaterialButtonToggleGroup = view.findViewById(R.id.typeToggleGroup)
 
         fun bind(user: User) {
             userNameTextView.text = user.userParams.name
             emailTextView.text = user.userParams.email
+
             when(user.userParams.type) {
-                RegularUser -> {
-                    //TODO
-                }
-                UserManager -> {
-                    //TODO
-                }
-                Admin -> {
-                    //TODO
-                }
+                RegularUser -> { typeToggleGroup.check(R.id.typeRegular) }
+                UserManager -> { typeToggleGroup.check(R.id.typeManager) }
+                Admin -> { typeToggleGroup.check(R.id.typeAdmin) }
             }
         }
     }

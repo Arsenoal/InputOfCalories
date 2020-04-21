@@ -79,8 +79,7 @@ class SignInFragment: BaseFragment(), ErrorView {
 
             val signInParams = UserSignInParams(
                 email = emailEditText.text.toString(),
-                password = passwordEditText.text.toString()
-            )
+                password = passwordEditText.text.toString())
 
             authViewModel.signIn(signInParams).observe(viewLifecycleOwner, Observer { state ->
                 when(state) {
@@ -110,19 +109,12 @@ class SignInFragment: BaseFragment(), ErrorView {
                         activity?.let { activity ->
                             signInButton.hideProgress(R.string.succeed)
 
-                            val user = state.user
                             activity as AppCompatActivity
 
-                            when(user.userParams.type) {
-                                RegularUser -> {
-                                    ActivityNavigator.navigateAndFinishCurrent(activity, RegularUserHomeActivity::class.java)
-                                }
-                                UserManager -> {
-                                    ActivityNavigator.navigateAndFinishCurrent(activity, ManagerUserHomeActivity::class.java)
-                                }
-                                Admin -> {
-                                    ActivityNavigator.navigateAndFinishCurrent(activity, AdminUserHomeActivity::class.java, USER_ID_KEY, user.id)
-                                }
+                            when(state.user.userParams.type) {
+                                RegularUser -> { ActivityNavigator.navigateAndFinishCurrent(activity, RegularUserHomeActivity::class.java) }
+                                UserManager -> { ActivityNavigator.navigateAndFinishCurrent(activity, ManagerUserHomeActivity::class.java) }
+                                Admin -> { ActivityNavigator.navigateAndFinishCurrent(activity, AdminUserHomeActivity::class.java) }
                             }
                         }
                     }

@@ -11,5 +11,5 @@ interface AdminFlowUseCase {
 
     suspend fun upgradeToAdmin(userId: String)
 
-    suspend fun getUsers(userId: String): List<User>
+    suspend fun getUsers(): List<User>
 }

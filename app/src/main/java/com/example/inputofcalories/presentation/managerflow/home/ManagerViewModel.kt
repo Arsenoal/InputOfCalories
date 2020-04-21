@@ -14,7 +14,7 @@ class ManagerViewModel(
     private val managerFlowUseCase: MangerFlowUseCase
 ): BaseViewModel() {
 
-    fun getUsers() = liveData(Dispatchers.Main) {
+    fun loadUsers() = liveData(Dispatchers.Main) {
         switchToDefault {
             try {
                 val users = managerFlowUseCase.getUsers()

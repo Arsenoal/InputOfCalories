@@ -37,14 +37,6 @@ class UsersRecyclerAdapter(
         val user = users[position]
 
         holder.bind(user)
-
-        holder.upgradeButton.setOnClickListener {
-            userUpgradeSelectedLiveData.value = UserTypeChangeParams(user.id, position)
-        }
-
-        holder.downgradeButton.setOnClickListener {
-            userDowngradeSelectedLiveData.value = UserTypeChangeParams(user.id, position)
-        }
     }
 
     fun setItems(items: List<User>) {
@@ -61,18 +53,20 @@ class UsersRecyclerAdapter(
     class UserViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private val userNameTextView: AppCompatTextView = view.findViewById(R.id.userNameTextView)
         private val emailTextView: AppCompatTextView = view.findViewById(R.id.emailTextView)
-        private val typeTextView: AppCompatTextView = view.findViewById(R.id.typeTextView)
-
-        val upgradeButton: AppCompatButton = view.findViewById(R.id.upgradeButton)
-        val downgradeButton: AppCompatButton = view.findViewById(R.id.downgradeButton)
 
         fun bind(user: User) {
             userNameTextView.text = user.userParams.name
             emailTextView.text = user.userParams.email
-            typeTextView.text = when(user.userParams.type) {
-                RegularUser -> { itemView.context.getString(R.string.regular) }
-                UserManager -> { itemView.context.getString(R.string.manager) }
-                Admin -> { itemView.context.getString(R.string.admin) }
+            when(user.userParams.type) {
+                RegularUser -> {
+                    //TODO
+                }
+                UserManager -> {
+                    //TODO
+                }
+                Admin -> {
+                    //TODO
+                }
             }
         }
     }

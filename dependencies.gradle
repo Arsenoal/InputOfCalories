@@ -45,12 +45,10 @@ ext {
     androidArchVersion = '2.0.1'
 
     //material
-    materialVersion = '1.0.0'
-    materialCoreVersion = '3.1.1'
+    materialVersion = '1.1.0'
 
     materialDependencies = [
-            material     : "com.google.android.material:material:$materialVersion",
-            dialog       : "com.afollestad.material-dialogs:core:$materialCoreVersion"
+            material     : "com.google.android.material:material:$materialVersion"
     ]
 
     kotlinDependencies = [

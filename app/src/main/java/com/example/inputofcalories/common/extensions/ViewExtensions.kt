@@ -7,15 +7,15 @@ import com.example.inputofcalories.common.extensions.entity.*
 import com.google.android.material.tabs.TabLayout
 
 fun TabLayout.onItemSelected(result: (Int) -> Unit) {
-    addOnTabSelectedListener(object: TabLayout.BaseOnTabSelectedListener<TabLayout.Tab> {
-        override fun onTabReselected(p0: TabLayout.Tab?) {}
+    addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
 
-        override fun onTabUnselected(p0: TabLayout.Tab?) {}
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
 
-        override fun onTabSelected(p0: TabLayout.Tab?) {
-            p0?.run {
-                result.invoke(p0.position)
-            }
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            tab?.run { result.invoke(position) }
         }
     })
 }

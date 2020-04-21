@@ -17,6 +17,7 @@ import com.github.razir.progressbutton.attachTextChangeAnimator
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
+import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_register.emailEditText
 import kotlinx.android.synthetic.main.fragment_register.errorTextView
@@ -105,7 +106,7 @@ class RegisterFragment: BaseFragment(), ErrorView {
                         registerButton.isClickable = true
 
                         registerButton.hideProgress(R.string.succeed)
-                        openSignInFragment()
+                        (activity as AuthActivity).run { tabs.getTabAt(SIGN_IN_TAB)?.select() }
                     }
                     is RegisterFailed -> {
                         registerButton.isClickable = true

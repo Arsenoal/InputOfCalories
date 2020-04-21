@@ -80,7 +80,6 @@ dependencies {
 
     def materialDependencies = rootProject.ext.materialDependencies
     implementation materialDependencies.material
-    implementation materialDependencies.dialog
 
     def other = rootProject.ext.otherDependencies
     implementation other.otherDependencies

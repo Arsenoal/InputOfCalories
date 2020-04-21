@@ -42,14 +42,6 @@ class AllUsersRecyclerAdapter(
 
         holder.bind(user)
 
-        holder.upgradeButton.setOnClickListener {
-            userUpgradeSelectedLiveData.value = user
-        }
-
-        holder.downgradeButton.setOnClickListener {
-            userDowngradeSelectedLiveData.value = user
-        }
-
         holder.itemView.setOnClickListener {
             userSelectedLiveData.value = user.id
         }
@@ -64,18 +56,20 @@ class AllUsersRecyclerAdapter(
     class UserViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private val userNameTextView: AppCompatTextView = view.findViewById(R.id.userNameTextView)
         private val emailTextView: AppCompatTextView = view.findViewById(R.id.emailTextView)
-        private val typeTextView: AppCompatTextView = view.findViewById(R.id.typeTextView)
-
-        val upgradeButton: AppCompatButton = view.findViewById(R.id.upgradeButton)
-        val downgradeButton: AppCompatButton = view.findViewById(R.id.downgradeButton)
 
         fun bind(user: User) {
             userNameTextView.text = user.userParams.name
             emailTextView.text = user.userParams.email
-            typeTextView.text = when(user.userParams.type) {
-                RegularUser -> { "regular" }
-                UserManager -> { "manager" }
-                Admin -> { "admin" }
+            when(user.userParams.type) {
+                RegularUser -> {
+                    //TODO
+                }
+                UserManager -> {
+                    //TODO
+                }
+                Admin -> {
+                    //TODO
+                }
             }
         }
     }

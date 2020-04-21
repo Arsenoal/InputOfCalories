@@ -75,20 +75,20 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> get(key: ObservableKey): Observer<in T> = when(key) {
-        ObservableKey.GetMealsObserver -> getMealsObserver as Observer<in T>
-        ObservableKey.GetMealsFilteredObserver -> getMealsFilteredObserver as Observer<in T>
-        ObservableKey.CheckDailyLimitObserver -> checkDailyCaloriesObserver as Observer<in T>
-        ObservableKey.DeleteMealObserver -> deleteMealObserver as Observer<in T>
-        ObservableKey.UpdateDailyCaloriesObserver -> updateDailyCaloriesObserver as Observer<in T>
+    fun <T> get(key: ObserverKey): Observer<in T> = when(key) {
+        ObserverKey.GetMealsObserver -> getMealsObserver as Observer<in T>
+        ObserverKey.GetMealsFilteredObserver -> getMealsFilteredObserver as Observer<in T>
+        ObserverKey.CheckDailyLimitObserver -> checkDailyCaloriesObserver as Observer<in T>
+        ObserverKey.DeleteMealObserver -> deleteMealObserver as Observer<in T>
+        ObserverKey.UpdateDailyCaloriesObserver -> updateDailyCaloriesObserver as Observer<in T>
     }
 
-    sealed class ObservableKey {
-        object GetMealsObserver: ObservableKey()
-        object GetMealsFilteredObserver: ObservableKey()
-        object CheckDailyLimitObserver: ObservableKey()
-        object DeleteMealObserver: ObservableKey()
-        object UpdateDailyCaloriesObserver: ObservableKey()
+    sealed class ObserverKey {
+        object GetMealsObserver: ObserverKey()
+        object GetMealsFilteredObserver: ObserverKey()
+        object CheckDailyLimitObserver: ObserverKey()
+        object DeleteMealObserver: ObserverKey()
+        object UpdateDailyCaloriesObserver: ObserverKey()
     }
 
 }

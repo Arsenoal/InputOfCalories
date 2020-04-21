@@ -94,8 +94,8 @@ class AddMealActivity: BaseActivity() {
     private fun setupDaytimeFragment() {
         FragmentNavigator.openOrReplace(this, addMealFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
 
-        mealTimeLiveData.observe(this, Observer {
-            mealTime = it
+        mealTimeLiveData.observe(this, Observer { timeParams ->
+            mealTime = timeParams
             FragmentNavigator.remove(this, addMealFragment)
         })
     }

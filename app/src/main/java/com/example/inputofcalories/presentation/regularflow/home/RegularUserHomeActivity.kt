@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
-import com.example.inputofcalories.presentation.regularflow.home.RegularFlowObserversFactory.ObservableKey
+import com.example.inputofcalories.presentation.regularflow.home.RegularFlowObserversFactory.ObserverKey
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ProgressView
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
@@ -48,7 +48,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
                 flow.collect { listParams ->
                     mealsViewModel
                         .getMealsFiltered(listParams)
-                        .observe(this@RegularUserHomeActivity, observerFactory.get(ObservableKey.GetMealsFilteredObserver))
+                        .observe(this@RegularUserHomeActivity, observerFactory.get(ObserverKey.GetMealsFilteredObserver))
                 }
             }
         }
@@ -85,13 +85,13 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
     private fun loadMeals() {
         showProgress()
-        mealsViewModel.getMeals().observe(this, observerFactory.get(ObservableKey.GetMealsObserver))
+        mealsViewModel.getMeals().observe(this, observerFactory.get(ObserverKey.GetMealsObserver))
     }
 
     private fun checkDailyCaloriesLimit() {
         dailyCaloriesViewModel
             .checkDailyLimit()
-            .observe(this, observerFactory.get(ObservableKey.CheckDailyLimitObserver))
+            .observe(this, observerFactory.get(ObserverKey.CheckDailyLimitObserver))
     }
 
     fun showEmptyMealsUi() {
@@ -120,7 +120,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
                     dialog.dismiss()
                     showProgress()
 
-                    mealsViewModel.deleteMeal(deleteParams).observe(this, observerFactory.get(ObservableKey.DeleteMealObserver))
+                    mealsViewModel.deleteMeal(deleteParams).observe(this, observerFactory.get(ObserverKey.DeleteMealObserver))
                 }
                 .setNegativeButton(R.string.no) { dialog, _ ->
                     dialog.dismiss()
@@ -163,7 +163,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
                 dialog.dailyCaloriesLiveData.observe(this, Observer { dailyCalories ->
                     showProgress()
 
-                    dailyCaloriesViewModel.saveDailyCaloriesLimit(dailyCalories).observe(this, observerFactory.get(ObservableKey.UpdateDailyCaloriesObserver))
+                    dailyCaloriesViewModel.saveDailyCaloriesLimit(dailyCalories).observe(this, observerFactory.get(ObserverKey.UpdateDailyCaloriesObserver))
                 })
                 dialog.show()
             }

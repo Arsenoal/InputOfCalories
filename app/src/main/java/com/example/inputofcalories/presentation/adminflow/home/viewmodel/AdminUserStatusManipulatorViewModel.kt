@@ -32,38 +32,27 @@ class AdminUserStatusManipulatorViewModel(
 
     fun downgradeUserClicked(user: User) {
         viewModelScope.launch {
-            downgradeUser(user)
-            userDowngradeSucceedLiveData.value = Any()
+            try {
+                when (user.userParams.type) {
+                    UserManager -> { adminFlowUseCase.downgradeToRegular(user.id) }
+                    Admin -> { adminFlowUseCase.downgradeToManager(user.id) }
+                }
+
+                userDowngradeSucceedLiveData.value = Any()
+            } catch (e: UserException) {
+                userDowngradeFailLiveData.value = Any()
+            }
         }
     }
 
     private suspend fun upgradeUser(user: User) {
         try {
             when (user.userParams.type) {
-                RegularUser -> { upgradeToManager(user.id) }
-                UserManager -> { upgradeToAdmin(user.id) }
+                RegularUser -> { adminFlowUseCase.upgradeToManager(user.id) }
+                UserManager -> { adminFlowUseCase.upgradeToAdmin(user.id) }
             }
         } catch (e: UserException) {
             userUpgradeFailLiveData.value = Any()
         }
     }
-
-    private suspend fun upgradeToManager(userId: String) { adminFlowUseCase.upgradeToManager(userId) }
-
-    private suspend fun upgradeToAdmin(userId: String) { adminFlowUseCase.upgradeToAdmin(userId) }
-
-    private suspend fun downgradeUser(user: User) {
-        try {
-            when (user.userParams.type) {
-                UserManager -> { downgradeToRegular(user.id) }
-                Admin -> { downgradeToManager(user.id) }
-            }
-        } catch (e: UserException) {
-            userDowngradeFailLiveData.value = Any()
-        }
-    }
-
-    private suspend fun downgradeToRegular(userId: String) { adminFlowUseCase.downgradeToRegular(userId) }
-
-    private suspend fun downgradeToManager(userId: String) { adminFlowUseCase.downgradeToManager(userId) }
 }

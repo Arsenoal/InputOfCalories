@@ -22,7 +22,7 @@ class AllUsersProviderViewModel(
     fun getUsers() {
         viewModelScope.launch {
             try {
-                val users = loadUsers(userId)
+                val users = adminFlowUseCase.getUsers(userId)
 
                 if(users.isNotEmpty()) usersLoadSuccessLiveData.value = users
                 else noUsersFoundLiveData.value = Any()
@@ -31,6 +31,4 @@ class AllUsersProviderViewModel(
             }
         }
     }
-
-    private suspend fun loadUsers(userId: String) = adminFlowUseCase.getUsers(userId)
 }

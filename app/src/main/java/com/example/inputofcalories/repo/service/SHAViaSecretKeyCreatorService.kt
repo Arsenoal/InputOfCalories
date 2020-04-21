@@ -7,6 +7,7 @@ import javax.crypto.spec.SecretKeySpec
 
 class IoCEncoderService: EncoderService {
 
+    @Suppress("GetInstance")
     override suspend fun encode(text: String): String {
         val cipher: Cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")
         cipher.init(Cipher.ENCRYPT_MODE, getSecretKey())

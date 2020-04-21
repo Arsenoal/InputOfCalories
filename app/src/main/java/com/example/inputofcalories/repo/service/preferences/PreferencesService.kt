@@ -8,6 +8,7 @@ interface PreferencesService {
     fun clearAll()
 }
 
+@Suppress("UNUSED")
 inline fun <reified T> PreferencesService.preferenceDelegate(
     key: String, default: T
 ) = PreferencesDelegate(key, default, this)

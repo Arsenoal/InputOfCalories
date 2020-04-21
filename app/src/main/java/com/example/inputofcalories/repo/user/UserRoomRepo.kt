@@ -20,12 +20,7 @@ class UserRoomRepo(
                 else -> { RegularUser }
             }
 
-            UserParams(
-                name = name,
-                email = email,
-                dailyCalories = dailyCalories,
-                type = type
-            )
+            UserParams(name = name, email = email, dailyCalories = dailyCalories, type = type)
         }
 
         return User(id = userRoom.id, userParams = userParams)
@@ -38,12 +33,9 @@ class UserRoomRepo(
             Admin -> { TYPE_ADMIN }
         }
 
-        val roomUser = UserRoom(
-            id = user.id,
-            name = user.userParams.name,
-            email = user.userParams.email,
-            dailyCalories = user.userParams.dailyCalories,
-            type = type)
+        val roomUser = with(user) {
+            UserRoom(id = id, name = userParams.name, email = userParams.email, dailyCalories = userParams.dailyCalories, type = type)
+        }
 
         userDao.insertUser(roomUser)
     }

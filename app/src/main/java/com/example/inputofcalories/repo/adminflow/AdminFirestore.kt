@@ -26,13 +26,7 @@ class AdminFirestore(
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                     val downgradedUser = with(userFirebase) {
-                        UserFirebase(
-                            id = id,
-                            name = name,
-                            email = email,
-                            password = password,
-                            dailyCalories = dailyCalories,
-                            type = TYPE_MANAGER)
+                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_MANAGER)
                     }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -53,14 +47,7 @@ class AdminFirestore(
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                     val downgradedUser = with(userFirebase) {
-                        UserFirebase(
-                            id = id,
-                            name = name,
-                            email = email,
-                            password = password,
-                            dailyCalories = dailyCalories,
-                            type = TYPE_REGULAR
-                        )
+                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_REGULAR)
                     }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -81,14 +68,7 @@ class AdminFirestore(
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                     val upgradedUser = with(userFirebase) {
-                        UserFirebase(
-                            id = id,
-                            name = name,
-                            email = email,
-                            password = password,
-                            dailyCalories = dailyCalories,
-                            type = TYPE_ADMIN
-                        )
+                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_ADMIN)
                     }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -109,14 +89,7 @@ class AdminFirestore(
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                     val upgradedUser = with(userFirebase) {
-                        UserFirebase(
-                            id = id,
-                            name = name,
-                            email = email,
-                            password = password,
-                            dailyCalories = dailyCalories,
-                            type = TYPE_MANAGER
-                        )
+                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_MANAGER)
                     }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -140,12 +113,7 @@ class AdminFirestore(
 
                             var user = User(
                                 documentSnapshot.id,
-                                UserParams(
-                                    name = String.empty(),
-                                    email = String.empty(),
-                                    dailyCalories = String.empty(),
-                                    type = RegularUser
-                                )
+                                UserParams(name = String.empty(), email = String.empty(), dailyCalories = String.empty(), type = RegularUser)
                             )
 
                             userFirebase?.run {
@@ -155,11 +123,7 @@ class AdminFirestore(
                                     else -> { RegularUser }
                                 }
 
-                                val userParams = UserParams(
-                                    name = name,
-                                    email = email,
-                                    dailyCalories = dailyCalories,
-                                    type = type)
+                                val userParams = UserParams(name = name, email = email, dailyCalories = dailyCalories, type = type)
 
                                 user = User(
                                     documentSnapshot.id,
@@ -172,8 +136,6 @@ class AdminFirestore(
 
                     continuation.resume(users) { throw UserException(message = "users get cancelled") }
                 }
-                .addOnFailureListener {
-                    continuation.resumeWithException(UserException(it))
-                }
+                .addOnFailureListener { continuation.resumeWithException(UserException(it)) }
         }
 }

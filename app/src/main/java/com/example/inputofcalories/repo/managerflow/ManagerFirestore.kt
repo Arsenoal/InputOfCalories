@@ -25,14 +25,7 @@ class ManagerFirestore(
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                     val downgradedUser = with(userFirebase) {
-                        UserFirebase(
-                            id = id,
-                            name = name,
-                            email = email,
-                            password = password,
-                            dailyCalories = dailyCalories,
-                            type = TYPE_REGULAR
-                        )
+                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_REGULAR)
                     }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -53,14 +46,7 @@ class ManagerFirestore(
                         val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                         val upgradedUser = with(userFirebase) {
-                            UserFirebase(
-                                id = id,
-                                name = name,
-                                email = email,
-                                password = password,
-                                dailyCalories = dailyCalories,
-                                type = TYPE_MANAGER
-                            )
+                            UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_MANAGER)
                         }
 
                         firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -84,9 +70,7 @@ class ManagerFirestore(
 
                             var userType = -1
 
-                            userFirebase?.let { user->
-                                userType = user.type
-                            }
+                            userFirebase?.let { user -> userType = user.type }
 
                             userId != it.id && (userType == TYPE_REGULAR || userType == TYPE_MANAGER)
                         }
@@ -105,24 +89,16 @@ class ManagerFirestore(
                                     else -> { RegularUser }
                                 }
 
-                                val userParams = UserParams(
-                                    name = name,
-                                    email = email,
-                                    dailyCalories = dailyCalories,
-                                    type = type)
+                                val userParams = UserParams(name = name, email = email, dailyCalories = dailyCalories, type = type)
 
-                                user = User(
-                                    documentSnapshot.id,
-                                    userParams)
+                                user = User(documentSnapshot.id, userParams)
                             }
 
                             user
                         }
                         .toList()
 
-                    continuation.resume(users) {
-                        throw UserException(it)
-                    }
+                    continuation.resume(users) { throw UserException(it) }
                 }
                 .addOnFailureListener { continuation.resumeWithException(UserException(it)) }
         }

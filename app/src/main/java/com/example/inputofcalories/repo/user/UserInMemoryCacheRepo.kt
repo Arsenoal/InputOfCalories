@@ -8,7 +8,5 @@ class UserInMemoryCacheRepo : UserRepo {
 
     override suspend fun get() = user
 
-    override suspend fun set(user: User) {
-        this.user = user
-    }
+    override suspend fun set(user: User) { this.user = user }
 }

@@ -30,14 +30,9 @@ class UserMealsFirestore(
             .get()
             .addOnSuccessListener {
                 val mealFirebase = MealFirebase(
-                    calories = params.calories,
-                    text = params.text,
-                    weight = params.weight,
-                    day = filterParams.date.dayOfMonth,
-                    month = filterParams.date.month,
-                    year = filterParams.date.year,
-                    from = filterParams.time.from,
-                    to = filterParams.time.to)
+                    calories = params.calories, text = params.text, weight = params.weight,
+                    day = filterParams.date.dayOfMonth, month = filterParams.date.month, year = filterParams.date.year,
+                    from = filterParams.time.from, to = filterParams.time.to)
 
                 it.reference
                     .collection(FirebaseDataBaseCollectionNames.MEALS)
@@ -69,15 +64,9 @@ class UserMealsFirestore(
                 userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
                     val mealFirebase = with(meal) {
                         MealFirebase(
-                            calories = params.calories,
-                            text = params.text,
-                            weight = params.weight,
-                            day = filterParams.date.dayOfMonth,
-                            month = filterParams.date.month,
-                            year = filterParams.date.year,
-                            from = filterParams.time.from,
-                            to = filterParams.time.to
-                        )
+                            calories = params.calories, text = params.text, weight = params.weight,
+                            day = filterParams.date.dayOfMonth, month = filterParams.date.month, year = filterParams.date.year,
+                            from = filterParams.time.from, to = filterParams.time.to)
                     }
 
                     queryDocumentSnapshot.reference
@@ -126,9 +115,7 @@ class UserMealsFirestore(
                                 meal
                             }.toList()
 
-                            list.forEach { meal ->
-                                IOCLogger.d(TAG, meal.toString())
-                            }
+                            list.forEach { meal -> IOCLogger.d(TAG, meal.toString()) }
 
                             continuation.resume(list) { throw MealException() }
                         }

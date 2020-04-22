@@ -47,7 +47,7 @@ class UserMealsActivity: BaseActivity() {
         observersFactory = UserMealsFlowObserversFactory(this, mealsAdapter)
     }
 
-    fun loadMeals() {
+    private fun loadMeals() {
         mealsViewModel.getMeals().observe(this, observersFactory.get(ObservableKey.GetMealsObservable))
     }
 

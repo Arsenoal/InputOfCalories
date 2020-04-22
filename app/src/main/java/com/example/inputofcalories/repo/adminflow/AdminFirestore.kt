@@ -17,49 +17,7 @@ class AdminFirestore(
     private val firestore: FirebaseFirestore
 ): AdminRepo {
 
-    override suspend fun downgradeToManager(userId: String) {
-        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
-            .addOnSuccessListener { usersQuerySnapshot ->
-                usersQuerySnapshot.filter { documentSnapshot ->
-                    userId == documentSnapshot.id
-                }.map { documentSnapshot ->
-                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
-
-                    val downgradedUser = with(userFirebase) {
-                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_MANAGER)
-                    }
-
-                    firestore.collection(FirebaseDataBaseCollectionNames.USERS)
-                        .document(userId)
-                        .set(downgradedUser)
-                        .addOnFailureListener { throw UserException(error = it) }
-                }
-            }
-            .addOnFailureListener { throw UserException(error = it) }
-    }
-
-    override suspend fun downgradeToRegular(userId: String) {
-        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
-            .addOnSuccessListener { usersQuerySnapshot ->
-                usersQuerySnapshot.filter { documentSnapshot ->
-                    userId == documentSnapshot.id
-                }.map { documentSnapshot ->
-                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
-
-                    val downgradedUser = with(userFirebase) {
-                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_REGULAR)
-                    }
-
-                    firestore.collection(FirebaseDataBaseCollectionNames.USERS)
-                        .document(userId)
-                        .set(downgradedUser)
-                        .addOnFailureListener { throw UserException(error = it) }
-                }
-            }
-            .addOnFailureListener { throw UserException(error = it) }
-    }
-
-    override suspend fun upgradeToAdmin(userId: String) {
+    override suspend fun changeUserType(userId: String, newType: Int) {
         firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
             .addOnSuccessListener { usersQuerySnapshot ->
                 usersQuerySnapshot.filter { documentSnapshot ->
@@ -68,28 +26,7 @@ class AdminFirestore(
                     val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
                     val upgradedUser = with(userFirebase) {
-                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_ADMIN)
-                    }
-
-                    firestore.collection(FirebaseDataBaseCollectionNames.USERS)
-                        .document(userId)
-                        .set(upgradedUser)
-                        .addOnFailureListener { throw UserException(error = it) }
-                }
-            }
-            .addOnFailureListener { throw UserException(error = it) }
-    }
-
-    override suspend fun upgradeToManager(userId: String) {
-        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
-            .addOnSuccessListener { usersQuerySnapshot ->
-                usersQuerySnapshot.filter { documentSnapshot ->
-                    userId == documentSnapshot.id
-                }.map { documentSnapshot ->
-                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
-
-                    val upgradedUser = with(userFirebase) {
-                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_MANAGER)
+                        UserFirebase(id = id, name = name, email = email, password = password, dailyCalories = dailyCalories, type = newType)
                     }
 
                     firestore.collection(FirebaseDataBaseCollectionNames.USERS)

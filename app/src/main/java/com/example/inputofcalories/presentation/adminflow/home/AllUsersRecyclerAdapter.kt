@@ -3,7 +3,6 @@ package com.example.inputofcalories.presentation.adminflow.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +11,10 @@ import com.example.inputofcalories.entity.register.Admin
 import com.example.inputofcalories.entity.register.RegularUser
 import com.example.inputofcalories.entity.register.User
 import com.example.inputofcalories.entity.register.UserManager
+import com.example.inputofcalories.presentation.adminflow.home.model.UserTypeChangeParams
 import com.google.android.material.button.MaterialButtonToggleGroup
+
+const val UNCHECKED_BUTTON_ID = -1
 
 class AllUsersRecyclerAdapter(
     private val users: MutableList<User> = mutableListOf()
@@ -20,11 +22,9 @@ class AllUsersRecyclerAdapter(
 
     private lateinit var layoutInflater: LayoutInflater
 
-    val userUpgradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
+    val userStatusChangeSelectedLiveData = MutableLiveData<UserTypeChangeParams>()
 
-    val userDowngradeSelectedLiveData: MutableLiveData<User> = MutableLiveData()
-
-    val userSelectedLiveData: MutableLiveData<String> = MutableLiveData()
+    val userSelectedLiveData = MutableLiveData<String>()
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -32,9 +32,8 @@ class AllUsersRecyclerAdapter(
         layoutInflater = LayoutInflater.from(recyclerView.context)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        return UserViewHolder(layoutInflater.inflate(R.layout.user_recycler_item, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+            = UserViewHolder(layoutInflater.inflate(R.layout.user_recycler_item, parent, false))
 
     override fun getItemCount() = users.size
 
@@ -43,8 +42,15 @@ class AllUsersRecyclerAdapter(
 
         holder.bind(user)
 
-        holder.itemView.setOnClickListener {
-            userSelectedLiveData.value = user.id
+        holder.itemView.setOnClickListener { userSelectedLiveData.value = user.id }
+
+        holder.typeToggleGroup.addOnButtonCheckedListener { group, _, isChecked ->
+            when(group.checkedButtonId) {
+                R.id.typeRegular -> { if (!isChecked) { userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, RegularUser, position) } }
+                R.id.typeManager -> { if(!isChecked) { userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, UserManager, position) } }
+                R.id.typeAdmin -> { userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, Admin, position) }
+                UNCHECKED_BUTTON_ID -> { holder.bind(user) }
+            }
         }
     }
 

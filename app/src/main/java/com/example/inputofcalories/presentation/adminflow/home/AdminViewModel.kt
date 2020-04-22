@@ -12,7 +12,11 @@ import com.example.inputofcalories.presentation.adminflow.home.model.entity.User
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import com.example.inputofcalories.presentation.common.extensions.switchToDefault
 import com.example.inputofcalories.presentation.common.extensions.switchToUi
+import com.example.inputofcalories.repo.auth.model.TYPE_ADMIN
+import com.example.inputofcalories.repo.auth.model.TYPE_MANAGER
+import com.example.inputofcalories.repo.auth.model.TYPE_REGULAR
 import kotlinx.coroutines.Dispatchers
+import java.lang.Exception
 
 class AdminViewModel(
     private val adminFlowUseCase: AdminFlowUseCase
@@ -28,37 +32,24 @@ class AdminViewModel(
         }
     }
 
-    fun upgradeUser(currentType: UserType, userId: String) = liveData(Dispatchers.Main) {
+    fun changeUserType(newType: UserType, userId: String) = liveData(Dispatchers.Main) {
         switchToDefault {
             try {
-                when (currentType) {
+                when(newType) {
                     RegularUser -> {
-                        adminFlowUseCase.upgradeToManager(userId)
-                        switchToUi { emit(UserStatusChangeState.UserUpgradeSucceed(UserManager)) }
+                        adminFlowUseCase.changeUserType(userId, TYPE_REGULAR)
+                        switchToUi { emit(UserStatusChangeState.UserStatusChangeSucceed) }
                     }
                     UserManager -> {
-                        adminFlowUseCase.upgradeToAdmin(userId)
-                        switchToUi { emit(UserStatusChangeState.UserUpgradeSucceed(Admin)) }
-                    }
-                }
-            } catch (ex: UserException) { switchToUi { emit(UserStatusChangeState.UserUpgradeFailed) } }
-        }
-    }
-
-    fun downgradeUser(currentType: UserType, userId: String) = liveData(Dispatchers.Main) {
-        switchToDefault {
-            try {
-                when (currentType) {
-                    UserManager -> {
-                        adminFlowUseCase.downgradeToRegular(userId)
-                        switchToUi { emit(UserStatusChangeState.UserDowngradeSucceed(RegularUser)) }
+                        adminFlowUseCase.changeUserType(userId, TYPE_MANAGER)
+                        switchToUi { emit(UserStatusChangeState.UserStatusChangeSucceed) }
                     }
                     Admin -> {
-                        adminFlowUseCase.downgradeToManager(userId)
-                        switchToUi { emit(UserStatusChangeState.UserDowngradeSucceed(UserManager)) }
+                        adminFlowUseCase.changeUserType(userId, TYPE_ADMIN)
+                        switchToUi { emit(UserStatusChangeState.UserStatusChangeSucceed) }
                     }
                 }
-            } catch (ex: UserException) { switchToUi { emit(UserStatusChangeState.UserDowngradeFailed) } }
+            } catch (ex: Exception) { switchToUi { emit(UserStatusChangeState.UserStatusChangeFailed) } }
         }
     }
 }

@@ -46,17 +46,23 @@ class UsersRecyclerAdapter(
             when(toggleButton.checkedButtonId) {
                 R.id.typeRegular -> {
                     if (!isChecked) {
-                        userDowngradeSelectedLiveData.value = UserTypeChangeParams(user.id, position)
+                        userDowngradeSelectedLiveData.value =
+                            UserTypeChangeParams(
+                                user.id,
+                                position
+                            )
                     }
                 }
                 R.id.typeManager -> {
                     if(!isChecked) {
-                        userUpgradeSelectedLiveData.value = UserTypeChangeParams(user.id, position)
+                        userUpgradeSelectedLiveData.value =
+                            UserTypeChangeParams(
+                                user.id,
+                                position
+                            )
                     }
                 }
-                UNCHECKED_BUTTON_ID -> {
-                    holder.bind(user)
-                }
+                UNCHECKED_BUTTON_ID -> { holder.bind(user) }
             }
         }
     }

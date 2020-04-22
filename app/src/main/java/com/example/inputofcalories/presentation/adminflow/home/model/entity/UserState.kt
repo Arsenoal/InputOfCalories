@@ -1,16 +1,11 @@
 package com.example.inputofcalories.presentation.adminflow.home.model.entity
 
 import com.example.inputofcalories.entity.register.User
-import com.example.inputofcalories.entity.register.UserType
 
 sealed class UserStatusChangeState {
-    class UserUpgradeSucceed(newType: UserType): UserStatusChangeState()
+    object UserStatusChangeSucceed: UserStatusChangeState()
 
-    object UserUpgradeFailed: UserStatusChangeState()
-
-    class UserDowngradeSucceed(newType: UserType): UserStatusChangeState()
-
-    object UserDowngradeFailed: UserStatusChangeState()
+    object UserStatusChangeFailed: UserStatusChangeState()
 }
 
 sealed class UserLoadState {

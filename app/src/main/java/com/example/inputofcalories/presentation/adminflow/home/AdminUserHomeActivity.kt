@@ -48,20 +48,13 @@ class AdminUserHomeActivity: BaseActivity() {
             ActivityNavigator.navigate(this, UserMealsActivity::class.java, USER_ID_KEY, userId)
         })
 
-        usersRecyclerAdapter.userDowngradeSelectedLiveData.observe(this, Observer { user ->
-            adminViewModel.downgradeUser(user.userParams.type, user.id).observe(this, Observer { state ->
+        usersRecyclerAdapter.userStatusChangeSelectedLiveData.observe(this, Observer { params ->
+            adminViewModel.changeUserType(params.type, params.userId).observe(this, Observer { state ->
                 when(state) {
-                    is UserStatusChangeState.UserDowngradeSucceed -> { ToastManager.showToastShort(this, resources.getString(R.string.downgraded)) }
-                    UserStatusChangeState.UserDowngradeFailed -> { ToastManager.showToastShort(this, resources.getString(R.string.downgrade_fail)) }
-                }
-            })
-        })
+                    UserStatusChangeState.UserStatusChangeSucceed -> {  }
+                    UserStatusChangeState.UserStatusChangeFailed -> {
 
-        usersRecyclerAdapter.userUpgradeSelectedLiveData.observe(this, Observer { user ->
-            adminViewModel.upgradeUser(user.userParams.type, user.id).observe(this, Observer { state ->
-                when(state) {
-                    is UserStatusChangeState.UserUpgradeSucceed -> { ToastManager.showToastShort(this, resources.getString(R.string.upgraded)) }
-                    UserStatusChangeState.UserUpgradeFailed -> { ToastManager.showToastShort(this, resources.getString(R.string.update_failed)) }
+                    }
                 }
             })
         })

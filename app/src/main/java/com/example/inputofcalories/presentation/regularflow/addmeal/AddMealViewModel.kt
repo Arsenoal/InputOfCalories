@@ -24,9 +24,7 @@ class AddMealViewModel(
                     userMealsUseCase.addMeal(params, filterParams)
                     switchToUi { emit(AddMealState.AddMealSucceed) }
                 }
-            } catch (ex: MealException) {
-                switchToUi { emit(AddMealState.AddMealFailed) }
-            }
+            } catch (ex: MealException) { switchToUi { emit(AddMealState.AddMealFailed) } }
         }
     }
 }

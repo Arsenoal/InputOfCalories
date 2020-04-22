@@ -13,17 +13,17 @@ class IocUserMeals(
 ) : UserMealsUseCase {
 
     override suspend fun addMeal(params: MealParams, filterParams: MealFilterParams)
-            = userMealsRepo.addMeal(userRepo.get().id, params, filterParams)
+            = with(userMealsRepo) { addMeal(userRepo.get().id, params, filterParams) }
 
     override suspend fun deleteMeal(mealDeleteParams: MealDeleteParams)
-            = userMealsRepo.deleteMeal(mealDeleteParams)
+            = with(userMealsRepo) { deleteMeal(mealDeleteParams) }
 
     override suspend fun editMeal(meal: Meal)
-            = userMealsRepo.editMeal(meal)
+            = with(userMealsRepo) { editMeal(meal) }
 
     override suspend fun getMealsFiltered(uId: String, mealFilterParams: List<MealFilterParams>)
-            = userMealsRepo.getMeals(uId).filter { meal -> mealFilterParams.contains(meal.filterParams) }
+            = with(userMealsRepo) { getMeals(uId).filter { meal -> mealFilterParams.contains(meal.filterParams) } }
 
     override suspend fun getMeals(uId: String)
-            = userMealsRepo.getMeals(uId)
+            = with(userMealsRepo) { getMeals(uId) }
 }

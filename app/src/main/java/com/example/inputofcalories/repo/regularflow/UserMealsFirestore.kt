@@ -16,7 +16,7 @@ class UserMealsFirestore(
     private val uuidGenerator: UUIDGeneratorService
 ): UserMealsRepo {
 
-    var TAG = UserMealsFirestore::class.java.name
+    private var tag = UserMealsFirestore::class.java.name
 
     override suspend fun addMeal(
         userId: String,
@@ -38,7 +38,7 @@ class UserMealsFirestore(
                     .collection(FirebaseDataBaseCollectionNames.MEALS)
                     .document(mId)
                     .set(mealFirebase)
-                    .addOnFailureListener { throw MealException(error = it) }
+                    .addOnFailureListener { error -> throw MealException(error = error) }
             }
             .addOnFailureListener { throw MealException(error = it) }
     }
@@ -115,7 +115,7 @@ class UserMealsFirestore(
                                 meal
                             }.toList()
 
-                            list.forEach { meal -> IOCLogger.d(TAG, meal.toString()) }
+                            list.forEach { meal -> IOCLogger.d(tag, meal.toString()) }
 
                             continuation.resume(list) { throw MealException() }
                         }

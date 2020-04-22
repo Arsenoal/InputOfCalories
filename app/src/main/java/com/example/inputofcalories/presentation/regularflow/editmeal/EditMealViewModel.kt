@@ -19,9 +19,7 @@ class EditMealViewModel(
             try {
                 userMealsUseCase.editMeal(meal)
                 switchToUi { emit(EditMealState.EditMealSucceed) }
-            } catch (ex: MealException) {
-                switchToUi { emit(EditMealState.EditMealFailed) }
-            }
+            } catch (ex: MealException) { switchToUi { emit(EditMealState.EditMealFailed) } }
         }
     }
 }

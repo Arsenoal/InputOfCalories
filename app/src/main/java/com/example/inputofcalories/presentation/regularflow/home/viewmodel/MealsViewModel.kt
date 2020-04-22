@@ -64,24 +64,4 @@ class MealsViewModel(
 
         } catch (ex: MealException) { switchToUi { emit(DeleteMealFailed) } }
     }
-
-    fun addMeal(params: MealParams, filterParams: MealFilterParams) = liveData(Dispatchers.Main) {
-        val areMealParamsValid = mealParamsValidationUseCase.isValid(params)
-
-        if(areMealParamsValid) {
-            try {
-                userMealsUseCase.addMeal(params, filterParams)
-                switchToUi { emit(AddMealSucceed) }
-
-            } catch (ex: MealException) { switchToUi { emit(AddMealFailed) } }
-        }
-    }
-
-    fun editMeal(meal: Meal) = liveData(Dispatchers.Main) {
-        try {
-            userMealsUseCase.editMeal(meal)
-            switchToUi { emit(EditMealSucceed) }
-
-        } catch (ex: MealException) { switchToUi { emit(EditMealFailed) } }
-    }
 }

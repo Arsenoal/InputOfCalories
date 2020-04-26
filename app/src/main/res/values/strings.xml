@@ -35,6 +35,8 @@
     <string name="failed_to_load_meals">Failed to load meals</string>
     <string name="filter">Filter</string>
     <string name="daily_calories">Daily calories</string>
+    <string name="set_daily_calories">Set daily calories</string>
+    <string name="meals">Meals</string>
 
     <string name="date">Date</string>
     <string name="non">non</string>
@@ -49,11 +51,14 @@
     <string name="no_meals_to_show">No meals to show</string>
 
     <string name="add_meal">Add meal</string>
+    <string name="view_meal">View meal</string>
+    <string name="done">Done</string>
     <string name="meal_add_failed">Meal add failed</string>
     <string name="meal_successfully_added">Meal successfully added</string>
 
     <string name="meal_edit_succeed">meal edit succeeded</string>
-    <string name="edit_meal">edit meal</string>
+    <string name="edit_meal">Edit meal</string>
+    <string name="save">Save</string>
 
     <string name="text">text</string>
     <string name="calories">calories</string>
@@ -63,6 +68,8 @@
     <string name="lunch">lunch</string>
     <string name="dinner">dinner</string>
     <string name="snack">snack</string>
+
+    <string name="click_to_edit">Click to edit</string>
 
     <string name="meal_params_are_invalid">meal params are invalid</string>
 
@@ -79,6 +86,8 @@
 
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    
+    <string name="meal_transition_name">meal transition</string>
 
     <!-- end of regular flow -->
 
@@ -117,6 +126,8 @@
     <string name="to">to</string>
 
     <string name="processing">Processing</string>
+
+    <string name="log_out">Log out</string>
 
     <!-- end of common -->
 

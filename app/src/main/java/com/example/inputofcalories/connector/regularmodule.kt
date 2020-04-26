@@ -37,6 +37,6 @@ val mealsmodule = module {
 
     viewModel { DailyCaloriesViewModel(get(), get()) }
 
-    viewModel { MealsViewModel(get(), get(), get()) }
+    viewModel { MealsViewModel(get(), get()) }
 
 }

@@ -3,20 +3,14 @@ package com.example.inputofcalories.presentation.regularflow.home.viewmodel
 import androidx.lifecycle.liveData
 import com.example.inputofcalories.common.exception.MealException
 import com.example.inputofcalories.domain.regularflow.UserMealsUseCase
-import com.example.inputofcalories.domain.regularflow.validation.MealParamsValidationUseCase
 import com.example.inputofcalories.domain.user.UserUseCase
 import com.example.inputofcalories.entity.presentation.regular.MealDeleteParams
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
-import com.example.inputofcalories.entity.presentation.regular.MealParams
-import com.example.inputofcalories.entity.presentation.regular.Meal
 import com.example.inputofcalories.presentation.base.BaseViewModel
 import com.example.inputofcalories.presentation.common.extensions.switchToDefault
 import com.example.inputofcalories.presentation.common.extensions.switchToUi
 import com.example.inputofcalories.presentation.regularflow.home.model.DeleteParams
 import com.example.inputofcalories.presentation.regularflow.model.entity.DeleteMealState.*
-import com.example.inputofcalories.presentation.regularflow.model.entity.AddMealState.*
-import com.example.inputofcalories.presentation.regularflow.model.entity.DeleteMealState
-import com.example.inputofcalories.presentation.regularflow.model.entity.EditMealState.*
 import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsFilteredState.*
 import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsState.*
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +18,7 @@ import kotlinx.coroutines.delay
 
 class MealsViewModel(
     private val userUseCase: UserUseCase,
-    private val userMealsUseCase: UserMealsUseCase,
-    private val mealParamsValidationUseCase: MealParamsValidationUseCase
+    private val userMealsUseCase: UserMealsUseCase
 ): BaseViewModel() {
 
     fun getMeals() = liveData(Dispatchers.Main) {

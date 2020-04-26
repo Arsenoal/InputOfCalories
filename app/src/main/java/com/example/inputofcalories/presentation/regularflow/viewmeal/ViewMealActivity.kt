@@ -1,8 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.viewmeal
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.BreakfastTime
 import com.example.inputofcalories.entity.presentation.regular.DinnerTime
@@ -11,7 +9,6 @@ import com.example.inputofcalories.entity.presentation.regular.SnackTime
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import com.example.inputofcalories.presentation.regularflow.addmeal.AddMealActivity
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import kotlinx.android.synthetic.main.activity_view_meal.*
@@ -25,9 +22,9 @@ class ViewMealActivity: BaseActivity() {
 
         updateUi(getMealSerializableExtra())
 
-        setupToolBar()
-
         setupClickListeners()
+
+        setupToolBar()
     }
 
     private fun getMealSerializableExtra(): MealSerializable {
@@ -37,9 +34,12 @@ class ViewMealActivity: BaseActivity() {
     }
 
     private fun updateUi(mealSerializable: MealSerializable) = with(mealSerializable) {
-        mealTextTextView.text = String.format(Locale.ENGLISH, "%s: %s", resources.getString(R.string.text), text)
-        mealCaloriesTextView.text = String.format(Locale.ENGLISH, "%s: %s", resources.getString(R.string.calories), calories)
-        mealWeightTextView.text = String.format(Locale.ENGLISH, "%s: %sg", resources.getString(R.string.weight), weight)
+        mealTextTextView.text = resources.getString(R.string.name)
+        mealTextValueTextView.text = text
+        mealCaloriesTextView.text = resources.getString(R.string.calories)
+        mealCaloriesValueTextView.text = calories
+        mealWeightTextView.text = resources.getString(R.string.weight)
+        mealWeightValueTextView.text = weight
 
         when(timeParam) {
             is BreakfastTime -> { dayTimeTextView.text = getString(R.string.breakfast) }
@@ -51,26 +51,23 @@ class ViewMealActivity: BaseActivity() {
 
     private fun setupToolBar() {
         setSupportActionBar(toolbar)
+
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+
+        toolbar.title = getMealSerializableExtra().text
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun setupClickListeners() {
-        addMealButton.setOnClickListener {
-            ActivityNavigator.navigate(this, AddMealActivity::class.java)
+        editMealButton.setOnClickListener {
+            ActivityNavigator.navigate(this, EditMealActivity::class.java, MEAL_EXTRA, getMealSerializableExtra())
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_view_meal, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.action_edit -> {
-                ActivityNavigator.navigate(this, EditMealActivity::class.java, MEAL_EXTRA, getMealSerializableExtra())
-            }
-        }
-
-        return true
     }
 }

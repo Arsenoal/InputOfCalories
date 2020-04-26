@@ -38,11 +38,15 @@ class AuthActivity : BaseActivity() {
         }
     }
 
-    fun openSignInFragment() {
+    private fun openSignInFragment() {
         FragmentNavigator.openOrReplace(this, SignInFragment.newInstance(), authFrameView.id, SignInFragment::class.java.name)
     }
 
-    fun openRegisterFragment() {
+    private fun openRegisterFragment() {
         FragmentNavigator.openOrReplace(this, RegisterFragment.newInstance(), authFrameView.id, RegisterFragment::class.java.name)
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
+import com.example.inputofcalories.presentation.auth.AuthActivity
 import com.example.inputofcalories.presentation.regularflow.home.RegularFlowObserversFactory.ObserverKey
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.common.ProgressView
@@ -25,7 +26,7 @@ import com.example.inputofcalories.presentation.regularflow.model.MealSerializab
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
-import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
+import kotlinx.android.synthetic.main.activity_regular_user_home.editMealButton
 import kotlinx.android.synthetic.main.progress_layout.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -64,7 +65,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_regular_user_home)
 
-        setSupportActionBar(toolbar)
+        setupToolbar()
 
         initObserverFactory()
 
@@ -73,6 +74,10 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         setupClickListeners()
 
         checkDailyCaloriesLimit()
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
     }
 
     override fun onResume() {
@@ -137,7 +142,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
     }
 
     private fun setupClickListeners() {
-        addMealButton.setOnClickListener {
+        editMealButton.setOnClickListener {
             ActivityNavigator.navigate(this, AddMealActivity::class.java)
         }
     }
@@ -171,6 +176,9 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
                     dailyCaloriesViewModel.saveDailyCaloriesLimit(dailyCalories).observe(this, observerFactory.get(ObserverKey.UpdateDailyCaloriesObserver))
                 })
                 dialog.show()
+            }
+            R.id.logOut -> {
+                ActivityNavigator.navigateAndClearStack(this, AuthActivity::class.java)
             }
         }
 

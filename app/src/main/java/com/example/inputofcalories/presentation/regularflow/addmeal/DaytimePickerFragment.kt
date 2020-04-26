@@ -24,34 +24,42 @@ class DaytimePickerFragment: BaseFragment() {
 
     private fun setupClickListeners() {
         breakfastView.setOnClickListener {
+            val mHolder = (activity as MealTimeParamHolder)
+
             viewLifecycleOwner.lifecycleScope.launch {
                 delay(150)
                 withContext(Dispatchers.Main) {
-                    (activity as AddMealActivity).mealTimeLiveData.value = BreakfastTime
+                    mHolder.getMealTimeLiveData().value = BreakfastTime
                 }
             }
         }
         snackView.setOnClickListener {
+            val mHolder = (activity as MealTimeParamHolder)
+
             viewLifecycleOwner.lifecycleScope.launch {
                 delay(150)
                 withContext(Dispatchers.Main) {
-                    (activity as AddMealActivity).mealTimeLiveData.value = SnackTime
+                    mHolder.getMealTimeLiveData().value = SnackTime
                 }
             }
         }
         lunchView.setOnClickListener {
+            val mHolder = (activity as MealTimeParamHolder)
+
             viewLifecycleOwner.lifecycleScope.launch {
                 delay(150)
                 withContext(Dispatchers.Main) {
-                    (activity as AddMealActivity).mealTimeLiveData.value = LunchTime
+                    mHolder.getMealTimeLiveData().value = LunchTime
                 }
             }
         }
         dinnerView.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
+                val mHolder = (activity as MealTimeParamHolder)
+
                 delay(150)
                 withContext(Dispatchers.Main) {
-                    (activity as AddMealActivity).mealTimeLiveData.value = DinnerTime
+                    mHolder.getMealTimeLiveData().value = DinnerTime
                 }
             }
         }

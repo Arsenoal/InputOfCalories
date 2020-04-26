@@ -74,7 +74,7 @@ class UserMealsActivity: BaseActivity() {
     }
 
     private fun setupClickListeners() {
-        addMealButton.setOnClickListener { ActivityNavigator.navigate(this, AddMealActivity::class.java) }
+        editMealButton.setOnClickListener { ActivityNavigator.navigate(this, AddMealActivity::class.java) }
     }
 
 }

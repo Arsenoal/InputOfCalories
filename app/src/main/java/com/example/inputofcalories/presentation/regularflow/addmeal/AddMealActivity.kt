@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
-import com.example.inputofcalories.common.extensions.empty
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseActivity
+import com.example.inputofcalories.presentation.common.KeyboardManager
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.navigation.FragmentNavigator
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.add_meal_activity.calendarView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
-class AddMealActivity: BaseActivity() {
+class AddMealActivity: BaseActivity(), MealTimeParamHolder {
 
     private val addMealViewModel: AddMealViewModel by viewModel()
 
@@ -28,9 +28,9 @@ class AddMealActivity: BaseActivity() {
         MealDateParams(get(Calendar.YEAR).toString(), get(Calendar.MONTH).toString(), get(Calendar.DAY_OF_MONTH).toString())
     }
 
-    private val addMealFragment = DaytimePickerFragment.newInstance()
+    private val dateTimePickerFragment = DaytimePickerFragment.newInstance()
 
-    val mealTimeLiveData = MutableLiveData<MealTimeParams>()
+    private val mealTimeLiveData = MutableLiveData<MealTimeParams>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +41,25 @@ class AddMealActivity: BaseActivity() {
         setupDaytimeFragment()
 
         setupClickListeners()
+
+        setupToolbar()
+
+        setupDateTimeView()
+    }
+
+    private fun setupDateTimeView() {
+        dateTimeView.setOnClickListener {
+            FragmentNavigator.openOrReplace(this, dateTimePickerFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
     }
 
     private fun setupCalendar() {
@@ -69,7 +88,9 @@ class AddMealActivity: BaseActivity() {
     }
 
     private fun setupClickListeners() {
-        addMealButton.setOnClickListener {
+        doneButton.setOnClickListener {
+            KeyboardManager.hideKeyboard(this)
+
             val params = MealParams(
                 text = mealTextEditText.text.toString(),
                 calories = mealCaloriesEditText.text.toString(),
@@ -92,15 +113,30 @@ class AddMealActivity: BaseActivity() {
     }
 
     private fun setupDaytimeFragment() {
-        FragmentNavigator.openOrReplace(this, addMealFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
+        FragmentNavigator.openOrReplace(this, dateTimePickerFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
 
-        mealTimeLiveData.observe(this, Observer { timeParams ->
+        getMealTimeLiveData().observe(this, Observer { timeParams ->
             mealTime = timeParams
-            FragmentNavigator.remove(this, addMealFragment)
+
+            when(timeParams) {
+                BreakfastTime -> { dateTimeTextView.text = getString(R.string.breakfast) }
+                LunchTime -> { dateTimeTextView.text = getString(R.string.lunch) }
+                DinnerTime -> { dateTimeTextView.text = getString(R.string.dinner) }
+                SnackTime -> { dateTimeTextView.text = getString(R.string.snack) }
+            }
+
+            FragmentNavigator.remove(this, dateTimePickerFragment)
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun onBackPressed() {
         ActivityNavigator.finish(this)
     }
+
+    override fun getMealTimeLiveData() = mealTimeLiveData
 }

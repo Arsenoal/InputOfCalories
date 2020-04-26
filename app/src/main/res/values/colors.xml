@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#39796b</color>
     <color name="colorPrimaryDark">#004c40</color>
-    <color name="colorAccent">#002171</color>
+    <color name="colorAccent">#FFFFFF</color>
 
     <color name="app_green">#00796B</color>
     <color name="app_green_transparent">#8000796B</color>
@@ -12,6 +12,8 @@
 
     <color name="black">#000000</color>
     <color name="black_transparent_50">#80000000</color>
+
+    <color name="blue">#002171</color>
 
     <color name="auth_button_color">#ffc34d</color>
 

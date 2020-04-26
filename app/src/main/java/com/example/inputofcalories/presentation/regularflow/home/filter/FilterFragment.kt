@@ -27,8 +27,6 @@ class FilterFragment: BaseFragment() {
         Calendar.getInstance().get(Calendar.MONTH).toString(),
         Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString())
 
-    lateinit var filterFlow: Flow<List<MealFilterParams>>
-
     override fun getLayoutId() = R.layout.fragment_filter
 
     override fun onLayoutReady(view: View) {

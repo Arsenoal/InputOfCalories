@@ -6,15 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            app:title="@string/view_meal"
             style="@style/Toolbar"
             />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -29,62 +36,138 @@
                 android:adjustViewBounds="true"
                 />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black_transparent_50"
-                />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dayTimeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:gravity="center"
                 tools:text="@string/lunch"
                 android:textSize="30sp"
                 android:textColor="@color/white"
+                android:background="@color/black_transparent_50"
                 />
 
         </FrameLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mealTextTextView"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            android:textSize="20sp"
-            tools:text="text"
-            />
+            android:layout_marginEnd="@dimen/margin_medium">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mealCaloriesTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:textSize="20sp"
-            tools:text="calories"
-            />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_text"
+                android:layout_gravity="center_vertical"
+                />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/mealWeightTextView"
-            android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mealTextTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                tools:text="name"
+                android:layout_marginStart="@dimen/margin_very_very_big"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mealTextValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:textSize="20sp"
+                tools:text="name"
+                android:textColor="@color/black_transparent_50"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            android:textSize="20sp"
-            tools:text="weight"
-            />
+            android:layout_marginEnd="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_calories"
+                android:layout_gravity="center_vertical"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mealCaloriesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                tools:text="calories"
+                android:layout_marginStart="@dimen/margin_very_very_big"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mealCaloriesValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:textSize="20sp"
+                android:textColor="@color/black_transparent_50"
+                tools:text="calories"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_weight"
+                android:layout_gravity="center_vertical"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mealWeightTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                tools:text="weight"
+                android:layout_marginStart="@dimen/margin_very_very_big"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/mealWeightValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:textSize="20sp"
+                android:textColor="@color/black_transparent_50"
+                tools:text="weight"
+                />
+
+        </FrameLayout>
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addMealButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/editMealButton"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/margin_big"
-        app:srcCompat="@drawable/ic_plus"
+        app:srcCompat="@drawable/ic_pencil"
+        style="@style/IofFloatingActionButton"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

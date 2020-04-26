@@ -28,7 +28,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:title="@string/meals"
                 app:titleTextColor="@color/white"
+                style="@style/Toolbar"
                 />
 
             <FrameLayout
@@ -70,13 +72,11 @@
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addMealButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/editMealButton"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/margin_big"
         app:srcCompat="@drawable/ic_plus"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        style="@style/IofFloatingActionButton"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

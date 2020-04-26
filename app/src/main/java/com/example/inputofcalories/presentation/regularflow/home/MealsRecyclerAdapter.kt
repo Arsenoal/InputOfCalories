@@ -52,12 +52,12 @@ class MealsRecyclerAdapter(
                     Html.fromHtml(resources.getString(R.string.meal_weight_placeholder)), mealAdapterModel.weight)
 
             if(mealAdapterModel.isLimitExceeded) { rootView.setBackgroundResource(R.drawable.limit_exceeded_bg) }
-            else when(mealAdapterModel.timeParams) {
+            /*else when(mealAdapterModel.timeParams) {View
                 BreakfastTime -> { rootView.setBackgroundResource(R.drawable.breakfast_bg) }
                 LunchTime -> { rootView.setBackgroundResource(R.drawable.lunch_bg) }
                 SnackTime -> { rootView.setBackgroundResource(R.drawable.snack_bg) }
                 DinnerTime -> { rootView.setBackgroundResource(R.drawable.dinner_bg) }
-            }
+            }*/
         }
     }
 

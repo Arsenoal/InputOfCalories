@@ -10,8 +10,14 @@
 
     <item
         android:id="@+id/dailyCalories"
-        android:title="@string/daily_calories"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_kcal" />
+        android:title="@string/set_daily_calories"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/logOut"
+        android:title="@string/log_out"
+        app:showAsAction="never"
+        />
 
 </menu>

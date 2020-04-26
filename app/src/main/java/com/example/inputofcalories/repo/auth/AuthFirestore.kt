@@ -23,35 +23,41 @@ class AuthFirestore(
 
     @ExperimentalCoroutinesApi
     override suspend fun register(userRegistrationParams: UserRegistrationParams) {
-        val usersRef = firestore.collection(FirebaseDataBaseCollectionNames.USERS)
 
         val uId = encoderService.encode(userRegistrationParams.email)
 
         return suspendCancellableCoroutine { continuation ->
+
+            val usersRef = firestore.collection(FirebaseDataBaseCollectionNames.USERS)
+
             usersRef
                 .document(uId)
                 .get()
                 .addOnSuccessListener {
-                    if(it.exists()) continuation.resumeWithException(RegistrationException(message = "user with params already present in firestore db"))
+                    if (it.exists()) {
+                        continuation.resumeWithException(RegistrationException(message = "user with params already present in firestore db"))
+                    } else {
 
-                    val userFirebase = with(userRegistrationParams) {
-                        UserFirebase(id = uId, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_REGULAR)
-                    }
+                        val userFirebase = with(userRegistrationParams) {
+                            UserFirebase(id = uId, name = name, email = email, password = password, dailyCalories = dailyCalories, type = TYPE_REGULAR)
+                        }
 
                         usersRef
                             .document(uId)
                             .set(userFirebase)
                             .addOnSuccessListener { continuation.resume(Unit) { throw RegistrationException() } }
-                            .addOnFailureListener { error -> continuation.resumeWithException(RegistrationException(error = error)) }
+                            .addOnFailureListener { error ->
+                                continuation.resumeWithException(RegistrationException(error = error))
+                            }
                     }
-                    .addOnFailureListener {
-                        continuation.resumeWithException(RegistrationException())
-                    }
+                }
+                .addOnFailureListener { continuation.resumeWithException(RegistrationException()) }
             }
     }
 
     @ExperimentalCoroutinesApi
     override suspend fun signIn(userSignInParams: UserSignInParams): User? {
+
         val uId = encoderService.encode(userSignInParams.email)
 
         return suspendCancellableCoroutine<User> { continuation ->
@@ -80,9 +86,7 @@ class AuthFirestore(
                         }
                     } else { continuation.resumeWithException(SignInException()) }
                 }
-                .addOnFailureListener {
-                    continuation.resumeWithException(SignInException(message = "user with email: $userSignInParams.email not found"))
-                }
+                .addOnFailureListener { continuation.resumeWithException(SignInException(message = "user with email: $userSignInParams.email not found")) }
         }
     }
 }

@@ -55,10 +55,10 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
         }
     }
 
-    private val updateDailyCaloriesObserver = Observer<DailyCaloriesLimitState> { state ->
+    private val updateDailyCaloriesObserver = Observer<DailyCaloriesState> { state ->
         when(state) {
-            DailyCaloriesLimitState.DailyLimitExceeded -> { activity.hideProgress() }
-            DailyCaloriesLimitState.DailyLimitNotExceeded -> { activity.hideProgress() }
+            DailyCaloriesState.DailyCaloriesSaveSucceed -> { activity.hideProgress() }
+            DailyCaloriesState.DailyCaloriesSaveFailed -> { activity.hideProgress() }
         }
     }
 

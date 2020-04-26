@@ -9,8 +9,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/breakfastView"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:cardBackgroundColor="@color/purple"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
@@ -18,22 +18,21 @@
         >
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="?actionBarSize"
-            android:layout_height="?actionBarSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/tmp"
-            android:layout_gravity="start"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/breakfastTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:textColor="@color/white"
             android:text="@string/breakfast"
-            android:textSize="22sp"
+            android:textSize="35sp"
+            android:background="@color/black_transparent_50"
             />
 
     </androidx.cardview.widget.CardView>
@@ -41,29 +40,28 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/snackView"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:cardBackgroundColor="@color/red"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_margin="@dimen/margin_small"
         android:foreground="?android:attr/selectableItemBackground"
         >
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="?actionBarSize"
-            android:layout_height="?actionBarSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/tmp"
-            android:layout_gravity="start"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/snackTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:textColor="@color/white"
             android:text="@string/snack"
-            android:textSize="22sp"
+            android:textSize="35sp"
+            android:background="@color/black_transparent_50"
             />
 
     </androidx.cardview.widget.CardView>
@@ -71,30 +69,29 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/lunchView"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:cardBackgroundColor="@color/brown"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
         android:foreground="?android:attr/selectableItemBackground"
         >
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="?actionBarSize"
-            android:layout_height="?actionBarSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/tmp"
-            android:layout_gravity="start"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/lunchTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:textColor="@color/white"
             android:text="@string/lunch"
-            android:textSize="22sp"
+            android:textSize="35sp"
+            android:background="@color/black_transparent_50"
             />
 
     </androidx.cardview.widget.CardView>
@@ -102,29 +99,28 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/dinnerView"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:cardBackgroundColor="@color/colorAccent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_margin="@dimen/margin_small"
         android:foreground="?android:attr/selectableItemBackground"
         >
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="?actionBarSize"
-            android:layout_height="?actionBarSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/tmp"
-            android:layout_gravity="start"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/dinnerTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:textColor="@color/white"
             android:text="@string/dinner"
-            android:textSize="22sp"
+            android:textSize="35sp"
+            android:background="@color/black_transparent_50"
             />
 
     </androidx.cardview.widget.CardView>

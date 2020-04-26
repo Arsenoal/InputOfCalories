@@ -8,12 +8,10 @@ import javax.crypto.spec.SecretKeySpec
 class IoCEncoderService: EncoderService {
 
     @Suppress("GetInstance")
-    override suspend fun encode(text: String): String {
-        val cipher: Cipher = Cipher.getInstance("AES/ECB/PKCS5Padding")
-        cipher.init(Cipher.ENCRYPT_MODE, getSecretKey())
+    override suspend fun encode(text: String) = with(Cipher.getInstance("AES/ECB/PKCS5Padding")) {
+        init(Cipher.ENCRYPT_MODE, getSecretKey())
 
-        return Base64.encodeToString(cipher.doFinal(text.toByteArray(Charsets.UTF_8)), Base64.DEFAULT)
-
+        Base64.encodeToString(doFinal(text.toByteArray(Charsets.UTF_8)), Base64.DEFAULT).toString().replace("/", "")
     }
 
     private fun getSecretKey() = run {

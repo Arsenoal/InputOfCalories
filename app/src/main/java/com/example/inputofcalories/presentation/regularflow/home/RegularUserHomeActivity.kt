@@ -1,11 +1,12 @@
 package com.example.inputofcalories.presentation.regularflow.home
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import com.example.inputofcalories.presentation.regularflow.home.filter.FilterFr
 import com.example.inputofcalories.presentation.regularflow.home.viewmodel.*
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import kotlinx.android.synthetic.main.activity_regular_user_home.addMealButton
 import kotlinx.android.synthetic.main.progress_layout.*
@@ -115,18 +117,22 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         })
 
         mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { deleteParams ->
-            AlertDialog.Builder(this).setMessage(getString(R.string.do_you_want_to_delete_meal))
-                .setPositiveButton(R.string.yes) { dialog, _ ->
+             val dialog = MaterialAlertDialogBuilder(this)
+                .setMessage(getString(R.string.do_you_want_to_delete_meal))
+                .setPositiveButton(R.string.delete) { dialog, _ ->
                     dialog.dismiss()
                     showProgress()
 
                     mealsViewModel.deleteMeal(deleteParams).observe(this, observerFactory.get(ObserverKey.DeleteMealObserver))
                 }
-                .setNegativeButton(R.string.no) { dialog, _ ->
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
                     dialog.dismiss()
                 }
                 .create()
-                .show()
+
+            dialog.show()
+
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.red))
         })
     }
 
@@ -150,7 +156,6 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
             R.id.actionFilter -> {
                 isFilterOpened = if(!isFilterOpened) {
                     FragmentNavigator.openOrReplace(this, filterFragment, filterFrame.id, null)
-
                     true
                 } else {
                     FragmentNavigator.remove(this, filterFragment)

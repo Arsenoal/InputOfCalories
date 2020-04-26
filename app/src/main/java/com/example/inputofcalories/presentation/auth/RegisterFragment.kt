@@ -82,35 +82,26 @@ class RegisterFragment: BaseFragment(), ErrorView {
                 registerButton.isClickable = true
                 when(state) {
                     NotAllFieldsFilledForRegister -> {
-                        registerButton.isClickable = true
-
                         registerButton.hideProgress(R.string.register)
 
                         showErrorView(resources.getString(R.string.fill_all_fields))
                     }
                     InvalidRegisterEmailFormat -> {
-                        registerButton.isClickable = true
-
                         registerButton.hideProgress(R.string.register)
 
                         emailEditText.error = resources.getString(R.string.invalid_email_format)
                     }
                     PasswordsMismatch -> {
-                        registerButton.isClickable = true
-
                         registerButton.hideProgress(R.string.register)
 
                         repeatPasswordEditText.error = resources.getString(R.string.passwords_mismatch)
                     }
                     RegisterSucceed -> {
-                        registerButton.isClickable = true
-
                         registerButton.hideProgress(R.string.succeed)
+
                         (activity as AuthActivity).run { tabs.getTabAt(SIGN_IN_TAB)?.select() }
                     }
                     is RegisterFailed -> {
-                        registerButton.isClickable = true
-
                         registerButton.hideProgress(R.string.register)
                         val text = if(state.message.text.isNotBlank()) state.message.text else resources.getString(R.string.registration_fail)
 
@@ -128,12 +119,7 @@ class RegisterFragment: BaseFragment(), ErrorView {
         repeatPasswordEditText.onTextChanged { hideErrorView() }
     }
 
-    override fun softInputModeFlags()
-            = listOf(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
-    private fun openSignInFragment() {
-        activity?.let { activity -> if(activity is AuthActivity) activity.openSignInFragment() }
-    }
+    override fun softInputModeFlags() = listOf(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
     override fun showErrorView(text: String) {
         errorTextView.visibility = View.VISIBLE

@@ -1,6 +1,8 @@
 package com.example.inputofcalories.presentation.adminflow.home
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,10 +11,11 @@ import com.example.inputofcalories.presentation.adminflow.home.model.entity.User
 import com.example.inputofcalories.presentation.adminflow.home.model.entity.UserStatusChangeState
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.adminflow.usermeals.UserMealsActivity
+import com.example.inputofcalories.presentation.auth.AuthActivity
 import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.USER_ID_KEY
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
-import kotlinx.android.synthetic.main.activity_manager_user_home.*
+import kotlinx.android.synthetic.main.activity_admin_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AdminUserHomeActivity: BaseActivity() {
@@ -25,9 +28,15 @@ class AdminUserHomeActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_user_home)
 
+        setupToolbar()
+
         setupRecyclerView()
 
         loadUsers()
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
     }
 
     private fun loadUsers() {
@@ -51,12 +60,25 @@ class AdminUserHomeActivity: BaseActivity() {
         usersRecyclerAdapter.userStatusChangeSelectedLiveData.observe(this, Observer { params ->
             adminViewModel.changeUserType(params.type, params.userId).observe(this, Observer { state ->
                 when(state) {
-                    UserStatusChangeState.UserStatusChangeSucceed -> {  }
-                    UserStatusChangeState.UserStatusChangeFailed -> {
-
-                    }
+                    UserStatusChangeState.UserStatusChangeSucceed -> { }
+                    UserStatusChangeState.UserStatusChangeFailed -> { }
                 }
             })
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_manager_user_home, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.logOut -> {
+                ActivityNavigator.navigateAndClearStack(this, AuthActivity::class.java)
+            }
+        }
+
+        return true
     }
 }

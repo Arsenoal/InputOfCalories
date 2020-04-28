@@ -97,6 +97,7 @@
     <!-- manager flow -->
 
     <string name="no_users_to_show">no users to show</string>
+    <string name="users">Users</string>
 
     <!-- end of manager flow -->
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseActivity
+import com.example.inputofcalories.presentation.common.KeyboardManager
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
@@ -85,6 +86,7 @@ class EditMealActivity: BaseActivity(), MealTimeParamHolder {
         }
 
         dateTimeView.setOnClickListener {
+            KeyboardManager.hideKeyboard(this)
             FragmentNavigator.openOrReplace(this, dateTimePickerFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
         }
     }

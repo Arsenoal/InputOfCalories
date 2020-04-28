@@ -42,6 +42,7 @@ class UsersRecyclerAdapter(
 
         holder.bind(user)
 
+        //TODO add click accessibility
         holder.typeToggleGroup.addOnButtonCheckedListener { toggleButton, _, isChecked ->
             when(toggleButton.checkedButtonId) {
                 R.id.typeRegular -> {

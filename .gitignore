@@ -12,3 +12,8 @@
 /captures
 .externalNativeBuild
 .cxx
+/package-lock.json
+.firebaserc
+/firebase.json
+/functions
+/node_modules

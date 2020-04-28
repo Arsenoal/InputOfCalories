@@ -101,9 +101,15 @@ class SignInFragment: BaseFragment(), ErrorView {
                         signInButton.isClickable = true
 
                         signInButton.hideProgress(R.string.sign_in)
-                        val text = if(state.message.text.isNotBlank()) state.message.text else resources.getString(R.string.sign_in_fail)
+                        if(state.message.text.isNotBlank()) {
+                            val text = state.message.text
 
-                        showErrorView(text)
+                            if (text.endsWith(resources.getString(R.string.incorrect_password_suffix))) passwordEditText.error = text
+                            else if(text.endsWith(resources.getString(R.string.user_with_email_not_found_suffix))) emailEditText.error = text
+                            else showErrorView(text)
+                        } else {
+                            showErrorView(resources.getString(R.string.sign_in_fail))
+                        }
                     }
                     is SignInSucceed -> {
                         activity?.let { activity ->

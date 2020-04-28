@@ -36,10 +36,12 @@ object ActivityNavigator {
     fun navigateAndFinishCurrent(
         activity: AppCompatActivity,
         activityClassName: Class<out AppCompatActivity>,
+        flags: Int,
         key: String,
         value: Serializable) = with(activity) {
 
         val intent = Intent(this, activityClassName)
+        intent.flags = flags
         intent.putExtra(key, value)
         startActivity(intent)
         finish()
@@ -51,7 +53,7 @@ object ActivityNavigator {
     ) = with(activity) {
 
         val intent = Intent(this, activityClassName)
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 

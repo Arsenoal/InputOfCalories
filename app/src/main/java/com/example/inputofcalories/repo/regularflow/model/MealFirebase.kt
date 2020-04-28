@@ -12,6 +12,7 @@ data class MealFirebase(
     val from: String,
     val to: String) {
 
+    @Suppress("UNUSED")
     constructor():
             this(String.empty(),
                 String.empty(),

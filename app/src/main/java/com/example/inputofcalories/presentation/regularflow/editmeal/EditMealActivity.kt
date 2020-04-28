@@ -1,5 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.editmeal
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import com.example.inputofcalories.presentation.regularflow.addmeal.DaytimePicke
 import com.example.inputofcalories.presentation.regularflow.addmeal.MealTimeParamHolder
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.model.entity.EditMealState
+import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_edit_meal.*
 import kotlinx.android.synthetic.main.activity_edit_meal.dateTimeView
 import kotlinx.android.synthetic.main.activity_edit_meal.mealCaloriesEditText
@@ -54,20 +56,26 @@ class EditMealActivity: BaseActivity(), MealTimeParamHolder {
 
     private fun setupClickListeners() {
         saveButton.setOnClickListener {
-            getMealSerializableExtra().run {
+            getMealSerializableExtra().let { mealSerializable ->
 
-                val meal = Meal(
-                    id = id,
-                    params = MealParams(text = mealTextEditText.text.toString(), calories = mealCaloriesEditText.text.toString(), weight = mealWeightEditText.text.toString()),
-                    filterParams = MealFilterParams(date = MealDateParams(year = year, month = month, dayOfMonth = dayOfMonth), time = mealTime)
-                )
+                val meal = with(mealSerializable) {
+                    Meal(
+                        id = id,
+                        params = MealParams(text = mealTextEditText.text.toString(), calories = mealCaloriesEditText.text.toString(), weight = mealWeightEditText.text.toString()),
+                        filterParams = MealFilterParams(date = MealDateParams(
+                            year = year, month = month, dayOfMonth = dayOfMonth),
+                            time = mealTime)
+                    )
+                }
 
                 this@EditMealActivity.run {
                     editMealViewModel.editClicked(meal).observe(this, Observer { state ->
                         when(state) {
                             EditMealState.EditMealSucceed -> {
                                 ToastManager.showToastShort(this, resources.getString(R.string.meal_edit_succeed))
-                                ActivityNavigator.finish(this)
+                                ActivityNavigator.navigateAndFinishCurrent(this, ViewMealActivity::class.java,
+                                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP,
+                                    MEAL_EXTRA, meal.toMealSerializable())
                             }
                             EditMealState.EditMealFailed -> { ToastManager.showToastShort(this, "failed to edit meal") }
                         }

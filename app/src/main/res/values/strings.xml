@@ -26,6 +26,9 @@
     <string name="registration_fail">Registration fail</string>
     <string name="sign_in_fail">Sign in fail</string>
 
+    <string name="user_with_email_not_found_suffix">not found</string>
+    <string name="incorrect_password_suffix">password</string>
+
     <!-- end of auth errors -->
 
     <!-- end of auth -->

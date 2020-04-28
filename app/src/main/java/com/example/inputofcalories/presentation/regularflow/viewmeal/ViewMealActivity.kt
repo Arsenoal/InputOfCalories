@@ -1,5 +1,6 @@
 package com.example.inputofcalories.presentation.regularflow.viewmeal
 
+import android.content.Intent
 import android.os.Bundle
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.BreakfastTime
@@ -10,30 +11,40 @@ import com.example.inputofcalories.presentation.base.BaseActivity
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.regularflow.editmeal.EditMealActivity
+import com.example.inputofcalories.presentation.regularflow.home.RegularUserHomeActivity
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import kotlinx.android.synthetic.main.activity_view_meal.*
-import java.util.*
 
 class ViewMealActivity: BaseActivity() {
+
+    private var mealSerializable: MealSerializable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_meal)
 
-        updateUi(getMealSerializableExtra())
+        initMealSerializable(intent)
+
+        updateUi(mealSerializable)
 
         setupClickListeners()
 
         setupToolBar()
     }
 
-    private fun getMealSerializableExtra(): MealSerializable {
-        val meal: MealSerializable by lazy { intent.getSerializableExtra(MEAL_EXTRA) as MealSerializable }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
 
-        return meal
+        initMealSerializable(intent)
+
+        updateUi(mealSerializable)
     }
 
-    private fun updateUi(mealSerializable: MealSerializable) = with(mealSerializable) {
+    private fun initMealSerializable(intent: Intent?) {
+        mealSerializable = intent?.run { getSerializableExtra(MEAL_EXTRA) as MealSerializable }
+    }
+
+    private fun updateUi(mealSerializable: MealSerializable?) = mealSerializable?.run {
         mealTextTextView.text = resources.getString(R.string.name)
         mealTextValueTextView.text = text
         mealCaloriesTextView.text = resources.getString(R.string.calories)
@@ -57,7 +68,7 @@ class ViewMealActivity: BaseActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
-        toolbar.title = getMealSerializableExtra().text
+        toolbar.title = mealSerializable?.text
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -67,7 +78,9 @@ class ViewMealActivity: BaseActivity() {
 
     private fun setupClickListeners() {
         editMealButton.setOnClickListener {
-            ActivityNavigator.navigate(this, EditMealActivity::class.java, MEAL_EXTRA, getMealSerializableExtra())
+            mealSerializable?.let {
+                ActivityNavigator.navigate(this, EditMealActivity::class.java, MEAL_EXTRA, it)
+            }
         }
     }
 }

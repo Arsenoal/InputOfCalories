@@ -1,11 +1,12 @@
-package com.example.inputofcalories.repo.service
+package com.example.inputofcalories.repo.service.encoder
 
 import android.util.Base64
 import java.security.MessageDigest
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 
-class IoCEncoderService: EncoderService {
+class IoCEncoderService:
+    EncoderService {
 
     @Suppress("GetInstance")
     override suspend fun encode(text: String) = with(Cipher.getInstance("AES/ECB/PKCS5Padding")) {

@@ -3,8 +3,11 @@ package com.example.inputofcalories.common.extensions
 import android.graphics.Outline
 import android.view.View
 import android.view.ViewOutlineProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.common.extensions.entity.*
+import com.example.inputofcalories.presentation.regularflow.addmeal.adapter.MealTimePickerAdapter
 import com.google.android.material.tabs.TabLayout
+import com.yarolegovich.discretescrollview.DiscreteScrollView
 
 fun TabLayout.onItemSelected(result: (Int) -> Unit) {
     addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
@@ -36,4 +39,26 @@ fun View.makeCornersRounded(dir: RoundDir, radius: Float) {
     }
 
     clipToOutline = true
+}
+
+fun DiscreteScrollView.onScrolled(result: (Int) -> Unit) {
+    addScrollStateChangeListener(object: DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder> {
+        override fun onScroll(
+            p0: Float,
+            p1: Int,
+            p2: Int,
+            p3: RecyclerView.ViewHolder?,
+            p4: RecyclerView.ViewHolder?
+        ) {
+            //nobody cares
+        }
+
+        override fun onScrollEnd(p0: RecyclerView.ViewHolder, p1: Int) {
+            result.invoke(p0.adapterPosition)
+        }
+
+        override fun onScrollStart(p0: RecyclerView.ViewHolder, p1: Int) {
+            //nobody cares
+        }
+    })
 }

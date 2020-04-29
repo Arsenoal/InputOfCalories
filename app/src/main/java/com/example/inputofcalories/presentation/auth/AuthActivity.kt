@@ -28,12 +28,8 @@ class AuthActivity : BaseActivity() {
     private fun setupClickListeners() {
         tabs.onItemSelected {
             when(it) {
-                SIGN_IN_TAB -> {
-                    openSignInFragment()
-                }
-                SIGN_UP_TAB -> {
-                    openRegisterFragment()
-                }
+                SIGN_IN_TAB -> { openSignInFragment() }
+                SIGN_UP_TAB -> { openRegisterFragment() }
             }
         }
     }

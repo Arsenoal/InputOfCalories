@@ -8,7 +8,7 @@ import com.example.inputofcalories.repo.auth.model.TYPE_MANAGER
 import com.example.inputofcalories.repo.auth.model.TYPE_REGULAR
 import com.example.inputofcalories.repo.auth.model.UserFirebase
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
-import com.example.inputofcalories.repo.service.EncoderService
+import com.example.inputofcalories.repo.service.encoder.EncoderService
 
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine

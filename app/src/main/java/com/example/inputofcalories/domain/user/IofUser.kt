@@ -8,6 +8,9 @@ class IofUser(
 ): UserUseCase {
     override suspend fun get() = userRepo.get()
 
-    override suspend fun set(user: User) = userRepo.set(user)
+    override suspend fun set(user: User, result: UserSetResult) {
+        userRepo.set(user)
+        result.invoke()
+    }
 
 }

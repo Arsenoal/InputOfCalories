@@ -22,13 +22,11 @@ class AddMealActivity: BaseActivity(), MealTimeParamHolder {
 
     private val addMealViewModel: AddMealViewModel by viewModel()
 
-    private var mealTime: MealTimeParams = LunchTime
+    private var mealTime: MealTimeParams = BreakfastTime
 
     private var mealDateParams = with(Calendar.getInstance()) {
         MealDateParams(get(Calendar.YEAR).toString(), get(Calendar.MONTH).toString(), get(Calendar.DAY_OF_MONTH).toString())
     }
-
-    private val dateTimePickerFragment = DaytimePickerFragment.newInstance()
 
     private val mealTimeLiveData = MutableLiveData<MealTimeParams>()
 
@@ -38,19 +36,17 @@ class AddMealActivity: BaseActivity(), MealTimeParamHolder {
 
         setupCalendar()
 
-        setupDaytimeFragment()
-
         setupClickListeners()
 
         setupToolbar()
 
-        setupDateTimeView()
+        setupMealTimePickerFragment()
     }
 
-    private fun setupDateTimeView() {
-        dateTimeView.setOnClickListener {
-            FragmentNavigator.openOrReplace(this, dateTimePickerFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
-        }
+    private fun setupMealTimePickerFragment() {
+        FragmentNavigator.openOrReplace(this, MealTimePickerFragment.newInstance(), pickerFrame.id)
+
+        getMealTimeLiveData().observe(this, Observer { mealTime = it })
     }
 
     private fun setupToolbar() {
@@ -112,31 +108,12 @@ class AddMealActivity: BaseActivity(), MealTimeParamHolder {
         }
     }
 
-    private fun setupDaytimeFragment() {
-        FragmentNavigator.openOrReplace(this, dateTimePickerFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
-
-        getMealTimeLiveData().observe(this, Observer { timeParams ->
-            mealTime = timeParams
-
-            when(timeParams) {
-                BreakfastTime -> { dateTimeTextView.text = getString(R.string.breakfast) }
-                LunchTime -> { dateTimeTextView.text = getString(R.string.lunch) }
-                DinnerTime -> { dateTimeTextView.text = getString(R.string.dinner) }
-                SnackTime -> { dateTimeTextView.text = getString(R.string.snack) }
-            }
-
-            FragmentNavigator.remove(this, dateTimePickerFragment)
-        })
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
 
-    override fun onBackPressed() {
-        ActivityNavigator.finish(this)
-    }
+    override fun onBackPressed() { ActivityNavigator.finish(this) }
 
     override fun getMealTimeLiveData() = mealTimeLiveData
 }

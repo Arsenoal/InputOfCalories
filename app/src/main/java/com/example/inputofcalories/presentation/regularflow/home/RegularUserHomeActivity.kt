@@ -123,7 +123,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
         mealsAdapter.mealDeleteClickedLiveData.observe(this, Observer { deleteParams ->
              val dialog = MaterialAlertDialogBuilder(this)
-                .setMessage(getString(R.string.do_you_want_to_delete_meal))
+                .setTitle(getString(R.string.do_you_want_to_delete_meal))
                 .setPositiveButton(R.string.delete) { dialog, _ ->
                     dialog.dismiss()
                     showProgress()
@@ -138,6 +138,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
             dialog.show()
 
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.red))
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.red))
         })
     }
 

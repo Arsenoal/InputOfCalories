@@ -42,27 +42,13 @@ class UsersRecyclerAdapter(
 
         holder.bind(user)
 
-        //TODO add click accessibility
         holder.typeToggleGroup.addOnButtonCheckedListener { toggleButton, _, isChecked ->
+            holder.typeToggleGroup.isClickable = false
+            holder.typeToggleGroup.isFocusable = false
+
             when(toggleButton.checkedButtonId) {
-                R.id.typeRegular -> {
-                    if (!isChecked) {
-                        userDowngradeSelectedLiveData.value =
-                            UserTypeChangeParams(
-                                user.id,
-                                position
-                            )
-                    }
-                }
-                R.id.typeManager -> {
-                    if(!isChecked) {
-                        userUpgradeSelectedLiveData.value =
-                            UserTypeChangeParams(
-                                user.id,
-                                position
-                            )
-                    }
-                }
+                R.id.typeRegular -> { if (!isChecked) userDowngradeSelectedLiveData.value = UserTypeChangeParams(user.id, position) }
+                R.id.typeManager -> { if(!isChecked) userUpgradeSelectedLiveData.value = UserTypeChangeParams(user.id, position) }
                 UNCHECKED_BUTTON_ID -> { holder.bind(user) }
             }
         }

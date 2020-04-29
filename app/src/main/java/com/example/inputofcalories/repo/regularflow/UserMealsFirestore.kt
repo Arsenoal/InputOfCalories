@@ -5,7 +5,7 @@ import com.example.inputofcalories.common.logger.IOCLogger
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
-import com.example.inputofcalories.repo.service.UUIDGeneratorService
+import com.example.inputofcalories.repo.service.uuidgenerator.UUIDGeneratorService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine

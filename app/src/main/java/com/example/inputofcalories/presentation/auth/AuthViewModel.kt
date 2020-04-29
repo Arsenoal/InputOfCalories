@@ -42,8 +42,9 @@ class AuthViewModel(
                 if(authValidationUseCase.checkEmailFormat(userSignInParams.email)) {
                     try {
                         authUseCase.signIn(userSignInParams)?.let { user ->
-                            userUseCase.set(user)
-                            switchToUi { emit(SignInSucceed(user)) }
+                            userUseCase.set(user) {
+                                switchToUi { emit(SignInSucceed(user)) }
+                            }
                         }
                     } catch (ex: Exception) { switchToUi { emit(SignInFailed(Message(ex.message ?: String.empty()))) } }
                 } else { switchToUi { emit(InvalidSignInEmailFormat) } }

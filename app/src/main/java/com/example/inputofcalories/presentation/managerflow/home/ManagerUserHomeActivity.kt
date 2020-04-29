@@ -12,7 +12,6 @@ import com.example.inputofcalories.presentation.managerflow.home.ManagerFlowObse
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import kotlinx.android.synthetic.main.activity_manager_user_home.*
 import kotlinx.android.synthetic.main.activity_manager_user_home.toolbar
-import kotlinx.android.synthetic.main.activity_regular_user_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ManagerUserHomeActivity: BaseActivity() {

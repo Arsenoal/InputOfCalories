@@ -7,28 +7,26 @@ import androidx.lifecycle.Observer
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.presentation.base.BaseActivity
-import com.example.inputofcalories.presentation.common.KeyboardManager
 import com.example.inputofcalories.presentation.common.ToastManager
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
 import com.example.inputofcalories.presentation.navigation.FragmentNavigator
-import com.example.inputofcalories.presentation.regularflow.addmeal.DaytimePickerFragment
 import com.example.inputofcalories.presentation.regularflow.addmeal.MealTimeParamHolder
+import com.example.inputofcalories.presentation.regularflow.addmeal.MealTimePickerFragment
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
 import com.example.inputofcalories.presentation.regularflow.model.entity.EditMealState
 import com.example.inputofcalories.presentation.regularflow.viewmeal.ViewMealActivity
 import kotlinx.android.synthetic.main.activity_edit_meal.*
-import kotlinx.android.synthetic.main.activity_edit_meal.dateTimeView
 import kotlinx.android.synthetic.main.activity_edit_meal.mealCaloriesEditText
 import kotlinx.android.synthetic.main.activity_edit_meal.mealTextEditText
 import kotlinx.android.synthetic.main.activity_edit_meal.mealWeightEditText
+import kotlinx.android.synthetic.main.activity_edit_meal.pickerFrame
+import kotlinx.android.synthetic.main.activity_edit_meal.toolbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class EditMealActivity: BaseActivity(), MealTimeParamHolder {
 
     private val editMealViewModel: EditMealViewModel by viewModel()
-
-    private val dateTimePickerFragment = DaytimePickerFragment.newInstance()
 
     private lateinit var mealTime: MealTimeParams
 
@@ -41,8 +39,12 @@ class EditMealActivity: BaseActivity(), MealTimeParamHolder {
         updateUi(getMealSerializableExtra())
 
         setupClickListeners()
+    }
 
-        setupDaytimeFragment()
+    private fun setupMealTimePickerFragment(currentPosition: Int) {
+        FragmentNavigator.openOrReplace(this, MealTimePickerFragment.newInstance(currentPosition), pickerFrame.id)
+
+        getMealTimeLiveData().observe(this, Observer { mealTime = it })
     }
 
     private fun updateUi(mealSerializable: MealSerializable) = with(mealSerializable) {
@@ -52,7 +54,26 @@ class EditMealActivity: BaseActivity(), MealTimeParamHolder {
 
         mealTime = timeParam
 
-        setupDaytimeTextWithTimeParams(timeParam)
+        setupToolbar()
+
+        val currentPosition = when(timeParam) {
+            is BreakfastTime -> 0
+            is LunchTime -> 1
+            is SnackTime -> 2
+            is DinnerTime -> 3
+            else -> 0
+        }
+
+        setupMealTimePickerFragment(currentPosition)
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
     }
 
     private fun setupClickListeners() {
@@ -84,21 +105,6 @@ class EditMealActivity: BaseActivity(), MealTimeParamHolder {
                 }
             }
         }
-
-        dateTimeView.setOnClickListener {
-            KeyboardManager.hideKeyboard(this)
-            FragmentNavigator.openOrReplace(this, dateTimePickerFragment, timePickerFrame.id, DaytimePickerFragment::class.java.name)
-        }
-    }
-
-    private fun setupDaytimeFragment() {
-        getMealTimeLiveData().observe(this, Observer { timeParams ->
-            mealTime = timeParams
-
-            setupDaytimeTextWithTimeParams(timeParams)
-
-            FragmentNavigator.remove(this, dateTimePickerFragment)
-        })
     }
 
     private fun getMealSerializableExtra(): MealSerializable {
@@ -109,13 +115,10 @@ class EditMealActivity: BaseActivity(), MealTimeParamHolder {
         return meal
     }
 
-    private fun setupDaytimeTextWithTimeParams(timeParams: MealTimeParams) {
-        when(timeParams) {
-            is BreakfastTime -> { daytimeTextView.text = getString(R.string.breakfast) }
-            is LunchTime -> { daytimeTextView.text = getString(R.string.lunch) }
-            is DinnerTime -> { daytimeTextView.text = getString(R.string.dinner) }
-            is SnackTime -> { daytimeTextView.text = getString(R.string.snack) }
-        }
+    //TODO don't forget to encapsulate alonge with toolbar
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun getMealTimeLiveData() = mealTimeLiveData

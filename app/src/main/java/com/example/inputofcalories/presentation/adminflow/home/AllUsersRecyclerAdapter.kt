@@ -46,9 +46,9 @@ class AllUsersRecyclerAdapter(
 
         holder.typeToggleGroup.addOnButtonCheckedListener { group, _, isChecked ->
             when(group.checkedButtonId) {
-                R.id.typeRegular -> { if (!isChecked) { userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, RegularUser, position) } }
-                R.id.typeManager -> { if(!isChecked) { userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, UserManager, position) } }
-                R.id.typeAdmin -> { userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, Admin, position) }
+                R.id.typeRegular -> { if (!isChecked) userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, RegularUser, position) }
+                R.id.typeManager -> { if(!isChecked) userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, UserManager, position) }
+                R.id.typeAdmin -> { if(!isChecked) userStatusChangeSelectedLiveData.value = UserTypeChangeParams(user.id, Admin, position) }
                 UNCHECKED_BUTTON_ID -> { holder.bind(user) }
             }
         }

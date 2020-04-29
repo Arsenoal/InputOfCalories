@@ -7,8 +7,8 @@ import com.example.inputofcalories.domain.auth.validation.AuthValidationUseCase
 import com.example.inputofcalories.presentation.auth.AuthViewModel
 import com.example.inputofcalories.repo.auth.AuthFirestore
 import com.example.inputofcalories.repo.auth.AuthRepo
-import com.example.inputofcalories.repo.service.EncoderService
-import com.example.inputofcalories.repo.service.IoCEncoderService
+import com.example.inputofcalories.repo.service.encoder.EncoderService
+import com.example.inputofcalories.repo.service.encoder.IoCEncoderService
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

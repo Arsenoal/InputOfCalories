@@ -30,7 +30,7 @@ class ManagerFlowObserverFactory(private val managerUserHomeActivity: ManagerUse
     private fun upgradeUserObserver(params: UserTypeChangeParams) = Observer<UserStatusChangeState> { state ->
         when(state) {
             UserStatusChangeState.UserUpgradeSucceed -> {
-                managerUserHomeActivity.usersRecyclerAdapter.updateUserStatus(UserManager, params.adapterPosition)
+                //managerUserHomeActivity.usersRecyclerAdapter.updateUserStatus(UserManager, params.adapterPosition)
             }
             UserStatusChangeState.UserUpgradeFailed -> {
                 managerUserHomeActivity.usersRecyclerAdapter.updateUserStatus(RegularUser, params.adapterPosition)
@@ -42,7 +42,7 @@ class ManagerFlowObserverFactory(private val managerUserHomeActivity: ManagerUse
     private fun downgradeUserObserver(params: UserTypeChangeParams) = Observer<UserStatusChangeState> { state ->
         when(state) {
             UserStatusChangeState.UserDowngradeSucceed -> {
-                managerUserHomeActivity.usersRecyclerAdapter.updateUserStatus(RegularUser, params.adapterPosition)
+                //managerUserHomeActivity.usersRecyclerAdapter.updateUserStatus(RegularUser, params.adapterPosition)
             }
             UserStatusChangeState.UserDowngradeFailed -> {
                 managerUserHomeActivity.usersRecyclerAdapter.updateUserStatus(UserManager, params.adapterPosition)

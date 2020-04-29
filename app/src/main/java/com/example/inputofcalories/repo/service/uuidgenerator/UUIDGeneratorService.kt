@@ -1,4 +1,4 @@
-package com.example.inputofcalories.repo.service
+package com.example.inputofcalories.repo.service.uuidgenerator
 
 interface UUIDGeneratorService {
     suspend fun get(): String

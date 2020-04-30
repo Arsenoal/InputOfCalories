@@ -1,29 +1,49 @@
 package com.example.inputofcalories.repo.regularflow
 
 import com.example.inputofcalories.common.exception.MealException
-import com.example.inputofcalories.common.logger.IOCLogger
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
+import com.example.inputofcalories.repo.service.datetime.DateTimeGeneratorService
+import com.example.inputofcalories.repo.service.datetime.MONTH
+import com.example.inputofcalories.repo.service.datetime.YEAR
 import com.example.inputofcalories.repo.service.uuidgenerator.UUIDGeneratorService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.util.*
 import kotlin.coroutines.resumeWithException
+
+/**
+ *  users/.../meals/yyyy/mm/dd/...
+ *
+ *  e.g
+ *
+ *  users/.../collection:meals --- document:2020
+ *                                             |
+ *                                             -- collection:April
+ *                                                               |
+ *                                                               -- document:30:3773299f-c7ec-4485-87b3-b555a2f9ac2c (* meal id *)
+ *                                                               -- document:30:3773299f-c7ec-4485-87b3-b555a2f9ac2c (* meal id *)
+ *                                                               -- document:30:3773299f-c7ec-4485-87b3-b555a2f9ac2c (* meal id *)
+ *                                                               -- document:29:3773299f-c7ec-4485-87b3-b555a2f9ac2c (* meal id *)
+ *                                                               -- document:29:3773299f-c7ec-4485-87b3-b555a2f9ac2c (* meal id *)
+ *                                                               -- document:29:3773299f-c7ec-4485-87b3-b555a2f9ac2c (* meal id *)
+ */
 
 class UserMealsFirestore(
     private val firestore: FirebaseFirestore,
-    private val uuidGenerator: UUIDGeneratorService
+    private val uuidGenerator: UUIDGeneratorService,
+    private val timeFormatterService: DateTimeGeneratorService
 ): UserMealsRepo {
-
-    private var tag = UserMealsFirestore::class.java.name
 
     override suspend fun addMeal(
         userId: String,
         params: MealParams,
         filterParams: MealFilterParams) {
 
-        val mId = uuidGenerator.get()
+        val pathPrefix = timeFormatterService.getAsPath(Date())
+        val mId = "$pathPrefix:${uuidGenerator.get()}"
 
         firestore.collection(FirebaseDataBaseCollectionNames.USERS)
             .document(userId)
@@ -79,8 +99,11 @@ class UserMealsFirestore(
             .addOnFailureListener { throw MealException(error = it) }
     }
 
+    //TODO need to setup onLoadMore(), where do we want to have state, that is the question
     @ExperimentalCoroutinesApi
     override suspend fun getMeals(uId: String): List<Meal> {
+        val date = timeFormatterService.getByDate(Date())
+
         return suspendCancellableCoroutine { continuation ->
             firestore.collection(FirebaseDataBaseCollectionNames.USERS)
                 .document(uId)
@@ -88,11 +111,11 @@ class UserMealsFirestore(
                 .addOnSuccessListener { queryDocumentSnapshot ->
                     queryDocumentSnapshot
                         .reference
-                        .collection(FirebaseDataBaseCollectionNames.MEALS)
+                        .collection("${FirebaseDataBaseCollectionNames.MEALS}/${date[YEAR]}/${date[MONTH]}")
                         .get()
                         .addOnSuccessListener { mealQuerySnapshot ->
-                            val list: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
-                                val mealFirebase: MealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
+                            val meals: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
+                                val mealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
 
                                 val mealTimeParams = when (mealFirebase.from) {
                                     BreakfastTime.from -> { BreakfastTime }
@@ -113,15 +136,13 @@ class UserMealsFirestore(
                                 val meal = Meal(id = mealDocumentsSnapshot.id, params = mealParams, filterParams = mealFilterParams)
 
                                 meal
-                            }.toList()
+                            }
 
-                            list.forEach { meal -> IOCLogger.d(tag, meal.toString()) }
-
-                            continuation.resume(list) { throw MealException() }
+                            continuation.resume(meals) { throw MealException() }
                         }
-                        .addOnFailureListener { error -> continuation.resumeWithException(MealException(error = error)) }
+                        .addOnFailureListener { continuation.resumeWithException(MealException()) }
                 }
-                .addOnFailureListener { error -> continuation.resumeWithException(MealException(error = error)) }
+                .addOnFailureListener { continuation.resumeWithException(MealException()) }
         }
     }
 }

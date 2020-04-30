@@ -12,6 +12,8 @@ import com.example.inputofcalories.presentation.regularflow.home.viewmodel.*
 import com.example.inputofcalories.repo.regularflow.*
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesFirestore
 import com.example.inputofcalories.repo.regularflow.dailycalories.DailyCaloriesRepo
+import com.example.inputofcalories.repo.service.datetime.DateTimeGeneratorService
+import com.example.inputofcalories.repo.service.datetime.IOCDateTimeGenerator
 import com.example.inputofcalories.repo.service.uuidgenerator.IOCUUIDGenerator
 import com.example.inputofcalories.repo.service.uuidgenerator.UUIDGeneratorService
 import org.koin.android.viewmodel.dsl.viewModel
@@ -21,7 +23,9 @@ val mealsmodule = module {
 
     single<UUIDGeneratorService> { IOCUUIDGenerator() }
 
-    single<UserMealsRepo> { UserMealsFirestore(get(), get()) }
+    single<DateTimeGeneratorService> { IOCDateTimeGenerator() }
+
+    single<UserMealsRepo> { UserMealsFirestore(get(), get(), get()) }
 
     single<UserMealsUseCase> { IocUserMeals(get(), get()) }
 

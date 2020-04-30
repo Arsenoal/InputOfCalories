@@ -4,6 +4,7 @@ import com.example.inputofcalories.common.exception.MealException
 import com.example.inputofcalories.entity.presentation.regular.*
 import com.example.inputofcalories.repo.db.FirebaseDataBaseCollectionNames
 import com.example.inputofcalories.repo.regularflow.model.MealFirebase
+import com.example.inputofcalories.repo.service.datetime.DAY
 import com.example.inputofcalories.repo.service.datetime.DateTimeGeneratorService
 import com.example.inputofcalories.repo.service.datetime.MONTH
 import com.example.inputofcalories.repo.service.datetime.YEAR
@@ -42,7 +43,10 @@ class UserMealsFirestore(
         params: MealParams,
         filterParams: MealFilterParams) {
 
-        val pathPrefix = timeFormatterService.getAsPath(Date())
+        val calendar = Calendar.getInstance()
+        filterParams.date.run { calendar.set(year.toInt(), month.toInt(), dayOfMonth.toInt()) }
+
+        val pathPrefix = timeFormatterService.getAsPath(calendar.time)
         val mId = "$pathPrefix:${uuidGenerator.get()}"
 
         firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -99,10 +103,12 @@ class UserMealsFirestore(
             .addOnFailureListener { throw MealException(error = it) }
     }
 
-    //TODO need to setup onLoadMore(), where do we want to have state, that is the question
     @ExperimentalCoroutinesApi
-    override suspend fun getMeals(uId: String): List<Meal> {
-        val date = timeFormatterService.getByDate(Date())
+    override suspend fun loadMeals(uId: String): List<Meal> {
+        val date = Date()
+        val dateFormatted = timeFormatterService.getByDate(date)
+
+        val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString()
 
         return suspendCancellableCoroutine { continuation ->
             firestore.collection(FirebaseDataBaseCollectionNames.USERS)
@@ -111,7 +117,59 @@ class UserMealsFirestore(
                 .addOnSuccessListener { queryDocumentSnapshot ->
                     queryDocumentSnapshot
                         .reference
-                        .collection("${FirebaseDataBaseCollectionNames.MEALS}/${date[YEAR]}/${date[MONTH]}")
+                        .collection("${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}")
+                        .orderBy("day")
+                        .startAt(day)
+                        .get()
+                        .addOnSuccessListener { mealQuerySnapshot ->
+                            val meals: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
+                                val mealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
+
+                                val mealTimeParams = when (mealFirebase.from) {
+                                    BreakfastTime.from -> { BreakfastTime }
+                                    LunchTime.from -> { LunchTime }
+                                    DinnerTime.from -> { DinnerTime }
+                                    SnackTime.from -> { SnackTime }
+                                    else -> { LunchTime }
+                                }
+
+                                val mealParams = with(mealFirebase) {
+                                    MealParams(text = text, calories = calories, weight = weight)
+                                }
+
+                                val mealFilterParams = with(mealFirebase) {
+                                    MealFilterParams(date = MealDateParams(year = year, month = month, dayOfMonth = day), time = mealTimeParams)
+                                }
+
+                                val meal = Meal(id = mealDocumentsSnapshot.id, params = mealParams, filterParams = mealFilterParams)
+
+                                meal
+                            }
+
+                            continuation.resume(meals) { throw MealException() }
+                        }
+                        .addOnFailureListener { continuation.resumeWithException(MealException()) }
+                }
+                .addOnFailureListener { continuation.resumeWithException(MealException()) }
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    override suspend fun loadMoreMeals(uId: String, date: Date): List<Meal> {
+        val dateFormatted: Map<Int, String> = timeFormatterService.getByDate(date)
+        val day: String = dateFormatted[DAY] ?: ""
+
+        return suspendCancellableCoroutine { continuation ->
+            firestore.collection(FirebaseDataBaseCollectionNames.USERS)
+                .document(uId)
+                .get()
+                .addOnSuccessListener { queryDocumentSnapshot ->
+                    queryDocumentSnapshot
+                        .reference
+                        .collection("${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}")
+                        .orderBy("day")
+                        .startAt(day)
+                        .endAt("${day}\uf8ff")
                         .get()
                         .addOnSuccessListener { mealQuerySnapshot ->
                             val meals: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->

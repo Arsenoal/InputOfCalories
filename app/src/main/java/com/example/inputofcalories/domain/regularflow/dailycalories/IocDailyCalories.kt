@@ -13,7 +13,7 @@ class IocDailyCalories(
 
     override suspend fun isLimitExceeded(): Boolean {
         val user = userRepo.get()
-        val meals = userMealsRepo.getMeals(user.id)
+        val meals = userMealsRepo.loadMeals(user.id)
 
         val dailyMeals = meals.filter { meal ->
             val calendar = Calendar.getInstance()

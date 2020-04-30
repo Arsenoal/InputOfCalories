@@ -15,20 +15,42 @@ import com.example.inputofcalories.presentation.regularflow.model.entity.GetMeal
 import com.example.inputofcalories.presentation.regularflow.model.entity.GetMealsState.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import java.util.*
 
 class MealsViewModel(
     private val userUseCase: UserUseCase,
     private val userMealsUseCase: UserMealsUseCase
 ): BaseViewModel() {
 
-    fun getMeals() = liveData(Dispatchers.Main) {
+    fun loadMeals() = liveData(Dispatchers.Main) {
         switchToDefault {
             try {
                 val userId = userUseCase.get().id
-                val meals = userMealsUseCase.getMeals(userId)
+                val meals = userMealsUseCase.loadMeals(userId)
+
+                switchToUi {
+                    if(meals.isEmpty()) emit(NoMealsToShow)
+                    else emit(GetMealsSucceed(meals))
+                }
+
+            } catch (ex: MealException) { switchToUi { emit(GetMealsFailed) } }
+        }
+    }
+
+    fun loadMoreMeals(page: Int) = liveData(Dispatchers.Main) {
+        switchToDefault {
+            try {
+                val date = with(Calendar.getInstance()) {
+                    time = Date()
+                    add(Calendar.DATE, 0 - page)
+
+                    this
+                }.time
+
+                val userId = userUseCase.get().id
+                val meals = userMealsUseCase.loadMoreMeals(userId, date)
 
                 switchToUi { emit(GetMealsSucceed(meals)) }
-
             } catch (ex: MealException) { switchToUi { emit(GetMealsFailed) } }
         }
     }
@@ -39,7 +61,7 @@ class MealsViewModel(
                 val userId = userUseCase.get().id
                 val meals =
                     if(mealFilterParams.isNotEmpty()) userMealsUseCase.getMealsFiltered(userId, mealFilterParams)
-                    else userMealsUseCase.getMeals(userId)
+                    else userMealsUseCase.loadMeals(userId)
 
                 switchToUi { emit(GetMealsFilteredSucceed(meals)) }
 

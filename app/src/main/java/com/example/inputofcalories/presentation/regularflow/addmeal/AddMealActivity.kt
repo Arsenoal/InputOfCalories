@@ -109,7 +109,7 @@ class AddMealActivity: BaseActivity(), MealTimeParamHolder {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        ActivityNavigator.finish(this)
         return true
     }
 

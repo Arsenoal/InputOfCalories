@@ -6,6 +6,7 @@ import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.entity.presentation.regular.MealParams
 import com.example.inputofcalories.repo.regularflow.UserMealsRepo
 import com.example.inputofcalories.repo.user.UserRepo
+import java.util.*
 
 class IocUserMeals(
     private val userRepo: UserRepo,
@@ -22,8 +23,11 @@ class IocUserMeals(
             = with(userMealsRepo) { editMeal(meal) }
 
     override suspend fun getMealsFiltered(uId: String, mealFilterParams: List<MealFilterParams>)
-            = with(userMealsRepo) { getMeals(uId).filter { meal -> mealFilterParams.contains(meal.filterParams) } }
+            = with(userMealsRepo) { loadMeals(uId).filter { meal -> mealFilterParams.contains(meal.filterParams) } }
 
-    override suspend fun getMeals(uId: String)
-            = with(userMealsRepo) { getMeals(uId) }
+    override suspend fun loadMeals(uId: String)
+            = with(userMealsRepo) { loadMeals(uId) }
+
+    override suspend fun loadMoreMeals(uId: String, date: Date)
+            = with(userMealsRepo) { loadMoreMeals(uId, date) }
 }

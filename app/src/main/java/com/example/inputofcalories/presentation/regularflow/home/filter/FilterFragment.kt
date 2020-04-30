@@ -12,11 +12,9 @@ import com.example.inputofcalories.presentation.regularflow.home.RegularUserHome
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
 import kotlinx.android.synthetic.main.fragment_filter.*
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.util.*
-
 
 class FilterFragment: BaseFragment() {
 

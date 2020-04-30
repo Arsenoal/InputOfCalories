@@ -52,12 +52,6 @@ class MealsRecyclerAdapter(
                     Html.fromHtml(resources.getString(R.string.meal_weight_placeholder)), mealAdapterModel.weight)
 
             if(mealAdapterModel.isLimitExceeded) { rootView.setBackgroundResource(R.drawable.limit_exceeded_bg) }
-            /*else when(mealAdapterModel.timeParams) {View
-                BreakfastTime -> { rootView.setBackgroundResource(R.drawable.breakfast_bg) }
-                LunchTime -> { rootView.setBackgroundResource(R.drawable.lunch_bg) }
-                SnackTime -> { rootView.setBackgroundResource(R.drawable.snack_bg) }
-                DinnerTime -> { rootView.setBackgroundResource(R.drawable.dinner_bg) }
-            }*/
         }
     }
 
@@ -73,36 +67,34 @@ class MealsRecyclerAdapter(
         notifyDataSetChanged()
     }
 
+    fun addItems(items: List<MealAdapterModel>) {
+        val initialSize = meals.size
+        meals.addAll(items)
+        notifyItemRangeInserted(initialSize, items.size)
+    }
+
     fun deleteItem(position: Int) {
         meals.removeAt(position)
         notifyItemRemoved(position)
     }
 
-    fun markOnLimitExceeded(meals: List<MealAdapterModel>? = null) {
-        meals?.run {
-            forEach { it.isLimitExceeded = true }
-            notifyDataSetChanged()
-        }
+    fun markOnLimitExceeded(meals: List<MealAdapterModel>) = with(meals) {
+        forEach { it.isLimitExceeded = true }
+        notifyDataSetChanged()
     }
 
-    fun markOnLimitNotExceeded(meals: List<MealAdapterModel>? = null) {
-        meals?.run{
-            forEach { it.isLimitExceeded = false }
-            notifyDataSetChanged()
-        }
+    fun markOnLimitNotExceeded(meals: List<MealAdapterModel>) = with(meals) {
+        forEach { it.isLimitExceeded = false }
+        notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: MealViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MealViewHolder, position: Int) = with(holder) {
         val mealAdapterModel = meals[position]
 
-        holder.bind(mealAdapterModel)
+        bind(mealAdapterModel)
 
-        holder.itemView.setOnClickListener {
-            mealSelectedLiveData.value = mealAdapterModel
-        }
+        itemView.setOnClickListener { mealSelectedLiveData.value = mealAdapterModel }
 
-        holder.deleteMealButton.setOnClickListener {
-            mealDeleteClickedLiveData.value = DeleteParams(mealAdapterModel.id, position)
-        }
+        deleteMealButton.setOnClickListener { mealDeleteClickedLiveData.value = DeleteParams(mealAdapterModel.id, position) }
     }
 }

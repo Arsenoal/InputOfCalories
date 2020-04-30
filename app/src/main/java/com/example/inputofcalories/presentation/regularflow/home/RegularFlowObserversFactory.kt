@@ -7,7 +7,7 @@ import com.example.inputofcalories.presentation.regularflow.model.entity.DeleteM
 
 class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapter: MealsRecyclerAdapter) {
 
-    private val getMealsObserver = Observer<GetMealsState> { state ->
+    private val loadMealsObserver = Observer<GetMealsState> { state ->
         when(state) {
             is GetMealsState.GetMealsSucceed -> {
                 activity.hideProgress()
@@ -16,7 +16,7 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
             GetMealsState.NoMealsToShow -> {
                 activity.run {
                     hideProgress()
-                    showEmptyMealsUi()
+                    loadMore()
                 }
             }
             GetMealsState.GetMealsFailed -> {
@@ -25,6 +25,17 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
                     showReloadMealsOption()
                 }
             }
+        }
+    }
+
+    private val loadMoreObserver = Observer<GetMealsState> { state ->
+        when(state) {
+            is GetMealsState.GetMealsSucceed -> {
+                activity.hideProgress()
+                mealsAdapter.addItems(state.meals.map { meal -> meal.toAdapterModel() })
+            }
+            GetMealsState.NoMealsToShow -> { }
+            GetMealsState.GetMealsFailed -> { }
         }
     }
 
@@ -46,11 +57,11 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
         when(state) {
             DailyCaloriesLimitState.DailyLimitExceeded -> {
                 activity.hideProgress()
-                mealsAdapter.markOnLimitExceeded()
+                //mealsAdapter.markOnLimitExceeded()
             }
             DailyCaloriesLimitState.DailyLimitNotExceeded -> {
                 activity.hideProgress()
-                mealsAdapter.markOnLimitNotExceeded()
+                //mealsAdapter.markOnLimitNotExceeded()
             }
         }
     }
@@ -76,7 +87,8 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
 
     @Suppress("UNCHECKED_CAST")
     fun <T> get(key: ObserverKey): Observer<in T> = when(key) {
-        ObserverKey.GetMealsObserver -> getMealsObserver as Observer<in T>
+        ObserverKey.GetMealsObserver -> loadMealsObserver as Observer<in T>
+        ObserverKey.GetMoreMealsObserver -> loadMoreObserver as Observer<in T>
         ObserverKey.GetMealsFilteredObserver -> getMealsFilteredObserver as Observer<in T>
         ObserverKey.CheckDailyLimitObserver -> checkDailyCaloriesObserver as Observer<in T>
         ObserverKey.DeleteMealObserver -> deleteMealObserver as Observer<in T>
@@ -85,6 +97,7 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
 
     sealed class ObserverKey {
         object GetMealsObserver: ObserverKey()
+        object GetMoreMealsObserver: ObserverKey()
         object GetMealsFilteredObserver: ObserverKey()
         object CheckDailyLimitObserver: ObserverKey()
         object DeleteMealObserver: ObserverKey()

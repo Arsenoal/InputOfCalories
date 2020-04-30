@@ -44,7 +44,7 @@ class UserMealsActivity: BaseActivity() {
     }
 
     private fun loadMeals() {
-        mealsViewModel.getMeals().observe(this, observersFactory.get(ObservableKey.GetMealsObservable))
+        mealsViewModel.loadMeals().observe(this, observersFactory.get(ObservableKey.GetMealsObservable))
     }
 
     fun deleteMeal(position: Int) {

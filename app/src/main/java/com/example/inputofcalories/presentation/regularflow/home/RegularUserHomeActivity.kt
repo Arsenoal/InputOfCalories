@@ -10,11 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.presentation.auth.AuthActivity
 import com.example.inputofcalories.presentation.regularflow.home.RegularFlowObserversFactory.ObserverKey
 import com.example.inputofcalories.presentation.base.BaseActivity
+import com.example.inputofcalories.presentation.common.EndlessRecyclerViewScrollListener
 import com.example.inputofcalories.presentation.common.ProgressView
 import com.example.inputofcalories.presentation.commonextras.ExtraKeys.MEAL_EXTRA
 import com.example.inputofcalories.presentation.navigation.ActivityNavigator
@@ -43,6 +45,8 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
     private lateinit var observerFactory: RegularFlowObserversFactory
 
+    private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
+
     var filterFlow: Flow<List<MealFilterParams>>? = null
     set(value) {
         field = value
@@ -60,6 +64,8 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
     private val mealsAdapter = MealsRecyclerAdapter()
 
     private var isFilterOpened = false
+
+    private var itemsTodayFound = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +89,8 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
     override fun onResume() {
         super.onResume()
 
+        itemsTodayFound = true
+        endlessRecyclerViewScrollListener.resetState()
         loadMeals()
     }
 
@@ -92,7 +100,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
     private fun loadMeals() {
         showProgress()
-        mealsViewModel.getMeals().observe(this, observerFactory.get(ObserverKey.GetMealsObserver))
+        mealsViewModel.loadMeals().observe(this, observerFactory.get(ObserverKey.GetMealsObserver))
     }
 
     private fun checkDailyCaloriesLimit() {
@@ -101,8 +109,9 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
             .observe(this, observerFactory.get(ObserverKey.CheckDailyLimitObserver))
     }
 
-    fun showEmptyMealsUi() {
-        noMealsToShowTextView.visibility = VISIBLE
+    fun loadMore() {
+        itemsTodayFound = false
+        mealsViewModel.loadMoreMeals(1).observe(this@RegularUserHomeActivity, observerFactory.get(ObserverKey.GetMoreMealsObserver))
     }
 
     fun showReloadMealsOption() {
@@ -110,7 +119,8 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
     }
 
     private fun setupMealsRecyclerView() {
-        mealsRecyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager =  LinearLayoutManager(this)
+        mealsRecyclerView.layoutManager = layoutManager
         mealsRecyclerView.adapter = mealsAdapter
 
         mealsAdapter.mealSelectedLiveData.observe(this, Observer {
@@ -140,6 +150,16 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.red))
             dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.red))
         })
+
+        endlessRecyclerViewScrollListener = object: EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                val mPage = if(itemsTodayFound) page else page + 1
+
+                mealsViewModel.loadMoreMeals(mPage).observe(this@RegularUserHomeActivity, observerFactory.get(ObserverKey.GetMoreMealsObserver))
+            }
+        }
+
+        mealsRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
     }
 
     private fun setupClickListeners() {

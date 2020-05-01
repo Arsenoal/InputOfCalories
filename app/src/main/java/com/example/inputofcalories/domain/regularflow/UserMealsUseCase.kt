@@ -13,9 +13,9 @@ interface UserMealsUseCase {
 
     suspend fun editMeal(meal: Meal)
 
-    suspend fun getMealsFiltered(uId: String, mealFilterParams: List<MealFilterParams>): List<Meal>
+    suspend fun getMealsFiltered(mealFilterParams: List<MealFilterParams>): List<Meal>
 
-    suspend fun loadMeals(uId: String): List<Meal>
+    suspend fun loadMeals(): List<Meal>
 
-    suspend fun loadMoreMeals(uId: String, date: Date): List<Meal>
+    suspend fun loadMoreMeals(date: Date): List<Meal>
 }

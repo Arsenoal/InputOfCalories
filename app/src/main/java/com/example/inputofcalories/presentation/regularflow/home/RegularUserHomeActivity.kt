@@ -67,6 +67,8 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
     private var itemsTodayFound = true
 
+    private var pageDelay = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_regular_user_home)
@@ -111,7 +113,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
     fun loadMore() {
         itemsTodayFound = false
-        mealsViewModel.loadMoreMeals(1).observe(this@RegularUserHomeActivity, observerFactory.get(ObserverKey.GetMoreMealsObserver))
+        mealsViewModel.loadMoreMeals(pageDelay++).observe(this@RegularUserHomeActivity, observerFactory.get(ObserverKey.GetMoreMealsObserver))
     }
 
     fun showReloadMealsOption() {
@@ -153,7 +155,7 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
 
         endlessRecyclerViewScrollListener = object: EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                val mPage = if(itemsTodayFound) page else page + 1
+                val mPage = if(itemsTodayFound) page else page + pageDelay
 
                 mealsViewModel.loadMoreMeals(mPage).observe(this@RegularUserHomeActivity, observerFactory.get(ObserverKey.GetMoreMealsObserver))
             }

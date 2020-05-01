@@ -34,7 +34,9 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
                 activity.hideProgress()
                 mealsAdapter.addItems(state.meals.map { meal -> meal.toAdapterModel() })
             }
-            GetMealsState.NoMealsToShow -> { }
+            GetMealsState.NoMealsToShow -> {
+                activity.run { loadMore() }
+            }
             GetMealsState.GetMealsFailed -> { }
         }
     }

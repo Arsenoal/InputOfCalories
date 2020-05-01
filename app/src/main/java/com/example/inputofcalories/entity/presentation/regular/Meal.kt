@@ -2,6 +2,7 @@ package com.example.inputofcalories.entity.presentation.regular
 
 import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
 import com.example.inputofcalories.presentation.regularflow.model.MealSerializable
+import com.example.inputofcalories.repo.regularflow.model.MealFirebase
 
 data class Meal(val id: String, val params: MealParams, val filterParams: MealFilterParams) {
     override fun toString() = "Meal: {id: $id, params: $params}"
@@ -58,5 +59,18 @@ fun Meal.toMealSerializable() = with(this) {
         month = filterParams.date.month,
         year = filterParams.date.year,
         timeParam = filterParams.time
+    )
+}
+
+fun Meal.toMealFirebase() = with(this) {
+    MealFirebase(
+        calories = params.calories,
+        text = params.text,
+        weight = params.weight,
+        day = filterParams.date.dayOfMonth,
+        month = filterParams.date.month,
+        year = filterParams.date.year,
+        from = filterParams.time.from,
+        to = filterParams.time.to
     )
 }

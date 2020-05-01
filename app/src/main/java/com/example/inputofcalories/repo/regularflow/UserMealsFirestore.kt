@@ -49,58 +49,48 @@ class UserMealsFirestore(
         val pathPrefix = timeFormatterService.getAsPath(calendar.time)
         val mId = "$pathPrefix:${uuidGenerator.get()}"
 
-        firestore.collection(FirebaseDataBaseCollectionNames.USERS)
-            .document(userId)
-            .get()
-            .addOnSuccessListener {
-                val mealFirebase = MealFirebase(
-                    calories = params.calories, text = params.text, weight = params.weight,
-                    day = filterParams.date.dayOfMonth, month = filterParams.date.month, year = filterParams.date.year,
-                    from = filterParams.time.from, to = filterParams.time.to)
+        val mealFirebase = MealFirebase(
+            calories = params.calories, text = params.text, weight = params.weight,
+            day = filterParams.date.dayOfMonth, month = filterParams.date.month, year = filterParams.date.year,
+            from = filterParams.time.from, to = filterParams.time.to)
 
-                it.reference
-                    .collection(FirebaseDataBaseCollectionNames.MEALS)
-                    .document(mId)
-                    .set(mealFirebase)
-                    .addOnFailureListener { error -> throw MealException(error = error) }
-            }
+        val collectionPath = "${FirebaseDataBaseCollectionNames.USERS}/${FirebaseDataBaseCollectionNames.MEALS}/$mId"
+
+        firestore.collection(collectionPath)
+            .document(mId)
+            .set(mealFirebase)
             .addOnFailureListener { throw MealException(error = it) }
     }
 
-    override suspend fun deleteMeal(mealDeleteParams: MealDeleteParams) {
-        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
-            .addOnSuccessListener { userQuerySnapshot ->
-                userQuerySnapshot.filter { it.id == mealDeleteParams.userId }.map { userDocumentQuerySnapshot ->
+    override suspend fun deleteMeal(userId: String, mealDeleteParams: MealDeleteParams) {
+        val calendar = Calendar.getInstance()
+        mealDeleteParams.date.run { calendar.set(year.toInt(), month.toInt(), dayOfMonth.toInt()) }
+        val dateFormatted = timeFormatterService.getByDate(calendar.time)
 
-                    userDocumentQuerySnapshot.reference
-                        .collection(FirebaseDataBaseCollectionNames.MEALS)
-                        .document(mealDeleteParams.mealId)
-                        .delete()
-                        .addOnFailureListener { throw MealException(error = it) }
-                }
-            }
+        val collectionPath
+                = "${FirebaseDataBaseCollectionNames.USERS}/$userId/${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}"
+
+        firestore
+            .collection(collectionPath)
+            .document(mealDeleteParams.mealId)
+            .delete()
             .addOnFailureListener { throw MealException(error = it) }
     }
 
-    override suspend fun editMeal(meal: Meal) {
-        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
-            .addOnSuccessListener { userDocumentsQuerySnapshot ->
-                userDocumentsQuerySnapshot.forEach { queryDocumentSnapshot ->
-                    val mealFirebase = with(meal) {
-                        MealFirebase(
-                            calories = params.calories, text = params.text, weight = params.weight,
-                            day = filterParams.date.dayOfMonth, month = filterParams.date.month, year = filterParams.date.year,
-                            from = filterParams.time.from, to = filterParams.time.to)
-                    }
+    override suspend fun editMeal(userId: String, meal: Meal) {
+        val calendar = Calendar.getInstance()
+        meal.filterParams.date.run { calendar.set(year.toInt(), month.toInt(), dayOfMonth.toInt()) }
+        val dateFormatted = timeFormatterService.getByDate(calendar.time)
 
-                    queryDocumentSnapshot.reference
-                        .collection(FirebaseDataBaseCollectionNames.MEALS)
-                        .document(meal.id)
-                        .set(mealFirebase)
-                        .addOnFailureListener { throw MealException(error = it) }
-                }
-            }
+        val collectionPath
+                = "${FirebaseDataBaseCollectionNames.USERS}/$userId/${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}"
+
+        firestore
+            .collection(collectionPath)
+            .document(meal.id)
+            .set(meal.toMealFirebase())
             .addOnFailureListener { throw MealException(error = it) }
+
     }
 
     @ExperimentalCoroutinesApi
@@ -110,48 +100,48 @@ class UserMealsFirestore(
 
         val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH).toString()
 
+        val collectionPath
+                = "${FirebaseDataBaseCollectionNames.USERS}/$uId/${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}"
+
         return suspendCancellableCoroutine { continuation ->
-            firestore.collection(FirebaseDataBaseCollectionNames.USERS)
-                .document(uId)
+            firestore.collection(collectionPath)
+                .orderBy("day")
+                .startAt(day)
                 .get()
-                .addOnSuccessListener { queryDocumentSnapshot ->
-                    queryDocumentSnapshot
-                        .reference
-                        .collection("${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}")
-                        .orderBy("day")
-                        .startAt(day)
-                        .get()
-                        .addOnSuccessListener { mealQuerySnapshot ->
-                            val meals: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
-                                val mealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
+                .addOnSuccessListener { mealQuerySnapshot ->
+                    val meals: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
+                        val mealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
 
-                                val mealTimeParams = when (mealFirebase.from) {
-                                    BreakfastTime.from -> { BreakfastTime }
-                                    LunchTime.from -> { LunchTime }
-                                    DinnerTime.from -> { DinnerTime }
-                                    SnackTime.from -> { SnackTime }
-                                    else -> { LunchTime }
-                                }
-
-                                val mealParams = with(mealFirebase) {
-                                    MealParams(text = text, calories = calories, weight = weight)
-                                }
-
-                                val mealFilterParams = with(mealFirebase) {
-                                    MealFilterParams(date = MealDateParams(year = year, month = month, dayOfMonth = day), time = mealTimeParams)
-                                }
-
-                                val meal = Meal(id = mealDocumentsSnapshot.id, params = mealParams, filterParams = mealFilterParams)
-
-                                meal
-                            }
-
-                            continuation.resume(meals) { throw MealException() }
+                        val mealTimeParams = when (mealFirebase.from) {
+                            BreakfastTime.from -> { BreakfastTime }
+                            LunchTime.from -> { LunchTime }
+                            DinnerTime.from -> { DinnerTime }
+                            SnackTime.from -> { SnackTime }
+                            else -> { LunchTime }
                         }
-                        .addOnFailureListener { continuation.resumeWithException(MealException()) }
+
+                        val mealParams = with(mealFirebase) {
+                            MealParams(text = text, calories = calories, weight = weight)
+                        }
+
+                        val mealFilterParams = with(mealFirebase) {
+                            MealFilterParams(date = MealDateParams(year = year, month = month, dayOfMonth = day), time = mealTimeParams)
+                        }
+
+                        val meal = Meal(id = mealDocumentsSnapshot.id, params = mealParams, filterParams = mealFilterParams)
+
+                        meal
+                    }
+
+                    continuation.resume(meals) { throw MealException() }
                 }
                 .addOnFailureListener { continuation.resumeWithException(MealException()) }
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    override suspend fun loadMealsByDate(uId: String, date: Date): List<Meal> {
+        return listOf()
     }
 
     @ExperimentalCoroutinesApi
@@ -159,46 +149,42 @@ class UserMealsFirestore(
         val dateFormatted: Map<Int, String> = timeFormatterService.getByDate(date)
         val day: String = dateFormatted[DAY] ?: ""
 
+        val collectionPath
+                = "${FirebaseDataBaseCollectionNames.USERS}/$uId/${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}"
+
         return suspendCancellableCoroutine { continuation ->
-            firestore.collection(FirebaseDataBaseCollectionNames.USERS)
-                .document(uId)
+            firestore
+                .collection(collectionPath)
+                .orderBy("day")
+                .startAt(day)
+                .endAt("${day}\uf8ff")
                 .get()
-                .addOnSuccessListener { queryDocumentSnapshot ->
-                    queryDocumentSnapshot
-                        .reference
-                        .collection("${FirebaseDataBaseCollectionNames.MEALS}/${dateFormatted[YEAR]}/${dateFormatted[MONTH]}")
-                        .orderBy("day")
-                        .startAt(day)
-                        .endAt("${day}\uf8ff")
-                        .get()
-                        .addOnSuccessListener { mealQuerySnapshot ->
-                            val meals: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
-                                val mealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
+                .addOnSuccessListener { mealQuerySnapshot ->
+                    val meals: List<Meal> = mealQuerySnapshot.map { mealDocumentsSnapshot ->
+                        val mealFirebase = mealDocumentsSnapshot.toObject(MealFirebase::class.java)
 
-                                val mealTimeParams = when (mealFirebase.from) {
-                                    BreakfastTime.from -> { BreakfastTime }
-                                    LunchTime.from -> { LunchTime }
-                                    DinnerTime.from -> { DinnerTime }
-                                    SnackTime.from -> { SnackTime }
-                                    else -> { LunchTime }
-                                }
-
-                                val mealParams = with(mealFirebase) {
-                                    MealParams(text = text, calories = calories, weight = weight)
-                                }
-
-                                val mealFilterParams = with(mealFirebase) {
-                                    MealFilterParams(date = MealDateParams(year = year, month = month, dayOfMonth = day), time = mealTimeParams)
-                                }
-
-                                val meal = Meal(id = mealDocumentsSnapshot.id, params = mealParams, filterParams = mealFilterParams)
-
-                                meal
-                            }
-
-                            continuation.resume(meals) { throw MealException() }
+                        val mealTimeParams = when (mealFirebase.from) {
+                            BreakfastTime.from -> { BreakfastTime }
+                            LunchTime.from -> { LunchTime }
+                            DinnerTime.from -> { DinnerTime }
+                            SnackTime.from -> { SnackTime }
+                            else -> { LunchTime }
                         }
-                        .addOnFailureListener { continuation.resumeWithException(MealException()) }
+
+                        val mealParams = with(mealFirebase) {
+                            MealParams(text = text, calories = calories, weight = weight)
+                        }
+
+                        val mealFilterParams = with(mealFirebase) {
+                            MealFilterParams(date = MealDateParams(year = year, month = month, dayOfMonth = day), time = mealTimeParams)
+                        }
+
+                        val meal = Meal(id = mealDocumentsSnapshot.id, params = mealParams, filterParams = mealFilterParams)
+
+                        meal
+                    }
+
+                    continuation.resume(meals) { throw MealException() }
                 }
                 .addOnFailureListener { continuation.resumeWithException(MealException()) }
         }

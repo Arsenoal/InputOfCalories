@@ -17,6 +17,9 @@ data class MealAdapterModel(
 
 data class DeleteParams(
     val mealId: String,
+    val year: String,
+    val month: String,
+    val dayOfMount: String,
     val position: Int
 )
 
@@ -30,5 +33,15 @@ fun MealAdapterModel.toMealSerializable() = with(this) {
         month = month,
         dayOfMonth = dayOfMonth,
         timeParam = timeParams
+    )
+}
+
+fun MealAdapterModel.toDeleteParams(position: Int) = with(this) {
+    DeleteParams(
+        mealId = id,
+        year = year,
+        month = month,
+        dayOfMount = dayOfMonth,
+        position = position
     )
 }

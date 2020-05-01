@@ -4,6 +4,7 @@ import androidx.lifecycle.liveData
 import com.example.inputofcalories.common.exception.MealException
 import com.example.inputofcalories.domain.regularflow.UserMealsUseCase
 import com.example.inputofcalories.domain.user.UserUseCase
+import com.example.inputofcalories.entity.presentation.regular.MealDateParams
 import com.example.inputofcalories.entity.presentation.regular.MealDeleteParams
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.presentation.base.BaseViewModel
@@ -25,8 +26,7 @@ class MealsViewModel(
     fun loadMeals() = liveData(Dispatchers.Main) {
         switchToDefault {
             try {
-                val userId = userUseCase.get().id
-                val meals = userMealsUseCase.loadMeals(userId)
+                val meals = userMealsUseCase.loadMeals()
 
                 switchToUi {
                     if(meals.isEmpty()) emit(NoMealsToShow)
@@ -47,8 +47,7 @@ class MealsViewModel(
                     this
                 }.time
 
-                val userId = userUseCase.get().id
-                val meals = userMealsUseCase.loadMoreMeals(userId, date)
+                val meals = userMealsUseCase.loadMoreMeals(date)
 
                 switchToUi { emit(GetMealsSucceed(meals)) }
             } catch (ex: MealException) { switchToUi { emit(GetMealsFailed) } }
@@ -58,10 +57,9 @@ class MealsViewModel(
     fun getMealsFiltered(mealFilterParams: List<MealFilterParams>) = liveData(Dispatchers.Main) {
         switchToDefault {
             try {
-                val userId = userUseCase.get().id
                 val meals =
-                    if(mealFilterParams.isNotEmpty()) userMealsUseCase.getMealsFiltered(userId, mealFilterParams)
-                    else userMealsUseCase.loadMeals(userId)
+                    if(mealFilterParams.isNotEmpty()) userMealsUseCase.getMealsFiltered(mealFilterParams)
+                    else userMealsUseCase.loadMeals()
 
                 switchToUi { emit(GetMealsFilteredSucceed(meals)) }
 
@@ -72,8 +70,15 @@ class MealsViewModel(
     fun deleteMeal(deleteParams: DeleteParams) = liveData(Dispatchers.Main) {
         try {
             delay(150)
-            val userId = userUseCase.get().id
-            userMealsUseCase.deleteMeal(MealDeleteParams(userId, deleteParams.mealId))
+
+            userMealsUseCase.deleteMeal(
+                MealDeleteParams(
+                    mealId = deleteParams.mealId,
+                    date = MealDateParams(
+                        year = deleteParams.year,
+                        month = deleteParams.month,
+                        dayOfMonth = deleteParams.dayOfMount
+                    )))
 
             switchToUi { emit(DeleteMealSucceed(deleteParams.position)) }
 

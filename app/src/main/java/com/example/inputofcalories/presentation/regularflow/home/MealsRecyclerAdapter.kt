@@ -10,12 +10,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
-import com.example.inputofcalories.entity.presentation.regular.BreakfastTime
-import com.example.inputofcalories.entity.presentation.regular.DinnerTime
-import com.example.inputofcalories.entity.presentation.regular.LunchTime
-import com.example.inputofcalories.entity.presentation.regular.SnackTime
 import com.example.inputofcalories.presentation.regularflow.home.model.DeleteParams
 import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
+import com.example.inputofcalories.presentation.regularflow.home.model.toDeleteParams
 import java.util.*
 
 class MealsRecyclerAdapter(
@@ -78,11 +75,13 @@ class MealsRecyclerAdapter(
         notifyItemRemoved(position)
     }
 
+    @Suppress("UNUSED")
     fun markOnLimitExceeded(meals: List<MealAdapterModel>) = with(meals) {
         forEach { it.isLimitExceeded = true }
         notifyDataSetChanged()
     }
 
+    @Suppress("UNUSED")
     fun markOnLimitNotExceeded(meals: List<MealAdapterModel>) = with(meals) {
         forEach { it.isLimitExceeded = false }
         notifyDataSetChanged()
@@ -95,6 +94,6 @@ class MealsRecyclerAdapter(
 
         itemView.setOnClickListener { mealSelectedLiveData.value = mealAdapterModel }
 
-        deleteMealButton.setOnClickListener { mealDeleteClickedLiveData.value = DeleteParams(mealAdapterModel.id, position) }
+        deleteMealButton.setOnClickListener { mealDeleteClickedLiveData.value = mealAdapterModel.toDeleteParams(position) }
     }
 }

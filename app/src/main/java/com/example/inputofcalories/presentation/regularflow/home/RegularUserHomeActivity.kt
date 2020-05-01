@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
+import com.example.inputofcalories.entity.presentation.regular.Meal
 import com.example.inputofcalories.entity.presentation.regular.MealFilterParams
 import com.example.inputofcalories.presentation.auth.AuthActivity
 import com.example.inputofcalories.presentation.regularflow.home.RegularFlowObserversFactory.ObserverKey
@@ -80,8 +81,6 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         setupMealsRecyclerView()
 
         setupClickListeners()
-
-        checkDailyCaloriesLimit()
     }
 
     private fun setupToolbar() {
@@ -105,9 +104,9 @@ class RegularUserHomeActivity : BaseActivity(), ProgressView {
         mealsViewModel.loadMeals().observe(this, observerFactory.get(ObserverKey.GetMealsObserver))
     }
 
-    private fun checkDailyCaloriesLimit() {
+    fun checkDailyCaloriesLimit(meals: List<Meal>) {
         dailyCaloriesViewModel
-            .checkDailyLimit()
+            .checkDailyLimit(meals)
             .observe(this, observerFactory.get(ObserverKey.CheckDailyLimitObserver))
     }
 

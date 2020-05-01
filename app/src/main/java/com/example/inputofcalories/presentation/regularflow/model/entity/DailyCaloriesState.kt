@@ -1,5 +1,7 @@
 package com.example.inputofcalories.presentation.regularflow.model.entity
 
+import com.example.inputofcalories.entity.presentation.regular.Meal
+
 sealed class DailyCaloriesState {
     object DailyCaloriesSaveSucceed : DailyCaloriesState()
 
@@ -7,7 +9,7 @@ sealed class DailyCaloriesState {
 }
 
 sealed class DailyCaloriesLimitState {
-    object DailyLimitExceeded : DailyCaloriesLimitState()
+    class DailyLimitExceeded(val meals: List<Meal>) : DailyCaloriesLimitState()
 
     object DailyLimitNotExceeded : DailyCaloriesLimitState()
 }

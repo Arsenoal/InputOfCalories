@@ -29,26 +29,29 @@ class DailyCaloriesFirestore(
         }
     }
 
-    //TODO pass continuation as function argument
+    @ExperimentalCoroutinesApi
     override suspend fun updateDailyCaloriesLimit(userId: String, dailyCaloriesLimit: String) {
-        firestore.collection(FirebaseDataBaseCollectionNames.USERS).get()
-            .addOnSuccessListener { usersQuerySnapshot ->
-                usersQuerySnapshot
-                    .filter { it.id == userId }
-                    .map {
-                        val userFirebase = it.toObject(UserFirebase::class.java)
+        return suspendCancellableCoroutine { continuation ->
+            firestore
+                .collection(FirebaseDataBaseCollectionNames.USERS)
+                .document(userId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val userFirebase = documentSnapshot.toObject(UserFirebase::class.java)
 
+                    userFirebase?.let {
                         val userUpdateFirebase = with(userFirebase) {
-                            UserFirebase(id = id, name = name, email = email, dailyCalories = dailyCalories, password = password, type = type
-                            )
+                            UserFirebase(id = id, name = name, email = email, dailyCalories = dailyCaloriesLimit, password = password, type = type)
                         }
 
                         firestore.collection(FirebaseDataBaseCollectionNames.USERS)
                             .document(userId)
                             .set(userUpdateFirebase)
-                            .addOnFailureListener { error -> throw UserDailyCaloriesUpdateException(error = error) }
+                            .addOnSuccessListener { continuation.resume(Unit) { throw UserDailyCaloriesUpdateException() } }
+                            .addOnFailureListener { continuation.resumeWithException(UserDailyCaloriesUpdateException()) }
                     }
-            }
-            .addOnFailureListener { error -> throw UserDailyCaloriesUpdateException(error = error) }
+                }
+                .addOnFailureListener { continuation.resumeWithException(UserDailyCaloriesUpdateException()) }
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.inputofcalories.domain.regularflow.dailycalories
 
-interface DailyCaloriesUseCase {
-    suspend fun isLimitExceeded(): Boolean
+import com.example.inputofcalories.entity.presentation.regular.Meal
 
-    suspend fun updateDailyCaloriesLimit(userId: String, dailyCalories: String)
+interface DailyCaloriesUseCase {
+    suspend fun isLimitExceeded(meals: List<Meal>): Boolean
+
+    suspend fun updateDailyCaloriesLimit(dailyCalories: String)
 }

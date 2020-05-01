@@ -45,3 +45,7 @@ fun MealAdapterModel.toDeleteParams(position: Int) = with(this) {
         position = position
     )
 }
+
+fun List<MealAdapterModel>.containsId(id: String): Boolean{
+    return find { it.id == id } != null
+}

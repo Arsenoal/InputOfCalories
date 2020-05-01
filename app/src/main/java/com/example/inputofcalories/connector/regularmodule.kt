@@ -37,9 +37,9 @@ val mealsmodule = module {
 
     single<DailyCaloriesRepo> { DailyCaloriesFirestore(get()) }
 
-    single<DailyCaloriesUseCase> { IocDailyCalories(get(), get(), get()) }
+    single<DailyCaloriesUseCase> { IocDailyCalories(get(), get()) }
 
-    viewModel { DailyCaloriesViewModel(get(), get()) }
+    viewModel { DailyCaloriesViewModel(get()) }
 
     viewModel { MealsViewModel(get(), get()) }
 

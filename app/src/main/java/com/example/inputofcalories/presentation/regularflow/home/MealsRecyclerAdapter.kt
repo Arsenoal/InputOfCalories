@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.inputofcalories.R
 import com.example.inputofcalories.presentation.regularflow.home.model.DeleteParams
 import com.example.inputofcalories.presentation.regularflow.home.model.MealAdapterModel
+import com.example.inputofcalories.presentation.regularflow.home.model.containsId
 import com.example.inputofcalories.presentation.regularflow.home.model.toDeleteParams
 import java.util.*
 
@@ -30,7 +32,6 @@ class MealsRecyclerAdapter(
         layoutInflater = LayoutInflater.from(recyclerView.context)
     }
 
-    @Suppress("DEPRECATION")
     class MealViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private val rootView: FrameLayout = view.findViewById(R.id.rootView)
         private val mealTextTextView: AppCompatTextView = view.findViewById(R.id.mealTextTextView)
@@ -42,13 +43,14 @@ class MealsRecyclerAdapter(
             val resources = rootView.context.resources
 
             mealTextTextView.text = mealAdapterModel.text
-            mealCaloriesTextView.text = String.format(Locale.ENGLISH, "%s%s",
-                Html.fromHtml(resources.getString(R.string.meal_calories_placeholder)), mealAdapterModel.calories)
+            @Suppress("DEPRECATION")
+            mealCaloriesTextView.text = String.format(Locale.ENGLISH, "%s%s", Html.fromHtml(resources.getString(R.string.meal_calories_placeholder)), mealAdapterModel.calories)
+            @Suppress("DEPRECATION")
             mealWeightTextView.text =
                 String.format(Locale.ENGLISH, "%s%sg",
                     Html.fromHtml(resources.getString(R.string.meal_weight_placeholder)), mealAdapterModel.weight)
 
-            if(mealAdapterModel.isLimitExceeded) { rootView.setBackgroundResource(R.drawable.limit_exceeded_bg) }
+            if(mealAdapterModel.isLimitExceeded) { rootView.setBackgroundColor(ContextCompat.getColor(rootView.context, R.color.coral_transparent)) }
         }
     }
 
@@ -75,16 +77,13 @@ class MealsRecyclerAdapter(
         notifyItemRemoved(position)
     }
 
-    @Suppress("UNUSED")
-    fun markOnLimitExceeded(meals: List<MealAdapterModel>) = with(meals) {
-        forEach { it.isLimitExceeded = true }
-        notifyDataSetChanged()
-    }
-
-    @Suppress("UNUSED")
-    fun markOnLimitNotExceeded(meals: List<MealAdapterModel>) = with(meals) {
-        forEach { it.isLimitExceeded = false }
-        notifyDataSetChanged()
+    fun markOnLimitExceeded(items: List<MealAdapterModel>) = with(meals) {
+        meals
+            .filter { items.containsId(it.id) }
+            .map {
+                it.isLimitExceeded = true
+                notifyItemChanged(meals.indexOf(it))
+            }
     }
 
     override fun onBindViewHolder(holder: MealViewHolder, position: Int) = with(holder) {

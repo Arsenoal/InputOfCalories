@@ -10,8 +10,10 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
     private val loadMealsObserver = Observer<GetMealsState> { state ->
         when(state) {
             is GetMealsState.GetMealsSucceed -> {
+                val meals = state.meals
                 activity.hideProgress()
-                mealsAdapter.setItems(state.meals.map { meal -> meal.toAdapterModel() })
+                mealsAdapter.setItems(meals.map { meal -> meal.toAdapterModel() })
+                activity.checkDailyCaloriesLimit(meals)
             }
             GetMealsState.NoMealsToShow -> {
                 activity.run {
@@ -31,8 +33,10 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
     private val loadMoreObserver = Observer<GetMealsState> { state ->
         when(state) {
             is GetMealsState.GetMealsSucceed -> {
+                val meals = state.meals
                 activity.hideProgress()
-                mealsAdapter.addItems(state.meals.map { meal -> meal.toAdapterModel() })
+                mealsAdapter.addItems(meals.map { meal -> meal.toAdapterModel() })
+                activity.checkDailyCaloriesLimit(meals)
             }
             GetMealsState.NoMealsToShow -> {
                 activity.run { loadMore() }
@@ -57,13 +61,13 @@ class RegularFlowObserversFactory(activity: RegularUserHomeActivity, mealsAdapte
 
     private val checkDailyCaloriesObserver = Observer<DailyCaloriesLimitState> { state ->
         when(state) {
-            DailyCaloriesLimitState.DailyLimitExceeded -> {
+            is DailyCaloriesLimitState.DailyLimitExceeded -> {
                 activity.hideProgress()
-                //mealsAdapter.markOnLimitExceeded()
+                val meals = state.meals.map { it.toAdapterModel() }
+                mealsAdapter.markOnLimitExceeded(meals)
             }
             DailyCaloriesLimitState.DailyLimitNotExceeded -> {
                 activity.hideProgress()
-                //mealsAdapter.markOnLimitNotExceeded()
             }
         }
     }
